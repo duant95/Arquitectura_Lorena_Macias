@@ -1,0 +1,25 @@
+.pj-hero{position:relative;height:92vh;min-height:580px;overflow:hidden;display:flex;align-items:flex-end;}
+.pj-hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.1);animation:kb 13s ease-out forwards;}
+@keyframes kb{to{transform:scale(1)}}
+.pj-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,33,26,.34),rgba(40,33,26,.04) 36%,rgba(40,33,26,.74));}
+.pj-hero__in{position:relative;z-index:2;width:100%;max-width:var(--maxw);margin:0 auto;padding:0 var(--gut) clamp(44px,6vw,80px);color:var(--cream);}
+.pj-hero__cat{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--sage);margin-bottom:20px;}
+.pj-hero h1{font-size:clamp(42px,7.2vw,116px);line-height:.95;color:var(--cream);}
+.pj-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;border-top:1px solid var(--taupe);border-bottom:1px solid var(--taupe);padding:32px 0;}
+.pj-meta .micro{color:var(--ink-soft);display:block;margin-bottom:8px;}
+.pj-meta b{font-family:var(--serif);font-weight:400;font-size:clamp(20px,1.8vw,27px);}
+.gal{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(16px,1.6vw,26px);}
+.gal .imgblock{grid-column:span 6;}
+.gal .full{grid-column:span 12;aspect-ratio:16/8;}
+.gal .span7{grid-column:span 7;}.gal .span5{grid-column:span 5;}
+.paleta{display:flex;gap:0;border-radius:2px;overflow:hidden;height:96px;}
+.paleta div{flex:1;display:flex;align-items:flex-end;padding:11px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
+.nextpj{position:relative;overflow:hidden;display:block;height:48vh;min-height:340px;}
+.nextpj img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease);}
+.nextpj:hover img{transform:scale(1.06);}
+.nextpj::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(40,33,26,.32),rgba(40,33,26,.6));}
+.nextpj__c{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--cream);text-align:center;}
+@media(max-width:980px){
+  .pj-meta{grid-template-columns:1fr 1fr;gap:24px;}
+  .gal .imgblock,.gal .span7,.gal .span5{grid-column:span 12;}
+}
