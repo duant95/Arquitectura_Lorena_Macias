@@ -1,5 +1,18 @@
 node_modules
 dist
+dist-ssr
 .DS_Store
 *.local
 .vite
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editores / IDE
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

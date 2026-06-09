@@ -1,25 +1,69 @@
-# CODING AGENTS: READ THIS FIRST
+# Lorena Macías · Arquitecta
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Sitio web del estudio de arquitectura y diseño de interiores de **Lorena Macías** (Luque, Paraguay).
+Construido con **React + Vite** y enrutado con **React Router**.
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+## Requisitos
 
-## What you should do — IMPORTANT
+- Node.js 18 o superior
+- npm 9 o superior
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+## Puesta en marcha
 
-**Read `project/index.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+```bash
+npm install      # instala dependencias
+npm run dev      # servidor de desarrollo (http://localhost:5173)
+npm run build    # genera el sitio de producción en dist/
+npm run preview  # sirve el build de producción localmente
+```
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+## Estructura del proyecto
 
-## About the design files
+```
+public/assets/        Imágenes, logos, texturas y fuentes
+src/
+├─ main.jsx           Punto de entrada (BrowserRouter + estilos globales)
+├─ App.jsx            Rutas de la aplicación
+├─ components/        Componentes compartidos (Nav, Footer, Layout, modal, etc.)
+├─ context/           AgendaContext (estado del modal "Agendar reunión")
+├─ data/              site.js — datos de contacto y navegación centralizados
+├─ hooks/             useReveals — animaciones de aparición al hacer scroll
+├─ pages/             Una página por ruta (Home, Nosotros, Proyectos, …)
+└─ styles/            global.css + un CSS por página
+```
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## Rutas
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+| Ruta          | Página              |
+|---------------|---------------------|
+| `/`           | Inicio (Home)       |
+| `/nosotros`   | Nosotros            |
+| `/proyectos`  | Portafolio          |
+| `/proyecto`   | Detalle de proyecto |
+| `/servicios`  | Servicios           |
+| `/contacto`   | Contacto            |
+| `*`           | 404                 |
 
-## Bundle contents
+## Datos centralizados
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Lorena Macias` project files (HTML prototypes, assets, components)
+Los datos de contacto (WhatsApp, Instagram, email, teléfono) y el menú de navegación
+viven en [`src/data/site.js`](src/data/site.js). Cambiá un valor ahí y se actualiza
+en todo el sitio (nav, footer, contacto, botón flotante).
+
+## Próximos pasos
+
+Ver la sección de pendientes y mejoras sugeridas más abajo o el historial del repo.
+
+- [ ] Conectar los formularios (Contacto y Agenda) a un backend / servicio de email.
+- [ ] Páginas de proyecto dinámicas (`/proyecto/:slug`) con datos reales.
+- [ ] Reemplazar los placeholders de imágenes por fotos/renders definitivos.
+- [ ] Configuración de despliegue (ver más abajo).
+
+## Despliegue
+
+Es una SPA: el servidor debe redirigir todas las rutas a `index.html` para que el
+enrutado del lado del cliente funcione al recargar una URL profunda (p. ej. `/servicios`).
+
+- **Netlify:** incluido en `public/_redirects`.
+- **Vercel:** incluido en `vercel.json`.
+- **GitHub Pages / Apache:** configurar el fallback a `index.html` (o usar `HashRouter`).
