@@ -7,13 +7,21 @@ export default function MobileMenu({ open, onClose }) {
 
   return (
     <div className={'mmenu' + (open ? ' open' : '')}>
-      <button className="mmenu__close" aria-label="Cerrar" onClick={onClose}>×</button>
+      <button className="mmenu__close" aria-label="Cerrar" onClick={onClose}>
+        ×
+      </button>
       {NAV.map(({ label, href }) => (
-        <Link key={href} to={href} onClick={onClose}>{label}</Link>
+        <Link key={href} to={href} onClick={onClose}>
+          {label}
+        </Link>
       ))}
       <a
         href="#agenda"
-        onClick={(e) => { e.preventDefault(); onClose(); openAgenda(); }}
+        onClick={(e) => {
+          e.preventDefault();
+          onClose();
+          openAgenda();
+        }}
       >
         Agendar reunión
       </a>

@@ -16,12 +16,11 @@ export function AgendaProvider({ children }) {
   }, []);
 
   return (
-    <AgendaContext.Provider value={{ isOpen, open, close }}>
-      {children}
-    </AgendaContext.Provider>
+    <AgendaContext.Provider value={{ isOpen, open, close }}>{children}</AgendaContext.Provider>
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAgenda() {
   return useContext(AgendaContext);
 }

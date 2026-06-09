@@ -34,15 +34,15 @@ src/
 
 ## Rutas
 
-| Ruta          | Página              |
-|---------------|---------------------|
-| `/`           | Inicio (Home)       |
-| `/nosotros`   | Nosotros            |
-| `/proyectos`  | Portafolio          |
-| `/proyecto`   | Detalle de proyecto |
-| `/servicios`  | Servicios           |
-| `/contacto`   | Contacto            |
-| `*`           | 404                 |
+| Ruta         | Página              |
+| ------------ | ------------------- |
+| `/`          | Inicio (Home)       |
+| `/nosotros`  | Nosotros            |
+| `/proyectos` | Portafolio          |
+| `/proyecto`  | Detalle de proyecto |
+| `/servicios` | Servicios           |
+| `/contacto`  | Contacto            |
+| `*`          | 404                 |
 
 ## Datos centralizados
 

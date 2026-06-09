@@ -32,7 +32,11 @@ export default function Nav({ navMode = 'dark' }) {
       <header className={'nav' + (solid ? ' solid' : '')}>
         <div className="nav__in">
           <Link className="nav__logo" to="/" aria-label="Lorena Macías inicio">
-            <img className="logo-dark" src="/assets/logo-charcoal.png" alt="Lorena Macías Arquitecta" />
+            <img
+              className="logo-dark"
+              src="/assets/logo-charcoal.png"
+              alt="Lorena Macías Arquitecta"
+            />
             <img className="logo-light" src="/assets/logo-cream.png" alt="" />
           </Link>
           <nav>
@@ -46,9 +50,13 @@ export default function Nav({ navMode = 'dark' }) {
               ))}
             </ul>
           </nav>
-          <button className="nav__cta" onClick={open}>Agendar reunión</button>
+          <button className="nav__cta" onClick={open}>
+            Agendar reunión
+          </button>
           <button className="nav__burger" aria-label="Menú" onClick={() => setMenuOpen(true)}>
-            <span></span><span></span><span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </button>
         </div>
       </header>

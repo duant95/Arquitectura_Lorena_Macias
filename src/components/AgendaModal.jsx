@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { TEL } from '../data/site';
 import { useAgenda } from '../context/AgendaContext';
 
@@ -9,17 +9,21 @@ export default function AgendaModal() {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [sent, setSent] = useState(false);
 
-  // Cerrar con Escape
-  useEffect(() => {
-    function onKey(e) { if (e.key === 'Escape') close(); }
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
+  // Cierra el modal y deja el formulario listo para la próxima apertura.
+  const handleClose = useCallback(() => {
+    close();
+    setSent(false);
+    setSelectedSlot(null);
   }, [close]);
 
-  // Resetear el formulario cada vez que se vuelve a abrir
+  // Cerrar con Escape
   useEffect(() => {
-    if (isOpen) { setSent(false); setSelectedSlot(null); }
-  }, [isOpen]);
+    function onKey(e) {
+      if (e.key === 'Escape') handleClose();
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [handleClose]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -28,18 +32,22 @@ export default function AgendaModal() {
 
   return (
     <div className={'modal' + (isOpen ? ' open' : '')}>
-      <div className="modal__bg" onClick={close}></div>
+      <div className="modal__bg" onClick={handleClose}></div>
       <div className="modal__card">
-        <button className="modal__close" aria-label="Cerrar" onClick={close}>×</button>
+        <button className="modal__close" aria-label="Cerrar" onClick={handleClose}>
+          ×
+        </button>
         <aside className="modal__aside">
           <div>
             <img src="/assets/logo-cream.png" alt="" />
             <h3 className="h-md" style={{ color: 'var(--cream)', marginBottom: 14 }}>
-              Agendemos una<br />conversación
+              Agendemos una
+              <br />
+              conversación
             </h3>
             <p style={{ color: 'var(--sage-soft)', fontSize: 15, lineHeight: 1.6 }}>
-              Conversemos sobre tu proyecto, terreno o reforma. Sin compromiso — una primera
-              reunión para entender tu visión.
+              Conversemos sobre tu proyecto, terreno o reforma. Sin compromiso — una primera reunión
+              para entender tu visión.
             </p>
           </div>
           <div style={{ fontSize: 13, color: 'var(--sage-soft)', letterSpacing: '.04em' }}>
@@ -48,7 +56,9 @@ export default function AgendaModal() {
           </div>
         </aside>
         <div className="modal__body">
-          <p className="eyebrow" style={{ marginBottom: 14 }}>Agenda de reuniones</p>
+          <p className="eyebrow" style={{ marginBottom: 14 }}>
+            Agenda de reuniones
+          </p>
           {!sent ? (
             <form onSubmit={handleSubmit}>
               <div className="field">
@@ -88,18 +98,40 @@ export default function AgendaModal() {
               </div>
               <div className="field">
                 <label>Contanos brevemente tu idea</label>
-                <textarea name="msg" rows="3" placeholder="Ubicación, metros, estilo deseado…"></textarea>
+                <textarea
+                  name="msg"
+                  rows="3"
+                  placeholder="Ubicación, metros, estilo deseado…"
+                ></textarea>
               </div>
-              <button className="btn" type="submit" style={{ width: '100%', justifyContent: 'center' }}>
+              <button
+                className="btn"
+                type="submit"
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
                 Solicitar reunión <span className="arr">→</span>
               </button>
-              <p style={{ fontSize: 12, color: 'var(--ink-soft)', textAlign: 'center', margin: '14px 0 0' }}>
+              <p
+                style={{
+                  fontSize: 12,
+                  color: 'var(--ink-soft)',
+                  textAlign: 'center',
+                  margin: '14px 0 0',
+                }}
+              >
                 Te confirmaremos por WhatsApp en menos de 24 h.
               </p>
             </form>
           ) : (
             <div style={{ textAlign: 'center', padding: '30px 0' }}>
-              <div style={{ fontFamily: 'var(--serif)', fontSize: 30, color: 'var(--olive)', marginBottom: 10 }}>
+              <div
+                style={{
+                  fontFamily: 'var(--serif)',
+                  fontSize: 30,
+                  color: 'var(--olive)',
+                  marginBottom: 10,
+                }}
+              >
                 ¡Gracias!
               </div>
               <p style={{ color: 'var(--ink-soft)' }}>
