@@ -13,7 +13,9 @@ import Placeholder from './pages/Placeholder';
 // Lleva el scroll al inicio al cambiar de ruta
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
   return null;
 }
 
@@ -26,7 +28,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/nosotros" element={<Nosotros />} />
         <Route path="/proyectos" element={<Proyectos />} />
-        <Route path="/proyecto" element={<Proyecto />} />
+        <Route path="/proyecto/:slug" element={<Proyecto />} />
         <Route path="/servicios" element={<Servicios />} />
         <Route path="/contacto" element={<Contacto />} />
         <Route path="*" element={<Placeholder title="Página no encontrada" />} />

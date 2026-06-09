@@ -20,8 +20,14 @@ export default function Home() {
             Estudio de arquitectura &amp; diseño de interiores · Luque, Paraguay
           </p>
           <h1 className="hero__title">
-            <span className="ln"><span>Arquitectura</span></span>
-            <span className="ln"><span>que <em>respira</em>.</span></span>
+            <span className="ln">
+              <span>Arquitectura</span>
+            </span>
+            <span className="ln">
+              <span>
+                que <em>respira</em>.
+              </span>
+            </span>
           </h1>
           <div className="hero__sub">
             <div>
@@ -33,11 +39,15 @@ export default function Home() {
                 <Link className="btn btn--light" to="/proyectos">
                   Ver proyectos <span className="arr">→</span>
                 </Link>
-                <button className="btn btn--ghost-light" onClick={open}>Agendar reunión</button>
+                <button className="btn btn--ghost-light" onClick={open}>
+                  Agendar reunión
+                </button>
               </div>
             </div>
             <div className="hero__meta">
-              <span>Est. 2019</span><span>+80 obras</span><span>Arq. + Interiores</span>
+              <span>Est. 2019</span>
+              <span>+80 obras</span>
+              <span>Arq. + Interiores</span>
             </div>
           </div>
         </div>
@@ -47,11 +57,13 @@ export default function Home() {
       <section className="section" style={{ background: 'var(--paper)' }}>
         <div className="wrap">
           <div className="manifesto reveal">
-            <p className="eyebrow" style={{ marginBottom: 30 }}>Nuestra filosofía</p>
+            <p className="eyebrow" style={{ marginBottom: 30 }}>
+              Nuestra filosofía
+            </p>
             <p className="q">
               Creemos en una arquitectura <span className="hl">honesta</span>: la que escucha al
-              terreno, abraza la luz natural y se construye para <span className="hl">vivirse</span>,
-              no solo para mirarse.
+              terreno, abraza la luz natural y se construye para <span className="hl">vivirse</span>
+              , no solo para mirarse.
             </p>
           </div>
         </div>
@@ -64,11 +76,14 @@ export default function Home() {
             <div className="story__portrait reveal-img reveal">
               <div className="ph" data-ph="Retrato de Lorena"></div>
               <div className="story__tag">
-                <b>Lorena Macías</b><span>Arquitecta · Fundadora</span>
+                <b>Lorena Macías</b>
+                <span>Arquitecta · Fundadora</span>
               </div>
             </div>
             <div className="reveal d1">
-              <p className="eyebrow" style={{ marginBottom: 24 }}>La arquitecta</p>
+              <p className="eyebrow" style={{ marginBottom: 24 }}>
+                La arquitecta
+              </p>
               <h2 className="h-xl" style={{ marginBottom: 30, maxWidth: '15ch' }}>
                 Más de dos décadas dando forma al espacio.
               </h2>
@@ -79,8 +94,8 @@ export default function Home() {
               </p>
               <p style={{ color: 'var(--ink-soft)', maxWidth: 540 }}>
                 De la obra de gran porte al detalle más íntimo de una vivienda, su mirada une rigor
-                técnico y sensibilidad — escuchando siempre el terreno, la luz y la forma de vivir de
-                cada cliente.
+                técnico y sensibilidad — escuchando siempre el terreno, la luz y la forma de vivir
+                de cada cliente.
               </p>
               <div className="story__mini">
                 <div>
@@ -130,11 +145,22 @@ export default function Home() {
                   cálidas, piedra natural y una paleta serena que invita a habitar con calma.
                 </p>
                 <div className="feat__spec">
-                  <div><span className="micro">Año</span><b>2023</b></div>
-                  <div><span className="micro">Superficie</span><b>320 m²</b></div>
-                  <div><span className="micro">Ubicación</span><b>Luque</b></div>
+                  <div>
+                    <span className="micro">Año</span>
+                    <b>2023</b>
+                  </div>
+                  <div>
+                    <span className="micro">Superficie</span>
+                    <b>320 m²</b>
+                  </div>
+                  <div>
+                    <span className="micro">Ubicación</span>
+                    <b>Luque</b>
+                  </div>
                 </div>
-                <Link className="link-arrow" to="/proyecto">Ver proyecto <span className="arr">→</span></Link>
+                <Link className="link-arrow" to="/proyecto/casa-del-bosque">
+                  Ver proyecto <span className="arr">→</span>
+                </Link>
               </div>
             </article>
 
@@ -151,11 +177,22 @@ export default function Home() {
                   del atardecer y los tonos tierra definen el carácter del espacio.
                 </p>
                 <div className="feat__spec">
-                  <div><span className="micro">Año</span><b>2022</b></div>
-                  <div><span className="micro">Superficie</span><b>240 m²</b></div>
-                  <div><span className="micro">Ubicación</span><b>Asunción</b></div>
+                  <div>
+                    <span className="micro">Año</span>
+                    <b>2022</b>
+                  </div>
+                  <div>
+                    <span className="micro">Superficie</span>
+                    <b>240 m²</b>
+                  </div>
+                  <div>
+                    <span className="micro">Ubicación</span>
+                    <b>Asunción</b>
+                  </div>
                 </div>
-                <Link className="link-arrow" to="/proyecto">Ver proyecto <span className="arr">→</span></Link>
+                <Link className="link-arrow" to="/proyecto/residencia-mk">
+                  Ver proyecto <span className="arr">→</span>
+                </Link>
               </div>
             </article>
 
@@ -172,11 +209,22 @@ export default function Home() {
                   vegetación interior para un descanso envuelto en materialidad cálida.
                 </p>
                 <div className="feat__spec">
-                  <div><span className="micro">Año</span><b>2023</b></div>
-                  <div><span className="micro">Superficie</span><b>58 m²</b></div>
-                  <div><span className="micro">Ubicación</span><b>Luque</b></div>
+                  <div>
+                    <span className="micro">Año</span>
+                    <b>2023</b>
+                  </div>
+                  <div>
+                    <span className="micro">Superficie</span>
+                    <b>58 m²</b>
+                  </div>
+                  <div>
+                    <span className="micro">Ubicación</span>
+                    <b>Luque</b>
+                  </div>
                 </div>
-                <Link className="link-arrow" to="/proyecto">Ver proyecto <span className="arr">→</span></Link>
+                <Link className="link-arrow" to="/proyecto/suite-natural">
+                  Ver proyecto <span className="arr">→</span>
+                </Link>
               </div>
             </article>
           </div>
@@ -188,20 +236,39 @@ export default function Home() {
         <div className="wrap">
           <div className="matr__head reveal">
             <div>
-              <p className="eyebrow" style={{ marginBottom: 18 }}>02 — Materialidad</p>
-              <h2 className="h-lg" style={{ maxWidth: '14ch' }}>Texturas y ambientes que se sienten</h2>
+              <p className="eyebrow" style={{ marginBottom: 18 }}>
+                02 — Materialidad
+              </p>
+              <h2 className="h-lg" style={{ maxWidth: '14ch' }}>
+                Texturas y ambientes que se sienten
+              </h2>
             </div>
             <p style={{ maxWidth: 400, color: 'var(--ink-soft)', margin: 0 }}>
-              Trabajamos con materiales nobles y honestos — madera, piedra, cuero, hormigón y verde —
-              para componer atmósferas que envejecen con belleza.
+              Trabajamos con materiales nobles y honestos — madera, piedra, cuero, hormigón y verde
+              — para componer atmósferas que envejecen con belleza.
             </p>
           </div>
           <div className="matr__grid reveal d1">
-            <div className="matr__cell"><img src="/assets/tex/maderatex.jpg" alt="Madera" /><span>Madera</span></div>
-            <div className="matr__cell"><img src="/assets/tex/cuero.jpg" alt="Cuero" /><span>Cuero</span></div>
-            <div className="matr__cell"><img src="/assets/tex/hormigon.jpg" alt="Hormigón" /><span>Hormigón</span></div>
-            <div className="matr__cell"><img src="/assets/tex/piedra.jpg" alt="Piedra" /><span>Piedra</span></div>
-            <div className="matr__cell"><img src="/assets/tex/pasto.jpg" alt="Verde" /><span>Paisaje</span></div>
+            <div className="matr__cell">
+              <img src="/assets/tex/maderatex.jpg" alt="Madera" />
+              <span>Madera</span>
+            </div>
+            <div className="matr__cell">
+              <img src="/assets/tex/cuero.jpg" alt="Cuero" />
+              <span>Cuero</span>
+            </div>
+            <div className="matr__cell">
+              <img src="/assets/tex/hormigon.jpg" alt="Hormigón" />
+              <span>Hormigón</span>
+            </div>
+            <div className="matr__cell">
+              <img src="/assets/tex/piedra.jpg" alt="Piedra" />
+              <span>Piedra</span>
+            </div>
+            <div className="matr__cell">
+              <img src="/assets/tex/pasto.jpg" alt="Verde" />
+              <span>Paisaje</span>
+            </div>
           </div>
         </div>
       </section>
@@ -212,26 +279,40 @@ export default function Home() {
           <div className="sec-head reveal">
             <div className="sec-head__l">
               <span className="num">03 — Servicios</span>
-              <h2 className="h-xl">Cómo acompañamos<br />tu proyecto</h2>
+              <h2 className="h-xl">
+                Cómo acompañamos
+                <br />
+                tu proyecto
+              </h2>
             </div>
-            <Link className="link-arrow" to="/servicios">Conocer servicios <span className="arr">→</span></Link>
+            <Link className="link-arrow" to="/servicios">
+              Conocer servicios <span className="arr">→</span>
+            </Link>
           </div>
           <div className="svc-list reveal">
             <Link className="svc-row" to="/servicios">
-              <span className="num">01</span><h4>Diseño de interiores</h4>
-              <p>Ambientes a medida, materialidad y mobiliario.</p><span className="go">→</span>
+              <span className="num">01</span>
+              <h4>Diseño de interiores</h4>
+              <p>Ambientes a medida, materialidad y mobiliario.</p>
+              <span className="go">→</span>
             </Link>
             <Link className="svc-row" to="/servicios">
-              <span className="num">02</span><h4>Proyecto arquitectónico</h4>
-              <p>Del anteproyecto al proyecto ejecutivo, listo para construir.</p><span className="go">→</span>
+              <span className="num">02</span>
+              <h4>Proyecto arquitectónico</h4>
+              <p>Del anteproyecto al proyecto ejecutivo, listo para construir.</p>
+              <span className="go">→</span>
             </Link>
             <Link className="svc-row" to="/servicios">
-              <span className="num">03</span><h4>Reformas y obras</h4>
-              <p>Dirección y ejecución con estándares de calidad.</p><span className="go">→</span>
+              <span className="num">03</span>
+              <h4>Reformas y obras</h4>
+              <p>Dirección y ejecución con estándares de calidad.</p>
+              <span className="go">→</span>
             </Link>
             <Link className="svc-row" to="/servicios">
-              <span className="num">04</span><h4>Paisajismo</h4>
-              <p>El exterior como extensión natural del hogar.</p><span className="go">→</span>
+              <span className="num">04</span>
+              <h4>Paisajismo</h4>
+              <p>El exterior como extensión natural del hogar.</p>
+              <span className="go">→</span>
             </Link>
           </div>
         </div>
@@ -242,17 +323,33 @@ export default function Home() {
         <div className="wrap">
           <div className="tray__grid">
             <div className="reveal">
-              <p className="eyebrow" style={{ marginBottom: 24 }}>04 — Trayectoria</p>
+              <p className="eyebrow" style={{ marginBottom: 24 }}>
+                04 — Trayectoria
+              </p>
               <blockquote className="tray__quote" style={{ margin: '0 0 38px' }}>
                 “Más de dos décadas dando forma a espacios que las personas eligen llamar hogar.”
               </blockquote>
-              <Link className="btn" to="/nosotros">Conocé a Lorena <span className="arr">→</span></Link>
+              <Link className="btn" to="/nosotros">
+                Conocé a Lorena <span className="arr">→</span>
+              </Link>
             </div>
             <div className="stats reveal d1">
-              <div className="stat"><div className="n">25</div><div className="l">años de trayectoria profesional</div></div>
-              <div className="stat"><div className="n">7</div><div className="l">años de estudio independiente</div></div>
-              <div className="stat"><div className="n">+80</div><div className="l">proyectos y obras realizados</div></div>
-              <div className="stat"><div className="n">100%</div><div className="l">diseño personalizado y a medida</div></div>
+              <div className="stat">
+                <div className="n">25</div>
+                <div className="l">años de trayectoria profesional</div>
+              </div>
+              <div className="stat">
+                <div className="n">7</div>
+                <div className="l">años de estudio independiente</div>
+              </div>
+              <div className="stat">
+                <div className="n">+80</div>
+                <div className="l">proyectos y obras realizados</div>
+              </div>
+              <div className="stat">
+                <div className="n">100%</div>
+                <div className="l">diseño personalizado y a medida</div>
+              </div>
             </div>
           </div>
         </div>
@@ -262,16 +359,33 @@ export default function Home() {
       <section className="section cta-final" data-screen-label="CTA">
         <img src="/assets/img/terraza.jpg" alt="" />
         <div className="wrap">
-          <p className="eyebrow light reveal" style={{ marginBottom: 24 }}>Tu próximo proyecto</p>
-          <h2 className="display reveal d1" style={{ fontSize: 'clamp(38px,5.7vw,92px)', marginBottom: 32 }}>
-            Construyamos algo<br /><em>extraordinario</em>.
+          <p className="eyebrow light reveal" style={{ marginBottom: 24 }}>
+            Tu próximo proyecto
+          </p>
+          <h2
+            className="display reveal d1"
+            style={{ fontSize: 'clamp(38px,5.7vw,92px)', marginBottom: 32 }}
+          >
+            Construyamos algo
+            <br />
+            <em>extraordinario</em>.
           </h2>
-          <p className="lead reveal d2" style={{ color: 'rgba(246,242,233,.85)', maxWidth: 580, margin: '0 auto 42px' }}>
+          <p
+            className="lead reveal d2"
+            style={{ color: 'rgba(246,242,233,.85)', maxWidth: 580, margin: '0 auto 42px' }}
+          >
             Contanos tu idea, tu terreno o tu sueño. Empecemos con una conversación.
           </p>
-          <div className="reveal d3" style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button className="btn btn--light" onClick={open}>Agendar reunión <span className="arr">→</span></button>
-            <Link className="btn btn--ghost-light" to="/contacto">Contacto</Link>
+          <div
+            className="reveal d3"
+            style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}
+          >
+            <button className="btn btn--light" onClick={open}>
+              Agendar reunión <span className="arr">→</span>
+            </button>
+            <Link className="btn btn--ghost-light" to="/contacto">
+              Contacto
+            </Link>
           </div>
         </div>
       </section>

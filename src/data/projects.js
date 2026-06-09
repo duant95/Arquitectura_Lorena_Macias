@@ -1,0 +1,287 @@
+// Datos de los proyectos del portafolio.
+// Cada proyecto se identifica por su `slug` (usado en la URL /proyecto/:slug).
+//
+// Campos:
+//   slug        identificador en la URL
+//   name        nombre del proyecto
+//   catLabel    categoría visible (ej. "Vivienda · Interiores")
+//   cat         categorías para el filtro del portafolio (separadas por espacio)
+//   span/delay  layout en la grilla del portafolio (clases CSS)
+//   idx         número que se muestra en la tarjeta
+//   cover       imagen de portada (o `ph` para placeholder pendiente de foto/render)
+//   meta        líneas cortas que se muestran bajo el nombre en la tarjeta
+//   year/area/location/services  ficha técnica de la página de detalle
+//   intro/body  textos de la página de detalle
+//   palette     paleta de materiales (página de detalle)
+//   gallery     galería de la página de detalle
+
+export const PROJECTS = [
+  {
+    slug: 'casa-del-bosque',
+    name: 'Casa del Bosque',
+    catLabel: 'Vivienda · Diseño de interiores',
+    cat: 'vivienda interior',
+    span: 's7 h-med',
+    delay: '',
+    idx: '01',
+    cover: '/assets/img/living.jpg',
+    meta: ['Luque · 2023', '320 m²'],
+    year: '2023',
+    area: '320 m²',
+    location: 'Luque, PY',
+    services: 'Arq. + Interiores',
+    heroTitle: 'Una casa que se abre al <em>verde</em>.',
+    intro:
+      'Casa del Bosque nace del deseo de disolver los límites entre el <em>interior</em> y el jardín.',
+    body: 'La doble altura del living y los grandes paños vidriados traen la naturaleza adentro. La paleta combina maderas cálidas, piedra natural y textiles nobles, generando una atmósfera serena que invita a habitar con calma. Cada ambiente fue diseñado a medida, integrando mobiliario, iluminación y vegetación.',
+    palette: [
+      { name: 'Camel', bg: '#b08a5d', fg: '#fff' },
+      { name: 'Madera', bg: '#8a5d33', fg: '#fff' },
+      { name: 'Sage', bg: '#7d9472', fg: '#fff' },
+      { name: 'Piedra', bg: '#a89f90', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [
+      { img: '/assets/img/cocina.jpg', alt: 'Cocina integrada', span: 'span7', ratio: '16/10' },
+      { img: '/assets/img/dormitorio.jpg', alt: 'Suite principal', span: 'span5', ratio: '4/5' },
+      { img: '/assets/img/terraza.jpg', alt: 'Terraza y quincho', span: 'full' },
+      { ph: 'Render de la clienta', span: 'span5', ratio: '4/5' },
+      {
+        img: '/assets/img/escalera.jpg',
+        alt: 'Escalera y jardín vertical',
+        span: 'span7',
+        ratio: '16/10',
+      },
+    ],
+  },
+  {
+    slug: 'residencia-mk',
+    name: 'Residencia MK',
+    catLabel: 'Reforma · Ampliación',
+    cat: 'reforma',
+    span: 's5 h-med',
+    delay: 'd1',
+    idx: '02',
+    cover: '/assets/img/cocina.jpg',
+    meta: ['Asunción · 2022', '240 m²'],
+    year: '2022',
+    area: '240 m²',
+    location: 'Asunción, PY',
+    services: 'Reforma + Interiores',
+    heroTitle: 'Una planta que gira en torno a lo <em>social</em>.',
+    intro: 'Reforma integral que reorganiza la planta en torno a una gran isla social.',
+    body: 'La luz del atardecer y los tonos tierra definen el carácter del espacio. Reorganizamos la circulación para que la cocina, el comedor y el estar fluyan como un solo ambiente, abriendo la casa hacia el exterior y multiplicando la sensación de amplitud.',
+    palette: [
+      { name: 'Tierra', bg: '#8a5d33', fg: '#fff' },
+      { name: 'Camel', bg: '#b08a5d', fg: '#fff' },
+      { name: 'Piedra', bg: '#a89f90', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [
+      { img: '/assets/img/cocina.jpg', alt: 'Isla social', span: 'span7', ratio: '16/10' },
+      { img: '/assets/img/living.jpg', alt: 'Estar integrado', span: 'span5', ratio: '4/5' },
+      { img: '/assets/img/terraza.jpg', alt: 'Galería', span: 'full' },
+    ],
+  },
+  {
+    slug: 'suite-natural',
+    name: 'Suite Natural',
+    catLabel: 'Diseño de interiores',
+    cat: 'interior',
+    span: 's5 h-tall',
+    delay: '',
+    idx: '03',
+    cover: '/assets/img/dormitorio.jpg',
+    meta: ['Luque · 2023', '58 m²'],
+    year: '2023',
+    area: '58 m²',
+    location: 'Luque, PY',
+    services: 'Diseño de interiores',
+    heroTitle: 'Un refugio para el <em>descanso</em>.',
+    intro: 'Una suite principal pensada como refugio.',
+    body: 'Carpintería iluminada, textiles nobles y vegetación interior para un descanso envuelto en materialidad cálida. Cada detalle —de la cabecera a la iluminación indirecta— fue diseñado para crear un ambiente íntimo y sereno.',
+    palette: [
+      { name: 'Madera', bg: '#8a5d33', fg: '#fff' },
+      { name: 'Camel', bg: '#b08a5d', fg: '#fff' },
+      { name: 'Sage', bg: '#7d9472', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [
+      { img: '/assets/img/dormitorio.jpg', alt: 'Suite principal', span: 'span7', ratio: '16/10' },
+      {
+        img: '/assets/img/escalera.jpg',
+        alt: 'Detalle de carpintería',
+        span: 'span5',
+        ratio: '4/5',
+      },
+    ],
+  },
+  {
+    slug: 'residencia-vera',
+    name: 'Residencia Vera',
+    catLabel: 'Arquitectura · Paisajismo',
+    cat: 'vivienda paisaje',
+    span: 's7 h-tall',
+    delay: 'd1',
+    idx: '04',
+    cover: '/assets/img/exterior.jpg',
+    meta: ['Luque · 2024', '410 m²'],
+    year: '2024',
+    area: '410 m²',
+    location: 'Luque, PY',
+    services: 'Arquitectura + Paisajismo',
+    heroTitle: 'Arquitectura que dialoga con el <em>paisaje</em>.',
+    intro: 'Una vivienda concebida junto a su jardín, como un solo gesto.',
+    body: 'Los volúmenes se abren al exterior y el paisajismo extiende los ambientes hacia el verde. Decks, espejos de agua y vegetación nativa componen un entorno que envejece con belleza y acompaña la vida al aire libre.',
+    palette: [
+      { name: 'Sage', bg: '#7d9472', fg: '#fff' },
+      { name: 'Piedra', bg: '#a89f90', fg: '#fff' },
+      { name: 'Madera', bg: '#8a5d33', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [
+      { img: '/assets/img/exterior.jpg', alt: 'Fachada y jardín', span: 'full' },
+      { img: '/assets/img/terraza.jpg', alt: 'Deck exterior', span: 'span7', ratio: '16/10' },
+      { ph: 'Render de paisajismo', span: 'span5', ratio: '4/5' },
+    ],
+  },
+  {
+    slug: 'casa-atrio',
+    name: 'Casa Atrio',
+    catLabel: 'Vivienda · Interiores',
+    cat: 'interior vivienda',
+    span: 's5 h-med',
+    delay: '',
+    idx: '05',
+    cover: '/assets/img/escalera.jpg',
+    meta: ['Luque · 2023', '280 m²'],
+    year: '2023',
+    area: '280 m²',
+    location: 'Luque, PY',
+    services: 'Arq. + Interiores',
+    heroTitle: 'La luz que baja por el <em>atrio</em>.',
+    intro: 'Una vivienda organizada alrededor de un vacío central iluminado.',
+    body: 'El atrio lleva luz natural al corazón de la casa y articula los recorridos en dos niveles. La escalera, tratada como pieza escultórica, conecta los ambientes manteniendo la continuidad visual y la entrada de luz cenital.',
+    palette: [
+      { name: 'Piedra', bg: '#a89f90', fg: '#fff' },
+      { name: 'Madera', bg: '#8a5d33', fg: '#fff' },
+      { name: 'Camel', bg: '#b08a5d', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [
+      { img: '/assets/img/escalera.jpg', alt: 'Escalera y atrio', span: 'span7', ratio: '16/10' },
+      { img: '/assets/img/living.jpg', alt: 'Estar', span: 'span5', ratio: '4/5' },
+    ],
+  },
+  {
+    slug: 'quincho-terraza',
+    name: 'Quincho & Terraza',
+    catLabel: 'Reforma · Exterior',
+    cat: 'reforma interior',
+    span: 's7 h-med',
+    delay: 'd1',
+    idx: '06',
+    cover: '/assets/img/terraza.jpg',
+    meta: ['Asunción · 2022', '95 m²'],
+    year: '2022',
+    area: '95 m²',
+    location: 'Asunción, PY',
+    services: 'Reforma · Exterior',
+    heroTitle: 'El exterior como <em>living</em>.',
+    intro: 'Un quincho y una terraza pensados para reunirse todo el año.',
+    body: 'La reforma suma una galería techada que extiende la casa hacia el jardín. Materiales resistentes y cálidos —madera, piedra y hormigón visto— definen un espacio social al aire libre, cómodo en cualquier estación.',
+    palette: [
+      { name: 'Hormigón', bg: '#a89f90', fg: '#fff' },
+      { name: 'Madera', bg: '#8a5d33', fg: '#fff' },
+      { name: 'Camel', bg: '#b08a5d', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [
+      { img: '/assets/img/terraza.jpg', alt: 'Terraza y quincho', span: 'full' },
+      { img: '/assets/img/exterior.jpg', alt: 'Jardín', span: 'span7', ratio: '16/10' },
+    ],
+  },
+  {
+    slug: 'jardin-del-lago',
+    name: 'Jardín del Lago',
+    catLabel: 'Paisajismo',
+    cat: 'paisaje obra',
+    span: 's4 h-tall',
+    delay: '',
+    idx: '07',
+    ph: 'Render de la clienta',
+    meta: ['Areguá · 2024'],
+    year: '2024',
+    area: '—',
+    location: 'Areguá, PY',
+    services: 'Paisajismo',
+    heroTitle: 'Un jardín que mira al <em>lago</em>.',
+    intro: 'Diseño de paisajismo para una propiedad frente al agua.',
+    body: 'La propuesta organiza recorridos, áreas de estar y vegetación nativa para enmarcar las vistas al lago. El proyecto se encuentra en desarrollo; pronto sumaremos las imágenes finales.',
+    palette: [
+      { name: 'Verde', bg: '#7d9472', fg: '#fff' },
+      { name: 'Piedra', bg: '#a89f90', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [{ ph: 'Render de paisajismo', span: 'full' }],
+  },
+  {
+    slug: 'casa-nu',
+    name: 'Casa Ñu',
+    catLabel: 'Vivienda · Obra',
+    cat: 'vivienda obra',
+    span: 's4 h-tall',
+    delay: 'd1',
+    idx: '08',
+    ph: 'Foto de obra',
+    meta: ['Luque · En obra'],
+    year: 'En obra',
+    area: '—',
+    location: 'Luque, PY',
+    services: 'Arquitectura · Obra',
+    heroTitle: 'Una casa en <em>construcción</em>.',
+    intro: 'Vivienda actualmente en obra en Luque.',
+    body: 'Seguimos de cerca cada etapa de la construcción. Iremos documentando el avance y, al finalizar, sumaremos las fotografías terminadas del proyecto.',
+    palette: [
+      { name: 'Hormigón', bg: '#a89f90', fg: '#fff' },
+      { name: 'Madera', bg: '#8a5d33', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [{ ph: 'Foto de obra', span: 'full' }],
+  },
+  {
+    slug: 'loft-materia',
+    name: 'Loft Materia',
+    catLabel: 'Diseño de interiores',
+    cat: 'interior',
+    span: 's4 h-tall',
+    delay: 'd2',
+    idx: '09',
+    ph: 'Render de la clienta',
+    meta: ['Asunción · 2024'],
+    year: '2024',
+    area: '—',
+    location: 'Asunción, PY',
+    services: 'Diseño de interiores',
+    heroTitle: 'Materialidad en estado <em>puro</em>.',
+    intro: 'Un loft donde los materiales son los protagonistas.',
+    body: 'Hormigón visto, madera y metal conviven en un espacio abierto y flexible. El proyecto se encuentra en desarrollo; pronto sumaremos las imágenes finales.',
+    palette: [
+      { name: 'Hormigón', bg: '#a89f90', fg: '#fff' },
+      { name: 'Madera', bg: '#8a5d33', fg: '#fff' },
+      { name: 'Camel', bg: '#b08a5d', fg: '#fff' },
+      { name: 'Arena', bg: '#e9ddca', fg: '#5a5448' },
+    ],
+    gallery: [{ ph: 'Render de la clienta', span: 'full' }],
+  },
+];
+
+// Búsqueda por slug
+export const getProject = (slug) => PROJECTS.find((p) => p.slug === slug);
+
+// Proyecto siguiente (para el bloque "Próximo proyecto"), de forma circular
+export function getNextProject(slug) {
+  const i = PROJECTS.findIndex((p) => p.slug === slug);
+  if (i === -1) return PROJECTS[0];
+  return PROJECTS[(i + 1) % PROJECTS.length];
+}
