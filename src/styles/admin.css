@@ -16,7 +16,11 @@
   --ad-card: #ffffff;
   --ad-radius: 10px;
   font-family:
-    'Optima', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    'Optima',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
   color: var(--ad-ink);
   background: var(--ad-bg);
   min-height: 100vh;
@@ -381,6 +385,11 @@
   color: #fff;
   padding: 2px 7px;
   border-radius: 5px;
+  z-index: 1;
+}
+.ad-img__btn .is-cover {
+  color: var(--ad-green);
+  fill: var(--ad-green);
 }
 
 /* ---------- Paleta editor ---------- */

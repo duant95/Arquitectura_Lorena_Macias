@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { createSupabaseBrowser } from '@/lib/supabase';
-import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2 } from 'lucide-react';
+import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star } from 'lucide-react';
 
 function slugify(s) {
   return (s || '')
@@ -34,8 +34,8 @@ async function uploadFiles(files) {
   return urls;
 }
 
-// Lista de imágenes con subida, orden y borrado
-function ImageList({ label, hint, items, onChange }) {
+// Lista de imágenes con subida, orden, borrado y (opcional) selección de portada
+function ImageList({ label, hint, items, onChange, cover, onCover }) {
   const [busy, setBusy] = useState(false);
 
   async function onUpload(e) {
@@ -43,12 +43,18 @@ function ImageList({ label, hint, items, onChange }) {
     if (!files?.length) return;
     setBusy(true);
     const urls = await uploadFiles(files);
-    onChange([...items, ...urls.map((url) => ({ url, alt: '' }))]);
+    const added = urls.map((url) => ({ url, alt: '' }));
+    onChange([...items, ...added]);
+    // si todavía no hay portada elegida, la primera imagen subida pasa a serlo
+    if (onCover && !cover && added[0]) onCover(added[0].url);
     setBusy(false);
     e.target.value = '';
   }
   function remove(i) {
-    onChange(items.filter((_, idx) => idx !== i));
+    const removed = items[i];
+    const next = items.filter((_, idx) => idx !== i);
+    onChange(next);
+    if (onCover && removed?.url === cover) onCover(next[0]?.url || '');
   }
   function move(i, dir) {
     const j = dir === 'up' ? i - 1 : i + 1;
@@ -72,7 +78,18 @@ function ImageList({ label, hint, items, onChange }) {
           {items.map((it, i) => (
             <div className="ad-img" key={i}>
               <img src={it.url} alt="" />
+              {onCover && it.url === cover && <span className="ad-img__cover">Portada</span>}
               <div className="ad-img__bar">
+                {onCover && (
+                  <button
+                    type="button"
+                    className="ad-img__btn"
+                    onClick={() => onCover(it.url)}
+                    title="Usar como portada"
+                  >
+                    <Star size={13} className={it.url === cover ? 'is-cover' : ''} />
+                  </button>
+                )}
                 <button
                   type="button"
                   className="ad-img__btn"
@@ -110,7 +127,6 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
   const router = useRouter();
   const [slugEdited, setSlugEdited] = useState(isEditing);
   const [saving, setSaving] = useState(false);
-  const [portadaBusy, setPortadaBusy] = useState(false);
 
   const [form, setForm] = useState({
     titulo: proyecto?.titulo ?? '',
@@ -143,16 +159,6 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
     if (!slugEdited) set('slug', slugify(value));
   }
 
-  async function onPortada(e) {
-    const files = e.target.files;
-    if (!files?.length) return;
-    setPortadaBusy(true);
-    const [url] = await uploadFiles(files);
-    if (url) setPortada(url);
-    setPortadaBusy(false);
-    e.target.value = '';
-  }
-
   async function onSubmit(e) {
     e.preventDefault();
     if (!form.titulo.trim()) return toast.error('El título es obligatorio');
@@ -169,19 +175,25 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
       paleta: paleta.filter((c) => c.name?.trim()),
     };
     const url = isEditing ? `/api/proyectos/${proyecto.id}` : '/api/proyectos';
-    const res = await fetch(url, {
-      method: isEditing ? 'PUT' : 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    setSaving(false);
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      return toast.error(data.error || 'Error al guardar');
+    try {
+      const res = await fetch(url, {
+        method: isEditing ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        toast.error(data.error || `Error al guardar (${res.status})`);
+        return;
+      }
+      toast.success(isEditing ? 'Proyecto actualizado' : 'Proyecto creado');
+      router.push('/admin/proyectos');
+      router.refresh();
+    } catch {
+      toast.error('Error de conexión al guardar');
+    } finally {
+      setSaving(false);
     }
-    toast.success(isEditing ? 'Proyecto actualizado' : 'Proyecto creado');
-    router.push('/admin/proyectos');
-    router.refresh();
   }
 
   return (
@@ -329,49 +341,15 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
         </div>
       </div>
 
-      {/* Portada */}
-      <div className="ad-card">
-        <div className="ad-field">
-          <label>Imagen de portada</label>
-          {portada && (
-            <div className="ad-imgs" style={{ marginBottom: 10 }}>
-              <div className="ad-img">
-                <img src={portada} alt="" />
-                <span className="ad-img__cover">Portada</span>
-                <div className="ad-img__bar">
-                  <button
-                    type="button"
-                    className="ad-img__btn"
-                    onClick={() => setPortada('')}
-                    title="Quitar"
-                  >
-                    <X size={13} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-          <label className="ad-upload">
-            <Upload size={20} />
-            {portadaBusy ? 'Subiendo…' : 'Subir imagen de portada'}
-            <input
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={onPortada}
-              disabled={portadaBusy}
-            />
-          </label>
-        </div>
-      </div>
-
       {/* Galerías */}
       <div className="ad-card">
         <ImageList
           label="Galería"
-          hint="Fotos de la obra terminada."
+          hint="Fotos de la obra terminada. Marcá una con ⭐ para usarla de portada."
           items={galeria}
           onChange={setGaleria}
+          cover={portada}
+          onCover={setPortada}
         />
       </div>
       <div className="ad-card">
