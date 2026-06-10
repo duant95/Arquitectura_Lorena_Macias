@@ -339,6 +339,15 @@
   object-fit: cover;
   transition: transform 1s var(--ease);
 }
+/* velo inferior: garantiza que la etiqueta se lea incluso sobre texturas claras */
+.matr__cell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(40, 33, 26, 0.5), transparent 45%);
+  z-index: 1;
+  pointer-events: none;
+}
 .matr__cell:hover img {
   transform: scale(1.07);
 }

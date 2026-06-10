@@ -36,6 +36,37 @@
 .pcard {
   display: block;
   cursor: pointer;
+  animation: pcardIn 0.55s var(--ease) both;
+}
+/* entrada de las tarjetas: al cargar y al cambiar de filtro (la grilla se
+   re-monta por su key), con un leve escalonado para que no aparezcan de golpe */
+@keyframes pcardIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.pcard:nth-child(2) {
+  animation-delay: 0.06s;
+}
+.pcard:nth-child(3) {
+  animation-delay: 0.12s;
+}
+.pcard:nth-child(4) {
+  animation-delay: 0.18s;
+}
+.pcard:nth-child(5) {
+  animation-delay: 0.24s;
+}
+.pcard:nth-child(6) {
+  animation-delay: 0.3s;
+}
+.pcard:nth-child(n + 7) {
+  animation-delay: 0.36s;
 }
 .pcard__media {
   position: relative;

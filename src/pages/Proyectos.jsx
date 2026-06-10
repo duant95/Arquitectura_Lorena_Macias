@@ -53,11 +53,11 @@ export default function Proyectos() {
             ))}
           </div>
 
-          <div className="pgrid" id="pgrid">
+          <div className="pgrid" id="pgrid" key={active}>
             {PROJECTS.map((card) => (
               <Link
                 key={card.slug}
-                className={`pcard ${card.span} reveal${card.delay ? ' ' + card.delay : ''}${isVisible(card) ? '' : ' is-hidden'}`}
+                className={`pcard ${card.span}${isVisible(card) ? '' : ' is-hidden'}`}
                 data-cat={card.cat}
                 to={`/proyecto/${card.slug}`}
               >
