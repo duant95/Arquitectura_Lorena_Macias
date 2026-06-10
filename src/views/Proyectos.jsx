@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
-import { PROJECTS } from '../data/projects';
 
 const FILTERS = [
   { f: 'all', label: 'Todos' },
@@ -15,13 +14,13 @@ const FILTERS = [
   { f: 'obra', label: 'Obras' },
 ];
 
-export default function Proyectos() {
+export default function ProyectosView({ projects = [] }) {
   const { open } = useAgenda();
   const [active, setActive] = useState('all');
   useReveals([active]);
 
   const isVisible = (card) => active === 'all' || card.cat.includes(active);
-  const shown = PROJECTS.filter(isVisible).length;
+  const shown = projects.filter(isVisible).length;
 
   return (
     <>
@@ -54,7 +53,7 @@ export default function Proyectos() {
           </div>
 
           <div className="pgrid" id="pgrid" key={active}>
-            {PROJECTS.map((card) => (
+            {projects.map((card) => (
               <Link
                 key={card.slug}
                 className={`pcard ${card.span}${isVisible(card) ? '' : ' is-hidden'}`}

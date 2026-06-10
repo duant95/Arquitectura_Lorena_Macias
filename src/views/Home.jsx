@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
-export default function Home() {
+export default function HomeView({ featured = [] }) {
   const { open } = useAgenda();
   useReveals();
 
@@ -132,101 +132,44 @@ export default function Home() {
           </div>
 
           <div className="feat">
-            <article className="feat__item reveal">
-              <div className="feat__img reveal-img">
-                <span className="feat__idx">01</span>
-                <img src="/assets/img/living.jpg" alt="Living integrado" />
-              </div>
-              <div>
-                <div className="feat__cat">Vivienda · Diseño interior</div>
-                <h3 className="feat__name">Casa del Bosque</h3>
-                <p className="feat__desc">
-                  Un living de doble altura que disuelve el límite entre interior y jardín. Maderas
-                  cálidas, piedra natural y una paleta serena que invita a habitar con calma.
-                </p>
-                <div className="feat__spec">
-                  <div>
-                    <span className="micro">Año</span>
-                    <b>2023</b>
-                  </div>
-                  <div>
-                    <span className="micro">Superficie</span>
-                    <b>320 m²</b>
-                  </div>
-                  <div>
-                    <span className="micro">Ubicación</span>
-                    <b>Luque</b>
-                  </div>
+            {featured.map((p, i) => (
+              <article key={p.slug} className={`feat__item reveal${i === 1 ? ' rev' : ''}`}>
+                <div className="feat__img reveal-img">
+                  <span className="feat__idx">{String(i + 1).padStart(2, '0')}</span>
+                  {p.cover ? (
+                    <img src={p.cover} alt={p.name} />
+                  ) : (
+                    <div
+                      className="ph"
+                      data-ph={p.ph}
+                      style={{ position: 'absolute', inset: 0 }}
+                    ></div>
+                  )}
                 </div>
-                <Link className="link-arrow" href="/proyecto/casa-del-bosque">
-                  Ver proyecto <span className="arr">→</span>
-                </Link>
-              </div>
-            </article>
-
-            <article className="feat__item rev reveal">
-              <div className="feat__img reveal-img">
-                <span className="feat__idx">02</span>
-                <img src="/assets/img/cocina.jpg" alt="Cocina y estar" />
-              </div>
-              <div>
-                <div className="feat__cat">Reforma · Ampliación</div>
-                <h3 className="feat__name">Residencia MK</h3>
-                <p className="feat__desc">
-                  Reforma integral que reorganiza la planta en torno a una gran isla social. La luz
-                  del atardecer y los tonos tierra definen el carácter del espacio.
-                </p>
-                <div className="feat__spec">
-                  <div>
-                    <span className="micro">Año</span>
-                    <b>2022</b>
+                <div>
+                  <div className="feat__cat">{p.catLabel}</div>
+                  <h3 className="feat__name">{p.name}</h3>
+                  <p className="feat__desc" dangerouslySetInnerHTML={{ __html: p.leadParagraph }} />
+                  <div className="feat__spec">
+                    <div>
+                      <span className="micro">Año</span>
+                      <b>{p.year}</b>
+                    </div>
+                    <div>
+                      <span className="micro">Superficie</span>
+                      <b>{p.area}</b>
+                    </div>
+                    <div>
+                      <span className="micro">Ubicación</span>
+                      <b>{p.location}</b>
+                    </div>
                   </div>
-                  <div>
-                    <span className="micro">Superficie</span>
-                    <b>240 m²</b>
-                  </div>
-                  <div>
-                    <span className="micro">Ubicación</span>
-                    <b>Asunción</b>
-                  </div>
+                  <Link className="link-arrow" href={`/proyecto/${p.slug}`}>
+                    Ver proyecto <span className="arr">→</span>
+                  </Link>
                 </div>
-                <Link className="link-arrow" href="/proyecto/residencia-mk">
-                  Ver proyecto <span className="arr">→</span>
-                </Link>
-              </div>
-            </article>
-
-            <article className="feat__item reveal">
-              <div className="feat__img reveal-img">
-                <span className="feat__idx">03</span>
-                <img src="/assets/img/dormitorio.jpg" alt="Suite principal" />
-              </div>
-              <div>
-                <div className="feat__cat">Diseño de interiores</div>
-                <h3 className="feat__name">Suite Natural</h3>
-                <p className="feat__desc">
-                  Una suite principal pensada como refugio. Carpintería iluminada, textiles nobles y
-                  vegetación interior para un descanso envuelto en materialidad cálida.
-                </p>
-                <div className="feat__spec">
-                  <div>
-                    <span className="micro">Año</span>
-                    <b>2023</b>
-                  </div>
-                  <div>
-                    <span className="micro">Superficie</span>
-                    <b>58 m²</b>
-                  </div>
-                  <div>
-                    <span className="micro">Ubicación</span>
-                    <b>Luque</b>
-                  </div>
-                </div>
-                <Link className="link-arrow" href="/proyecto/suite-natural">
-                  Ver proyecto <span className="arr">→</span>
-                </Link>
-              </div>
-            </article>
+              </article>
+            ))}
           </div>
         </div>
       </section>
