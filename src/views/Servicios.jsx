@@ -1,19 +1,19 @@
-import { Link } from 'react-router-dom';
-import Layout from '../components/Layout';
+'use client';
+
+import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
-import '../styles/servicios.css';
 
 export default function Servicios() {
   const { open } = useAgenda();
   useReveals();
 
   return (
-    <Layout navMode="light">
+    <>
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link to="/">Inicio</Link> — Servicios
+            <Link href="/">Inicio</Link> — Servicios
           </div>
           <h1>Servicios</h1>
           <p className="phero__lead">
@@ -172,12 +172,12 @@ export default function Servicios() {
             <button className="btn" onClick={open}>
               Agendar reunión <span className="arr">→</span>
             </button>
-            <Link className="btn btn--ghost" to="/contacto">
+            <Link className="btn btn--ghost" href="/contacto">
               Contacto
             </Link>
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 }

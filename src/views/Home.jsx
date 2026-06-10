@@ -1,15 +1,15 @@
-import { Link } from 'react-router-dom';
-import Layout from '../components/Layout';
+'use client';
+
+import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
-import '../styles/home.css';
 
 export default function Home() {
   const { open } = useAgenda();
   useReveals();
 
   return (
-    <Layout navMode="dark">
+    <>
       {/* HERO INMERSIVO */}
       <section className="hero" data-screen-label="Hero">
         <div className="hero__bg">
@@ -36,7 +36,7 @@ export default function Home() {
                 equilibrio. Cada proyecto, una historia construida con intención.
               </p>
               <div className="hero__cta">
-                <Link className="btn btn--light" to="/proyectos">
+                <Link className="btn btn--light" href="/proyectos">
                   Ver proyectos <span className="arr">→</span>
                 </Link>
                 <button className="btn btn--ghost-light" onClick={open}>
@@ -109,7 +109,7 @@ export default function Home() {
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 28, flexWrap: 'wrap' }}>
                 <span className="sign">Lorena Macías</span>
-                <Link className="link-arrow" to="/nosotros">
+                <Link className="link-arrow" href="/nosotros">
                   Conocé su trayectoria <span className="arr">→</span>
                 </Link>
               </div>
@@ -126,7 +126,7 @@ export default function Home() {
               <span className="num">01 — Portafolio</span>
               <h2 className="h-xl">Proyectos seleccionados</h2>
             </div>
-            <Link className="link-arrow" to="/proyectos">
+            <Link className="link-arrow" href="/proyectos">
               Ver todo el portafolio <span className="arr">→</span>
             </Link>
           </div>
@@ -158,7 +158,7 @@ export default function Home() {
                     <b>Luque</b>
                   </div>
                 </div>
-                <Link className="link-arrow" to="/proyecto/casa-del-bosque">
+                <Link className="link-arrow" href="/proyecto/casa-del-bosque">
                   Ver proyecto <span className="arr">→</span>
                 </Link>
               </div>
@@ -190,7 +190,7 @@ export default function Home() {
                     <b>Asunción</b>
                   </div>
                 </div>
-                <Link className="link-arrow" to="/proyecto/residencia-mk">
+                <Link className="link-arrow" href="/proyecto/residencia-mk">
                   Ver proyecto <span className="arr">→</span>
                 </Link>
               </div>
@@ -222,7 +222,7 @@ export default function Home() {
                     <b>Luque</b>
                   </div>
                 </div>
-                <Link className="link-arrow" to="/proyecto/suite-natural">
+                <Link className="link-arrow" href="/proyecto/suite-natural">
                   Ver proyecto <span className="arr">→</span>
                 </Link>
               </div>
@@ -285,30 +285,30 @@ export default function Home() {
                 tu proyecto
               </h2>
             </div>
-            <Link className="link-arrow" to="/servicios">
+            <Link className="link-arrow" href="/servicios">
               Conocer servicios <span className="arr">→</span>
             </Link>
           </div>
           <div className="svc-list reveal">
-            <Link className="svc-row" to="/servicios">
+            <Link className="svc-row" href="/servicios">
               <span className="num">01</span>
               <h4>Diseño de interiores</h4>
               <p>Ambientes a medida, materialidad y mobiliario.</p>
               <span className="go">→</span>
             </Link>
-            <Link className="svc-row" to="/servicios">
+            <Link className="svc-row" href="/servicios">
               <span className="num">02</span>
               <h4>Proyecto arquitectónico</h4>
               <p>Del anteproyecto al proyecto ejecutivo, listo para construir.</p>
               <span className="go">→</span>
             </Link>
-            <Link className="svc-row" to="/servicios">
+            <Link className="svc-row" href="/servicios">
               <span className="num">03</span>
               <h4>Reformas y obras</h4>
               <p>Dirección y ejecución con estándares de calidad.</p>
               <span className="go">→</span>
             </Link>
-            <Link className="svc-row" to="/servicios">
+            <Link className="svc-row" href="/servicios">
               <span className="num">04</span>
               <h4>Paisajismo</h4>
               <p>El exterior como extensión natural del hogar.</p>
@@ -329,7 +329,7 @@ export default function Home() {
               <blockquote className="tray__quote" style={{ margin: '0 0 38px' }}>
                 “Más de dos décadas dando forma a espacios que las personas eligen llamar hogar.”
               </blockquote>
-              <Link className="btn" to="/nosotros">
+              <Link className="btn" href="/nosotros">
                 Conocé a Lorena <span className="arr">→</span>
               </Link>
             </div>
@@ -383,12 +383,12 @@ export default function Home() {
             <button className="btn btn--light" onClick={open}>
               Agendar reunión <span className="arr">→</span>
             </button>
-            <Link className="btn btn--ghost-light" to="/contacto">
+            <Link className="btn btn--ghost-light" href="/contacto">
               Contacto
             </Link>
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 }

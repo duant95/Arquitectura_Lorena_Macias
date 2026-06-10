@@ -1,10 +1,10 @@
+'use client';
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Layout from '../components/Layout';
+import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 import { PROJECTS } from '../data/projects';
-import '../styles/proyectos.css';
 
 const FILTERS = [
   { f: 'all', label: 'Todos' },
@@ -24,11 +24,11 @@ export default function Proyectos() {
   const shown = PROJECTS.filter(isVisible).length;
 
   return (
-    <Layout navMode="light">
+    <>
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link to="/">Inicio</Link> — Proyectos
+            <Link href="/">Inicio</Link> — Proyectos
           </div>
           <h1>Portafolio</h1>
           <p className="phero__lead">
@@ -59,7 +59,7 @@ export default function Proyectos() {
                 key={card.slug}
                 className={`pcard ${card.span}${isVisible(card) ? '' : ' is-hidden'}`}
                 data-cat={card.cat}
-                to={`/proyecto/${card.slug}`}
+                href={`/proyecto/${card.slug}`}
               >
                 <div className="pcard__media">
                   <span className="pcard__idx">{card.idx}</span>
@@ -116,6 +116,6 @@ export default function Proyectos() {
           </button>
         </div>
       </section>
-    </Layout>
+    </>
   );
 }

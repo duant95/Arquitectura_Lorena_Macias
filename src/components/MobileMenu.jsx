@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { NAV, TEL } from '../data/site';
 import { useAgenda } from '../context/AgendaContext';
 
@@ -11,7 +13,7 @@ export default function MobileMenu({ open, onClose }) {
         ×
       </button>
       {NAV.map(({ label, href }) => (
-        <Link key={href} to={href} onClick={onClose}>
+        <Link key={href} href={href} onClick={onClose}>
           {label}
         </Link>
       ))}

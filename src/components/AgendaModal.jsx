@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import { TEL } from '../data/site';
 import { useAgenda } from '../context/AgendaContext';

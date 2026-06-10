@@ -1,8 +1,9 @@
-import { Link, useParams, Navigate } from 'react-router-dom';
-import Layout from '../components/Layout';
+'use client';
+
+import Link from 'next/link';
+import { useParams, notFound } from 'next/navigation';
 import useReveals from '../hooks/useReveals';
 import { getProject, getNextProject } from '../data/projects';
-import '../styles/proyecto.css';
 
 export default function Proyecto() {
   const { slug } = useParams();
@@ -11,12 +12,12 @@ export default function Proyecto() {
   useReveals([slug]);
 
   // Slug inexistente → 404
-  if (!project) return <Navigate to="/404" replace />;
+  if (!project) notFound();
 
   const next = getNextProject(slug);
 
   return (
-    <Layout navMode="dark">
+    <>
       {/* HERO */}
       <section className="pj-hero">
         {project.cover ? (
@@ -35,7 +36,7 @@ export default function Proyecto() {
               marginBottom: '20px',
             }}
           >
-            <Link to="/proyectos" style={{ color: 'var(--sage)' }}>
+            <Link href="/proyectos" style={{ color: 'var(--sage)' }}>
               Proyectos
             </Link>{' '}
             — {project.name}
@@ -149,7 +150,7 @@ export default function Proyecto() {
       </section>
 
       {/* PRÓXIMO PROYECTO */}
-      <Link className="nextpj" to={`/proyecto/${next.slug}`}>
+      <Link className="nextpj" href={`/proyecto/${next.slug}`}>
         {next.cover ? (
           <img src={next.cover} alt="" />
         ) : (
@@ -170,6 +171,6 @@ export default function Proyecto() {
           </span>
         </div>
       </Link>
-    </Layout>
+    </>
   );
 }

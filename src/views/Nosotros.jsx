@@ -1,20 +1,20 @@
-import { Link } from 'react-router-dom';
-import Layout from '../components/Layout';
+'use client';
+
+import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
-import '../styles/nosotros.css';
 
 export default function Nosotros() {
   const { open } = useAgenda();
   useReveals();
 
   return (
-    <Layout navMode="light">
+    <>
       {/* HERO */}
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link to="/">Inicio</Link> — Nosotros
+            <Link href="/">Inicio</Link> — Nosotros
           </div>
           <div className="about-hero">
             <div className="reveal">
@@ -230,12 +230,12 @@ export default function Nosotros() {
             <button className="btn btn--light" onClick={open}>
               Agendar reunión <span className="arr">→</span>
             </button>
-            <Link className="btn btn--ghost-light" to="/proyectos">
+            <Link className="btn btn--ghost-light" href="/proyectos">
               Ver proyectos
             </Link>
           </div>
         </div>
       </section>
-    </Layout>
+    </>
   );
 }

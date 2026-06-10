@@ -1,30 +1,27 @@
-import { Link } from 'react-router-dom';
-import Layout from '../components/Layout';
+import Link from 'next/link';
+import SiteShell from '../components/SiteShell';
 
-/**
- * Página 404 — se muestra cuando la ruta no existe (catch-all en App.jsx).
- */
-export default function Placeholder({ title }) {
+export default function NotFound() {
   return (
-    <Layout navMode="light">
+    <SiteShell>
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link to="/">Inicio</Link>
+            <Link href="/">Inicio</Link>
             <span>/</span>
-            <span>{title}</span>
+            <span>Página no encontrada</span>
           </div>
-          <h1>{title}</h1>
+          <h1>Página no encontrada</h1>
           <p className="phero__lead">
             No encontramos la página que buscás. Puede que el enlace haya cambiado o ya no exista.
           </p>
           <div style={{ marginTop: 36 }}>
-            <Link className="btn" to="/">
+            <Link className="btn" href="/">
               Volver al inicio <span className="arr">→</span>
             </Link>
           </div>
         </div>
       </section>
-    </Layout>
+    </SiteShell>
   );
 }

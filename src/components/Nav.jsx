@@ -1,16 +1,26 @@
+'use client';
+
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { NAV } from '../data/site';
 import { useAgenda } from '../context/AgendaContext';
 import MobileMenu from './MobileMenu';
 
+// Rutas con hero oscuro: el nav arranca transparente y se vuelve sólido al hacer scroll.
+function isDarkHero(pathname) {
+  return pathname === '/' || pathname.startsWith('/proyecto/');
+}
+
 /**
- * navMode: 'dark'  -> transparente sobre el hero, se vuelve sólida al hacer scroll
- *          'light' -> siempre sólida (páginas interiores con hero claro)
+ * Modo del nav según la ruta:
+ *   'dark'  -> transparente sobre el hero, se vuelve sólido al hacer scroll
+ *   'light' -> siempre sólido (páginas interiores con hero claro)
  */
-export default function Nav({ navMode = 'dark' }) {
+export default function Nav() {
   const { open } = useAgenda();
-  const location = useLocation();
+  const pathname = usePathname();
+  const navMode = isDarkHero(pathname) ? 'dark' : 'light';
   const [solid, setSolid] = useState(navMode === 'light');
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -31,7 +41,7 @@ export default function Nav({ navMode = 'dark' }) {
     <>
       <header className={'nav' + (solid ? ' solid' : '')}>
         <div className="nav__in">
-          <Link className="nav__logo" to="/" aria-label="Lorena Macías inicio">
+          <Link className="nav__logo" href="/" aria-label="Lorena Macías inicio">
             <img
               className="logo-dark"
               src="/assets/logo-charcoal.png"
@@ -43,7 +53,7 @@ export default function Nav({ navMode = 'dark' }) {
             <ul className="nav__links">
               {NAV.map(({ label, href }) => (
                 <li key={href}>
-                  <Link to={href} className={location.pathname === href ? 'active' : ''}>
+                  <Link href={href} className={pathname === href ? 'active' : ''}>
                     {label}
                   </Link>
                 </li>

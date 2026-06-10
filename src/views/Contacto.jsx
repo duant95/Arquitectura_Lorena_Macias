@@ -1,9 +1,9 @@
+'use client';
+
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Layout from '../components/Layout';
+import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
-import '../styles/contacto.css';
 
 export default function Contacto() {
   const { open } = useAgenda();
@@ -17,11 +17,11 @@ export default function Contacto() {
   };
 
   return (
-    <Layout navMode="light">
+    <>
       <section className="phero phero--soft">
         <div className="phero__in">
           <div className="crumb">
-            <Link to="/">Inicio</Link> — Contacto
+            <Link href="/">Inicio</Link> — Contacto
           </div>
           <h1>
             Conversemos
@@ -211,6 +211,6 @@ export default function Contacto() {
           src="https://www.openstreetmap.org/export/embed.html?bbox=-57.51%2C-25.30%2C-57.45%2C-25.24&layer=mapnik&marker=-25.27%2C-57.48"
         ></iframe>
       </section>
-    </Layout>
+    </>
   );
 }
