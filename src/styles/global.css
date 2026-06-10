@@ -197,6 +197,10 @@ h3 em,
 .section {
   padding: clamp(80px, 12vw, 176px) 0;
 }
+/* la primera sección tras un hero interior se acerca al hero (menos vacío) */
+.phero + .section {
+  padding-top: clamp(40px, 5.5vw, 76px);
+}
 .rule {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--taupe), transparent);
@@ -884,7 +888,7 @@ h3 em,
 
 /* ============ PAGE HERO (interiores) ============ */
 .phero {
-  padding: calc(var(--nav-h) + clamp(54px, 9vw, 104px)) 0 clamp(54px, 8vw, 96px);
+  padding: calc(var(--nav-h) + clamp(40px, 6vw, 76px)) 0 clamp(48px, 6vw, 84px);
   background: var(--paper-2);
   position: relative;
   overflow: hidden;
@@ -925,6 +929,59 @@ h3 em,
   font-size: clamp(18px, 1.6vw, 22px);
   line-height: 1.62;
   margin-top: 30px;
+}
+
+/* entrada elegante y escalonada del hero interior (igual de cuidada que el hero del inicio) */
+@keyframes pheroRise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.phero__in > .crumb,
+.phero__in > h1,
+.phero__in > .phero__lead {
+  opacity: 0;
+  animation: pheroRise 0.9s var(--ease) forwards;
+}
+.phero__in > .crumb {
+  animation-delay: 0.05s;
+}
+.phero__in > h1 {
+  animation-delay: 0.16s;
+}
+.phero__in > .phero__lead {
+  animation-delay: 0.3s;
+}
+
+/* ============ TRANSICIÓN ENTRE PÁGINAS ============ */
+/* cada ruta monta su propio <main>, así que la animación corre al navegar */
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+main {
+  animation: pageFade 0.5s var(--ease) both;
+}
+
+/* ============ INTRO: no malgastar la animación del hero ============ */
+/* mientras la intro tapa la pantalla, pausamos la entrada del hero del inicio;
+   al levantarse la intro, las animaciones se reanudan y el usuario sí las ve */
+html.intro-playing .hero__eyebrow,
+html.intro-playing .hero__title .ln span,
+html.intro-playing .hero__sub,
+html.intro-playing .hero__meta {
+  animation-play-state: paused;
 }
 
 /* grid utilitario imagen+texto */
@@ -1129,5 +1186,31 @@ h3 em,
     height: 54px;
     right: 18px;
     bottom: 18px;
+  }
+}
+
+/* ============ ACCESIBILIDAD: movimiento reducido ============ */
+/* respeta a quien activó "reducir movimiento" en su sistema: sin parallax,
+   sin desplazamientos ni zooms; el contenido aparece de inmediato y legible */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .reveal-img {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .reveal-img img {
+    transform: none !important;
+  }
+  .hero__bg img {
+    animation: none !important;
+    transform: none !important;
   }
 }

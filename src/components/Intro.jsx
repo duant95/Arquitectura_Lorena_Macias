@@ -10,17 +10,23 @@ export default function Intro() {
 
   useEffect(() => {
     if (!show) return;
+    const root = document.documentElement;
     sessionStorage.setItem('lm_intro', '1');
-    document.documentElement.style.overflow = 'hidden';
+    root.style.overflow = 'hidden';
+    // pausa la animación de entrada del hero mientras la intro tapa la pantalla
+    root.classList.add('intro-playing');
     const t1 = setTimeout(() => {
       setHide(true);
-      document.documentElement.style.overflow = '';
+      root.style.overflow = '';
+      // al levantarse la intro, el hero reanuda su animación y el usuario la ve
+      root.classList.remove('intro-playing');
     }, 2900);
     const t2 = setTimeout(() => setShow(false), 4000);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
-      document.documentElement.style.overflow = '';
+      root.style.overflow = '';
+      root.classList.remove('intro-playing');
     };
   }, [show]);
 

@@ -257,6 +257,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 1s var(--ease);
+}
+.feat__img:hover img {
+  transform: scale(1.04);
 }
 .feat__idx {
   position: absolute;
