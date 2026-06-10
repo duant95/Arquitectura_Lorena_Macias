@@ -1,0 +1,440 @@
+/* ============================================================
+   Panel de administración — estilo propio, limpio y neutro.
+   Scopeado bajo .admin para no mezclarse con el sitio público.
+   ============================================================ */
+.admin,
+.admin * {
+  box-sizing: border-box;
+}
+.admin {
+  --ad-green: #5f7556;
+  --ad-green-deep: #506248;
+  --ad-ink: #2f2c26;
+  --ad-soft: #6b6457;
+  --ad-line: #e6e2d9;
+  --ad-bg: #f6f4ef;
+  --ad-card: #ffffff;
+  --ad-radius: 10px;
+  font-family:
+    'Optima', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--ad-ink);
+  background: var(--ad-bg);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.admin a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- Login ---------- */
+.admin-login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.admin-login__card {
+  width: 100%;
+  max-width: 360px;
+}
+.admin-login__brand {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.admin-login__brand img {
+  height: 54px;
+  margin: 0 auto 14px;
+  display: block;
+}
+.admin-login__brand p {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ad-soft);
+  margin: 0;
+}
+
+/* ---------- Layout con sidebar ---------- */
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+}
+.admin-side {
+  width: 240px;
+  flex: 0 0 240px;
+  background: #fff;
+  border-right: 1px solid var(--ad-line);
+  padding: 26px 18px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.admin-side__logo {
+  height: 40px;
+  margin-bottom: 32px;
+}
+.admin-side nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.admin-side nav a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--ad-soft);
+  transition: 0.15s;
+}
+.admin-side nav a:hover {
+  background: var(--ad-bg);
+  color: var(--ad-ink);
+}
+.admin-side nav a.active {
+  background: var(--ad-green);
+  color: #fff;
+}
+.admin-side__foot {
+  margin-top: auto;
+}
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  padding: 34px clamp(20px, 4vw, 52px);
+  max-width: 1040px;
+}
+.admin-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.admin-head h1 {
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.admin-head p {
+  color: var(--ad-soft);
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+/* ---------- Botones ---------- */
+.ad-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--ad-green);
+  color: #fff;
+  border: 1px solid var(--ad-green);
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.18s;
+  font-family: inherit;
+}
+.ad-btn:hover {
+  background: var(--ad-green-deep);
+  border-color: var(--ad-green-deep);
+}
+.ad-btn--ghost {
+  background: transparent;
+  color: var(--ad-soft);
+  border-color: var(--ad-line);
+}
+.ad-btn--ghost:hover {
+  background: var(--ad-bg);
+  color: var(--ad-ink);
+}
+.ad-btn--danger {
+  background: transparent;
+  color: #b4453a;
+  border-color: #e7c9c4;
+}
+.ad-btn--danger:hover {
+  background: #fbeeec;
+}
+.ad-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+/* ---------- Cards / stats ---------- */
+.ad-card {
+  background: var(--ad-card);
+  border: 1px solid var(--ad-line);
+  border-radius: var(--ad-radius);
+  padding: 22px;
+}
+.ad-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+.ad-stat .n {
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--ad-green);
+}
+.ad-stat .l {
+  color: var(--ad-soft);
+  font-size: 13px;
+}
+
+/* ---------- Lista de proyectos ---------- */
+.ad-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ad-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid var(--ad-line);
+  border-radius: var(--ad-radius);
+  padding: 12px 14px;
+}
+.ad-row__thumb {
+  width: 64px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: var(--ad-bg);
+  flex: 0 0 auto;
+}
+.ad-row__main {
+  flex: 1;
+  min-width: 0;
+}
+.ad-row__main h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: inherit;
+}
+.ad-row__main p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--ad-soft);
+}
+.ad-badge {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: #eef1ea;
+  color: var(--ad-green-deep);
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+.ad-actions {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+/* ---------- Formulario ---------- */
+.ad-form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 760px;
+}
+.ad-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ad-field > label {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ad-soft);
+  font-weight: 600;
+}
+.ad-input,
+.ad-textarea,
+.ad-select {
+  width: 100%;
+  border: 1px solid var(--ad-line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--ad-ink);
+  background: #fff;
+  transition: border 0.15s;
+}
+.ad-input:focus,
+.ad-textarea:focus,
+.ad-select:focus {
+  outline: none;
+  border-color: var(--ad-green);
+}
+.ad-textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+.ad-hint {
+  font-size: 12px;
+  color: var(--ad-soft);
+}
+.ad-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.ad-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+.ad-check input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--ad-green);
+}
+
+/* ---------- Subida / grilla de imágenes ---------- */
+.ad-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 2px dashed var(--ad-line);
+  border-radius: 10px;
+  padding: 26px;
+  cursor: pointer;
+  color: var(--ad-soft);
+  font-size: 14px;
+  transition: 0.15s;
+}
+.ad-upload:hover {
+  border-color: var(--ad-green);
+  color: var(--ad-ink);
+}
+.ad-imgs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.ad-img {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--ad-bg);
+  border: 1px solid var(--ad-line);
+}
+.ad-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ad-img__bar {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  gap: 4px;
+}
+.ad-img__btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--ad-ink);
+}
+.ad-img__btn:hover {
+  background: #fff;
+}
+.ad-img__cover {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--ad-green);
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 5px;
+}
+
+/* ---------- Paleta editor ---------- */
+.ad-pal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.ad-pal-row input[type='color'] {
+  width: 40px;
+  height: 36px;
+  border: 1px solid var(--ad-line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.ad-error {
+  color: #b4453a;
+  font-size: 13px;
+}
+.ad-empty {
+  text-align: center;
+  color: var(--ad-soft);
+  padding: 48px 0;
+}
+
+@media (max-width: 760px) {
+  .admin-side {
+    position: static;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px;
+  }
+  .admin-side__logo {
+    margin: 0 auto 0 0;
+    height: 30px;
+  }
+  .admin-side nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .admin-side__foot {
+    margin: 0;
+  }
+  .admin-shell {
+    flex-direction: column;
+  }
+  .ad-row-2 {
+    grid-template-columns: 1fr;
+  }
+}
