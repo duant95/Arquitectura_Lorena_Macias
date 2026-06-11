@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createSupabaseBrowser } from '@/lib/supabase';
-import { LayoutDashboard, FolderOpen, MessageSquare, LogOut } from 'lucide-react';
+import { LayoutDashboard, FolderOpen, MessageSquare, LogOut, X } from 'lucide-react';
 
 const LINKS = [
   { href: '/admin', label: 'Inicio', icon: LayoutDashboard, exact: true },
@@ -11,7 +11,7 @@ const LINKS = [
   { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquare },
 ];
 
-export default function AdminSidebar({ email }) {
+export default function AdminSidebar({ email, open = false, onClose = () => {} }) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -25,13 +25,21 @@ export default function AdminSidebar({ email }) {
   }
 
   return (
-    <aside className="admin-side">
+    <aside className={'admin-side' + (open ? ' open' : '')}>
+      <button className="admin-side__close" aria-label="Cerrar menú" onClick={onClose}>
+        <X size={20} />
+      </button>
       <img className="admin-side__logo" src="/assets/logo-charcoal.png" alt="Lorena Macías" />
       <nav>
         {LINKS.map((l) => {
           const Icon = l.icon;
           return (
-            <Link key={l.href} href={l.href} className={isActive(l) ? 'active' : ''}>
+            <Link
+              key={l.href}
+              href={l.href}
+              className={isActive(l) ? 'active' : ''}
+              onClick={onClose}
+            >
               <Icon size={17} />
               {l.label}
             </Link>

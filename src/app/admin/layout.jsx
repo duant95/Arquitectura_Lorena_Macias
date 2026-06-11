@@ -1,7 +1,7 @@
 import '../../styles/admin.css';
 import { Toaster } from 'react-hot-toast';
 import { getSessionUser } from '@/lib/authServer';
-import AdminSidebar from '@/components/admin/AdminSidebar';
+import AdminChrome from '@/components/admin/AdminChrome';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,7 +26,7 @@ export default async function AdminLayout({ children }) {
   return (
     <div className="admin">
       <div className="admin-shell">
-        <AdminSidebar email={user.email} />
+        <AdminChrome email={user.email} />
         <main className="admin-main">{children}</main>
       </div>
       <Toaster
