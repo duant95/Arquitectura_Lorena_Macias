@@ -2,7 +2,8 @@ import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 
 // Cliente Supabase del lado del servidor que lee la sesión desde las cookies.
-// Se usa en layouts del admin y en las API routes para verificar autenticación.
+// Usa la API moderna getAll/setAll de @supabase/ssr (robusta con cookies "chunked").
+// En route handlers las cookies son de solo lectura: setAll se envuelve en try/catch.
 export function createServerSupabase() {
   const cookieStore = cookies();
   return createServerClient(
@@ -10,18 +11,24 @@ export function createServerSupabase() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
-        get(name) {
-          return cookieStore.get(name)?.value;
+        getAll() {
+          return cookieStore.getAll();
         },
-        set() {},
-        remove() {},
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {
+            // route handlers: cookies de solo lectura — se ignora
+          }
+        },
       },
     }
   );
 }
 
-// Devuelve la sesión leyendo el token de la cookie (no requiere persistir refresh,
-// así funciona dentro de las route handlers donde las cookies son de solo lectura).
+// Devuelve la sesión leyendo el token de la cookie.
 export async function getSession() {
   const supabase = createServerSupabase();
   const {
@@ -30,7 +37,6 @@ export async function getSession() {
   return session;
 }
 
-// Compatibilidad: devuelve el usuario de la sesión o null.
 export async function getSessionUser() {
   const session = await getSession();
   return session?.user ?? null;

@@ -14,7 +14,10 @@ function revalidate(slug) {
 // Editar un proyecto
 export async function PUT(req, { params }) {
   const session = await getSession();
-  if (!session) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  if (!session) {
+    console.warn('[api/proyectos PUT] sin sesión → 401');
+    return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  }
 
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'Cuerpo inválido' }, { status: 400 });
@@ -23,6 +26,7 @@ export async function PUT(req, { params }) {
   const { error } = await sb.from('proyectos').update(pickProjectFields(body)).eq('id', params.id);
 
   if (error) {
+    console.error('[api/proyectos PUT] error de base:', error.message);
     const msg = error.code === '23505' ? 'Ya existe un proyecto con ese slug' : error.message;
     return NextResponse.json({ error: msg }, { status: 400 });
   }
