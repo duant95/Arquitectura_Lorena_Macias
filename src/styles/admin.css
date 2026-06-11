@@ -418,6 +418,33 @@
   padding: 48px 0;
 }
 
+/* ---------- Bandeja de mensajes ---------- */
+.ad-msg__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.ad-msg__head strong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ad-msg--unread {
+  border-left: 3px solid var(--ad-green);
+}
+.ad-msg__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ad-green);
+  display: inline-block;
+}
+.ad-msg .ad-actions {
+  margin-top: 4px;
+}
+
 @media (max-width: 760px) {
   .admin-side {
     position: static;

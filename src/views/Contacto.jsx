@@ -10,10 +10,39 @@ export default function Contacto() {
   useReveals();
 
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSent(true);
+    const f = e.target;
+    setSending(true);
+    setError('');
+    try {
+      const res = await fetch('/api/contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          origen: 'contacto',
+          nombre: f.nombre.value,
+          telefono: f.tel.value,
+          email: f.email.value,
+          tipo_proyecto: f.tipo.value,
+          mensaje: f.msg.value,
+          _gotcha: f._gotcha.value,
+        }),
+      });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        setError(d.error || 'No se pudo enviar. Probá de nuevo.');
+        return;
+      }
+      setSent(true);
+    } catch {
+      setError('Error de conexión. Probá de nuevo.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -164,12 +193,26 @@ export default function Contacto() {
                       placeholder="Contanos sobre tu proyecto, ubicación, metros y estilo deseado…"
                     ></textarea>
                   </div>
+                  <input
+                    type="text"
+                    name="_gotcha"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    style={{ position: 'absolute', left: '-9999px' }}
+                    aria-hidden="true"
+                  />
+                  {error && (
+                    <p style={{ color: '#b4453a', fontSize: '14px', margin: '0 0 12px' }}>
+                      {error}
+                    </p>
+                  )}
                   <button
                     className="btn"
                     type="submit"
+                    disabled={sending}
                     style={{ width: '100%', justifyContent: 'center' }}
                   >
-                    Enviar mensaje <span className="arr">→</span>
+                    {sending ? 'Enviando…' : 'Enviar mensaje'} <span className="arr">→</span>
                   </button>
                   <p
                     style={{

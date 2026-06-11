@@ -1,15 +1,8 @@
 import { createAdminClient } from '@/lib/supabase';
+import MensajeRow from '@/components/admin/MensajeRow';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Mensajes' };
-
-function fecha(s) {
-  try {
-    return new Date(s).toLocaleString('es-PY', { dateStyle: 'medium', timeStyle: 'short' });
-  } catch {
-    return '';
-  }
-}
 
 export default async function AdminMensajes() {
   const sb = createAdminClient();
@@ -18,12 +11,17 @@ export default async function AdminMensajes() {
     .select('*')
     .order('created_at', { ascending: false });
 
+  const sinLeer = (mensajes ?? []).filter((m) => !m.leido).length;
+
   return (
     <>
       <div className="admin-head">
         <div>
           <h1>Mensajes</h1>
-          <p>{mensajes?.length ?? 0} mensajes desde el sitio (contacto y agenda).</p>
+          <p>
+            {mensajes?.length ?? 0} mensajes (contacto y agenda)
+            {sinLeer > 0 ? ` · ${sinLeer} sin leer` : ''}.
+          </p>
         </div>
       </div>
 
@@ -32,25 +30,7 @@ export default async function AdminMensajes() {
       ) : (
         <div className="ad-list">
           {mensajes.map((m) => (
-            <div className="ad-card" key={m.id}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  gap: 12,
-                  flexWrap: 'wrap',
-                }}
-              >
-                <strong>{m.nombre}</strong>
-                <span className="ad-hint">
-                  {m.origen === 'agenda' ? 'Agenda' : 'Contacto'} · {fecha(m.created_at)}
-                </span>
-              </div>
-              <p className="ad-hint" style={{ margin: '6px 0' }}>
-                {[m.telefono, m.email, m.tipo_proyecto, m.horario].filter(Boolean).join(' · ')}
-              </p>
-              {m.mensaje && <p style={{ margin: 0 }}>{m.mensaje}</p>}
-            </div>
+            <MensajeRow key={m.id} m={m} />
           ))}
         </div>
       )}
