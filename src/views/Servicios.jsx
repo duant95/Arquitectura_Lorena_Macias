@@ -27,18 +27,59 @@ export default function Servicios() {
         <div className="wrap">
           <article className="svc-item reveal">
             <div className="svc-item__img reveal-img">
-              <img src="/assets/img/dormitorio.jpg" alt="Diseño de interiores" />
+              <img src="/assets/img/exterior.jpg" alt="Proyecto arquitectónico" />
             </div>
             <div>
               <div className="n">01</div>
-              <h3>Diseño de interiores</h3>
+              <h3>Proyecto arquitectónico & Project Management</h3>
               <p>
-                Creamos ambientes a medida que reflejan tu identidad. Definimos materialidad,
-                mobiliario, iluminación y vegetación para lograr espacios cálidos y funcionales.
+                Edificios, barrios cerrados y proyectos de gran envergadura. Llevamos tu proyecto
+                del anteproyecto a la dirección de obra, con una mirada integral en cada etapa.
               </p>
               <ul>
-                <li>Layout &amp; ambientación</li>
+                <li>Anteproyecto &amp; proyecto ejecutivo</li>
+                <li>Edificios &amp; barrios cerrados</li>
+                <li>Renders 3D</li>
+                <li>Dirección de obra</li>
+                <li>Project management</li>
+              </ul>
+            </div>
+          </article>
+
+          <article className="svc-item rev reveal">
+            <div className="svc-item__img reveal-img">
+              <img src="/assets/img/living.jpg" alt="Diseño de interiores" />
+            </div>
+            <div>
+              <div className="n">02</div>
+              <h3>Diseño de interiores</h3>
+              <p>
+                Interiores residenciales y comerciales a medida. Definimos materialidad, mobiliario
+                e iluminación para lograr espacios cálidos, sofisticados y funcionales.
+              </p>
+              <ul>
+                <li>Residencial &amp; comercial</li>
                 <li>Materialidad</li>
+                <li>Mobiliario a medida</li>
+                <li>Iluminación</li>
+              </ul>
+            </div>
+          </article>
+
+          <article className="svc-item reveal">
+            <div className="svc-item__img reveal-img">
+              <div className="ph" data-ph="Proyecto náutico"></div>
+            </div>
+            <div>
+              <div className="n">03</div>
+              <h3>Interiorismo náutico</h3>
+              <p>
+                Diseño de interiores náuticos: espacios funcionales y elegantes, pensados al detalle
+                para la vida a bordo y el aprovechamiento de cada centímetro.
+              </p>
+              <ul>
+                <li>Aprovechamiento del espacio</li>
+                <li>Materialidad marina</li>
                 <li>Mobiliario a medida</li>
                 <li>Iluminación</li>
               </ul>
@@ -47,33 +88,10 @@ export default function Servicios() {
 
           <article className="svc-item rev reveal">
             <div className="svc-item__img reveal-img">
-              <img src="/assets/img/escalera.jpg" alt="Proyecto arquitectónico" />
-            </div>
-            <div>
-              <div className="n">02</div>
-              <h3>Proyecto arquitectónico</h3>
-              <p>
-                Del anteproyecto al proyecto ejecutivo en un solo proceso. Partimos de tu idea y tu
-                terreno para llegar a la documentación técnica completa, lista para construir sin
-                sorpresas.
-              </p>
-              <ul>
-                <li>Estudio del terreno</li>
-                <li>Partido &amp; volumetría</li>
-                <li>Renders 3D</li>
-                <li>Planos ejecutivos</li>
-                <li>Detalles &amp; instalaciones</li>
-                <li>Cómputo &amp; pliegos</li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="svc-item reveal">
-            <div className="svc-item__img reveal-img">
               <img src="/assets/img/cocina.jpg" alt="Reformas y obras" />
             </div>
             <div>
-              <div className="n">03</div>
+              <div className="n">04</div>
               <h3>Reformas y obras</h3>
               <p>
                 Renovamos y ampliamos espacios con visión integral. Dirigimos y ejecutamos la obra
@@ -88,16 +106,16 @@ export default function Servicios() {
             </div>
           </article>
 
-          <article className="svc-item rev reveal">
+          <article className="svc-item reveal">
             <div className="svc-item__img reveal-img">
-              <img src="/assets/img/exterior.jpg" alt="Paisajismo" />
+              <img src="/assets/img/terraza.jpg" alt="Paisajismo" />
             </div>
             <div>
-              <div className="n">04</div>
+              <div className="n">05</div>
               <h3>Paisajismo</h3>
               <p>
-                Diseñamos el exterior como una extensión natural del hogar: jardines, decks,
-                piscinas y áreas verdes que conectan la casa con su entorno.
+                Diseñamos el exterior como una extensión natural de tu ambiente: jardines, decks,
+                piscinas y áreas verdes que conectan el espacio con su entorno.
               </p>
               <ul>
                 <li>Diseño de jardines</li>
@@ -170,7 +188,7 @@ export default function Servicios() {
             }}
           >
             <button className="btn" onClick={open}>
-              Agendar reunión <span className="arr">→</span>
+              Solicitar reunión <span className="arr">→</span>
             </button>
             <Link className="btn btn--ghost" href="/contacto">
               Contacto

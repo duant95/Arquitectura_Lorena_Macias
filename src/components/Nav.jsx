@@ -61,7 +61,7 @@ export default function Nav() {
             </ul>
           </nav>
           <button className="nav__cta" onClick={open}>
-            Agendar reunión
+            Solicitar reunión
           </button>
           <button className="nav__burger" aria-label="Menú" onClick={() => setMenuOpen(true)}>
             <span></span>

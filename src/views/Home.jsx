@@ -16,9 +16,7 @@ export default function HomeView({ featured = [] }) {
           <img src="/assets/img/living.jpg" alt="Interior de vivienda diseñada por Lorena Macías" />
         </div>
         <div className="hero__in">
-          <p className="eyebrow hero__eyebrow">
-            Estudio de arquitectura &amp; diseño de interiores · Luque, Paraguay
-          </p>
+          <p className="eyebrow hero__eyebrow">Arquitectura · Interiorismo</p>
           <h1 className="hero__title">
             <span className="ln">
               <span>Arquitectura</span>
@@ -32,22 +30,22 @@ export default function HomeView({ featured = [] }) {
           <div className="hero__sub">
             <div>
               <p style={{ marginBottom: 26 }}>
-                Diseñamos hogares donde la naturaleza, la materialidad y la función conviven en
-                equilibrio. Cada proyecto, una historia construida con intención.
+                Proyectos de arquitectura e interiorismo con identidad y propósito. Del edificio al
+                detalle.
               </p>
               <div className="hero__cta">
                 <Link className="btn btn--light" href="/proyectos">
                   Ver proyectos <span className="arr">→</span>
                 </Link>
                 <button className="btn btn--ghost-light" onClick={open}>
-                  Agendar reunión
+                  Solicitar reunión
                 </button>
               </div>
             </div>
             <div className="hero__meta">
-              <span>Est. 2019</span>
-              <span>+80 obras</span>
-              <span>Arq. + Interiores</span>
+              <span>+200 proyectos</span>
+              <span>2001 — presente</span>
+              <span>Arq. + Interiorismo</span>
             </div>
           </div>
         </div>
@@ -61,9 +59,9 @@ export default function HomeView({ featured = [] }) {
               Nuestra filosofía
             </p>
             <p className="q">
-              Creemos en una arquitectura <span className="hl">honesta</span>: la que escucha al
-              terreno, abraza la luz natural y se construye para <span className="hl">vivirse</span>
-              , no solo para mirarse.
+              Creemos en una arquitectura que escucha el <span className="hl">lugar</span>, abraza
+              la luz natural y se construye para <span className="hl">vivirse</span>, no solo para
+              mirarse.
             </p>
           </div>
         </div>
@@ -88,22 +86,22 @@ export default function HomeView({ featured = [] }) {
                 Más de dos décadas dando forma al espacio.
               </h2>
               <p className="lead" style={{ color: 'var(--ink)', maxWidth: 560 }}>
-                Tras <b style={{ fontWeight: 400 }}>18 años</b> en la gran escala constructiva,
-                Lorena funda en 2019 su estudio de autor: un espacio para diseñar arquitectura e
-                interiores con identidad, calidez y propósito.
+                Con más de <b style={{ fontWeight: 400 }}>dos décadas</b> de trayectoria —de
+                edificios y barrios cerrados al interiorismo— Lorena funda en 2019 su estudio de
+                autor: arquitectura e interiores con identidad, calidez y propósito.
               </p>
               <p style={{ color: 'var(--ink-soft)', maxWidth: 540 }}>
-                De la obra de gran porte al detalle más íntimo de una vivienda, su mirada une rigor
-                técnico y sensibilidad — escuchando siempre el terreno, la luz y la forma de vivir
-                de cada cliente.
+                Del proyecto de gran envergadura al detalle más íntimo de un interior, su mirada une
+                rigor técnico y sensibilidad — atenta siempre a la luz, los materiales y la forma de
+                habitar de cada cliente.
               </p>
               <div className="story__mini">
                 <div>
-                  <div className="yr">2001–2019</div>
-                  <div className="lb">18 años en empresa constructora</div>
+                  <div className="yr">2001 — 2019</div>
+                  <div className="lb">Trayectoria en arquitectura y obra</div>
                 </div>
                 <div>
-                  <div className="yr">2019 · hoy</div>
+                  <div className="yr">2019 — presente</div>
                   <div className="lb">Estudio independiente de autor</div>
                 </div>
               </div>
@@ -123,11 +121,11 @@ export default function HomeView({ featured = [] }) {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="sec-head__l">
-              <span className="num">01 — Portafolio</span>
+              <span className="num">01 — Proyectos</span>
               <h2 className="h-xl">Proyectos seleccionados</h2>
             </div>
             <Link className="link-arrow" href="/proyectos">
-              Ver todo el portafolio <span className="arr">→</span>
+              Ver todos los proyectos <span className="arr">→</span>
             </Link>
           </div>
 
@@ -187,8 +185,8 @@ export default function HomeView({ featured = [] }) {
               </h2>
             </div>
             <p style={{ maxWidth: 400, color: 'var(--ink-soft)', margin: 0 }}>
-              Trabajamos con materiales nobles y honestos — madera, piedra, cuero, hormigón y verde
-              — para componer atmósferas que envejecen con belleza.
+              Trabajamos con materiales nobles — madera, piedra, cuero, hormigón y verde — para
+              componer atmósferas que envejecen con belleza.
             </p>
           </div>
           <div className="matr__grid reveal d1">
@@ -235,26 +233,32 @@ export default function HomeView({ featured = [] }) {
           <div className="svc-list reveal">
             <Link className="svc-row" href="/servicios">
               <span className="num">01</span>
-              <h4>Diseño de interiores</h4>
-              <p>Ambientes a medida, materialidad y mobiliario.</p>
+              <h4>Proyecto arquitectónico & Project Management</h4>
+              <p>Edificios, barrios cerrados y proyectos de gran envergadura.</p>
               <span className="go">→</span>
             </Link>
             <Link className="svc-row" href="/servicios">
               <span className="num">02</span>
-              <h4>Proyecto arquitectónico</h4>
-              <p>Del anteproyecto al proyecto ejecutivo, listo para construir.</p>
+              <h4>Diseño de interiores</h4>
+              <p>Residenciales y comerciales, a medida.</p>
               <span className="go">→</span>
             </Link>
             <Link className="svc-row" href="/servicios">
               <span className="num">03</span>
+              <h4>Interiorismo náutico</h4>
+              <p>Espacios náuticos diseñados al detalle.</p>
+              <span className="go">→</span>
+            </Link>
+            <Link className="svc-row" href="/servicios">
+              <span className="num">04</span>
               <h4>Reformas y obras</h4>
               <p>Dirección y ejecución con estándares de calidad.</p>
               <span className="go">→</span>
             </Link>
             <Link className="svc-row" href="/servicios">
-              <span className="num">04</span>
+              <span className="num">05</span>
               <h4>Paisajismo</h4>
-              <p>El exterior como extensión natural del hogar.</p>
+              <p>El exterior como extensión natural de tu ambiente.</p>
               <span className="go">→</span>
             </Link>
           </div>
@@ -270,7 +274,7 @@ export default function HomeView({ featured = [] }) {
                 04 — Trayectoria
               </p>
               <blockquote className="tray__quote" style={{ margin: '0 0 38px' }}>
-                “Más de dos décadas dando forma a espacios que las personas eligen llamar hogar.”
+                “Más de dos décadas dando forma a espacios con identidad y propósito.”
               </blockquote>
               <Link className="btn" href="/nosotros">
                 Conocé a Lorena <span className="arr">→</span>
@@ -286,8 +290,8 @@ export default function HomeView({ featured = [] }) {
                 <div className="l">años de estudio independiente</div>
               </div>
               <div className="stat">
-                <div className="n">+80</div>
-                <div className="l">proyectos y obras realizados</div>
+                <div className="n">+200</div>
+                <div className="l">proyectos realizados</div>
               </div>
               <div className="stat">
                 <div className="n">100%</div>
@@ -309,22 +313,22 @@ export default function HomeView({ featured = [] }) {
             className="display reveal d1"
             style={{ fontSize: 'clamp(38px,5.7vw,92px)', marginBottom: 32 }}
           >
-            Construyamos algo
+            Demos vida a tu
             <br />
-            <em>extraordinario</em>.
+            <em>proyecto</em>.
           </h2>
           <p
             className="lead reveal d2"
             style={{ color: 'rgba(246,242,233,.85)', maxWidth: 580, margin: '0 auto 42px' }}
           >
-            Contanos tu idea, tu terreno o tu sueño. Empecemos con una conversación.
+            Contanos tu idea o el proyecto que imaginás. Nosotros te ayudamos a hacerlo realidad.
           </p>
           <div
             className="reveal d3"
             style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}
           >
             <button className="btn btn--light" onClick={open}>
-              Agendar reunión <span className="arr">→</span>
+              Solicitar reunión <span className="arr">→</span>
             </button>
             <Link className="btn btn--ghost-light" href="/contacto">
               Contacto

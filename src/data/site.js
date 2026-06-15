@@ -14,8 +14,9 @@ export const NAV = [
 ];
 
 export const SERVICES = [
-  'Diseño de interiores',
   'Proyecto arquitectónico',
+  'Diseño de interiores',
+  'Interiorismo náutico',
   'Reformas y obras',
   'Paisajismo',
 ];

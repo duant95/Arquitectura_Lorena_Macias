@@ -27,8 +27,8 @@ export default function Nosotros() {
                 <em>escuchar</em>.
               </h1>
               <p className="phero__lead">
-                Soy Lorena Macías, arquitecta. Hace más de dos décadas que acompaño a las personas a
-                transformar terrenos e ideas en hogares con identidad, calidez y propósito.
+                Soy Lorena Macías, arquitecta e interiorista. Hace más de dos décadas que transformo
+                ideas en espacios con identidad, calidez y propósito.
               </p>
             </div>
             <div className="imgblock about-portrait reveal-img reveal d1">
@@ -48,19 +48,19 @@ export default function Nosotros() {
           <div className="split split--narrow">
             <div className="reveal">
               <h2 className="h-lg" style={{ marginBottom: 28, maxWidth: '16ch' }}>
-                Una mirada que combina técnica, sensibilidad y oficio.
+                Una mirada que combina técnica, sensibilidad y trayectoria.
               </h2>
             </div>
             <div className="reveal d1">
               <p className="lead-serif" style={{ marginBottom: 26 }}>
-                Mi trabajo nace del equilibrio entre lo <em>funcional</em> y lo <em>emocional</em>.
-                Cada proyecto es una conversación con el lugar, la luz y las personas que lo van a
+                Mi trabajo es <em>funcional</em>, <em>sofisticado</em> y <em>práctico</em>. Cada
+                proyecto es una conversación con el lugar, la luz y las personas que lo van a
                 habitar.
               </p>
               <p style={{ color: 'var(--ink-soft)' }}>
-                Creo en una arquitectura honesta, en los materiales nobles y en los espacios
-                pensados para vivirse plenamente. Mi compromiso es acompañar cada etapa, desde la
-                primera idea hasta el último detalle de obra.
+                Creo en los materiales nobles y en los espacios pensados para vivirse plenamente. Mi
+                compromiso es acompañar cada etapa, desde la primera idea hasta el último detalle de
+                obra.
               </p>
               <p className="sign" style={{ marginTop: 24 }}>
                 Lorena Macías
@@ -88,33 +88,29 @@ export default function Nosotros() {
           <div className="sec-head reveal">
             <div className="sec-head__l">
               <span className="eyebrow">Trayectoria</span>
-              <h2 className="h-xl">25 años de oficio</h2>
+              <h2 className="h-xl">25 años de trayectoria</h2>
             </div>
-            <p style={{ maxWidth: 380, color: 'var(--ink-soft)', margin: 0 }}>
-              De la gran escala constructiva al estudio de autor: un camino que une experiencia
-              técnica y diseño personalizado.
-            </p>
           </div>
           <div className="tl reveal">
             <div className="tl__row">
               <div className="tl__yr">2001 — 2019</div>
               <div>
-                <h4>18 años en empresa constructora</h4>
+                <h4>Trayectoria en arquitectura y obra</h4>
                 <p>
-                  Casi dos décadas participando en proyectos y obras de gran escala. Una etapa que
-                  forjó el rigor técnico, la dirección de obra y el conocimiento profundo del
-                  proceso constructivo.
+                  Casi dos décadas en proyectos y dirección de obra —edificios, barrios cerrados y
+                  emprendimientos de gran envergadura—. Una etapa que forjó el rigor técnico y el
+                  conocimiento profundo del proceso.
                 </p>
               </div>
             </div>
             <div className="tl__row">
-              <div className="tl__yr">2019 — hoy</div>
+              <div className="tl__yr">2019 — presente</div>
               <div>
                 <h4>Estudio independiente · CEO &amp; fundadora</h4>
                 <p>
-                  Nace Lorena Macías Arquitecta, un estudio de arquitectura y diseño de interiores
-                  de autor. Siete años desarrollando viviendas, reformas, interiorismo y paisajismo
-                  con una identidad propia y cercana.
+                  Nace Lorena Macías, un estudio de arquitectura e interiorismo de autor.
+                  Desarrollando proyectos arquitectónicos, interiores residenciales, comerciales y
+                  náuticos, reformas y paisajismo con identidad propia.
                 </p>
               </div>
             </div>
@@ -136,8 +132,8 @@ export default function Nosotros() {
       <section className="section quote-band">
         <div className="wrap reveal">
           <p className="q">
-            “Diseño espacios para ser vividos: honestos en su materialidad, conectados con la
-            naturaleza y fieles a quienes los habitan.”
+            “Diseño espacios para ser vividos: cuidados en su materialidad, conectados con la luz y
+            fieles a quienes los habitan.”
           </p>
           <p className="sign" style={{ marginTop: 36 }}>
             Lorena Macías
@@ -163,12 +159,12 @@ export default function Nosotros() {
             <div className="pillar">
               <span className="n">02</span>
               <h4>Materialidad</h4>
-              <p>Materiales nobles y honestos que aportan textura, calidez y carácter.</p>
+              <p>Materiales nobles que aportan textura, calidez y carácter.</p>
             </div>
             <div className="pillar">
               <span className="n">03</span>
               <h4>Conexión natural</h4>
-              <p>La naturaleza como protagonista: luz, verde y paisaje integrados al hogar.</p>
+              <p>La naturaleza como protagonista: luz, verde y paisaje integrados al espacio.</p>
             </div>
             <div className="pillar">
               <span className="n">04</span>
@@ -192,7 +188,7 @@ export default function Nosotros() {
             <div className="step">
               <div className="n">01</div>
               <h4>Escuchar</h4>
-              <p>Entendemos tu idea, tu terreno, tu forma de vivir y tu presupuesto.</p>
+              <p>Entendemos tu idea, tu forma de habitar y tu presupuesto.</p>
             </div>
             <div className="step">
               <div className="n">02</div>
@@ -228,7 +224,7 @@ export default function Nosotros() {
             style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}
           >
             <button className="btn btn--light" onClick={open}>
-              Agendar reunión <span className="arr">→</span>
+              Solicitar reunión <span className="arr">→</span>
             </button>
             <Link className="btn btn--ghost-light" href="/proyectos">
               Ver proyectos

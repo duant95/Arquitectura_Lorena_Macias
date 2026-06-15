@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
   gap: clamp(34px, 5vw, 76px);
-  align-items: end;
+  align-items: start;
 }
 .about-portrait {
   aspect-ratio: 4/5;

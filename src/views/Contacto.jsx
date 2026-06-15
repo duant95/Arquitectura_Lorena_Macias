@@ -148,7 +148,7 @@ export default function Contacto() {
               </div>
               <div style={{ marginTop: '34px' }}>
                 <button className="btn" onClick={open}>
-                  Agendar una reunión <span className="arr">→</span>
+                  Solicitar una reunión <span className="arr">→</span>
                 </button>
               </div>
             </div>
@@ -244,15 +244,6 @@ export default function Contacto() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* MAPA */}
-      <section className="mapwrap reveal">
-        <iframe
-          loading="lazy"
-          title="Ubicación del estudio"
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-57.51%2C-25.30%2C-57.45%2C-25.24&layer=mapnik&marker=-25.27%2C-57.48"
-        ></iframe>
       </section>
     </>
   );

@@ -1,27 +1,92 @@
 'use client';
 
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import useReveals from '../hooks/useReveals';
 import { splitParagraphs } from '../lib/projectShape';
 
-// Galería reutilizable (galería principal, planos y renders)
+// Galería ordenada y uniforme, con visor (lightbox) para ampliar las imágenes.
 function Galeria({ items }) {
+  const fotos = items.filter((g) => g.img);
+  const [open, setOpen] = useState(null); // índice dentro de `fotos`
+
+  const close = useCallback(() => setOpen(null), []);
+  const prev = useCallback(
+    () => setOpen((i) => (i > 0 ? i - 1 : fotos.length - 1)),
+    [fotos.length]
+  );
+  const next = useCallback(
+    (e) => {
+      if (e) e.stopPropagation();
+      setOpen((i) => (i < fotos.length - 1 ? i + 1 : 0));
+    },
+    [fotos.length]
+  );
+
+  useEffect(() => {
+    if (open === null) return;
+    function onKey(e) {
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft') prev();
+    }
+    document.addEventListener('keydown', onKey);
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.documentElement.style.overflow = '';
+    };
+  }, [open, close, next, prev]);
+
+  let fotoIdx = -1;
   return (
-    <div className="gal">
-      {items.map((g, i) => (
-        <div
-          key={i}
-          className={`imgblock ${g.span} reveal-img`}
-          style={g.ratio ? { aspectRatio: g.ratio } : undefined}
-        >
-          {g.img ? (
-            <img src={g.img} alt={g.alt} />
-          ) : (
-            <div className="ph" data-ph={g.ph} style={{ position: 'absolute', inset: 0 }}></div>
+    <>
+      <div className="pj-gal">
+        {items.map((g, i) => {
+          if (!g.img) {
+            return (
+              <div className="pj-gal__item" key={i}>
+                <div className="ph" data-ph={g.ph} style={{ position: 'absolute', inset: 0 }}></div>
+              </div>
+            );
+          }
+          fotoIdx += 1;
+          const idx = fotoIdx;
+          return (
+            <button type="button" className="pj-gal__item" key={i} onClick={() => setOpen(idx)}>
+              <img src={g.img} alt={g.alt} />
+            </button>
+          );
+        })}
+      </div>
+
+      {open !== null && fotos[open] && (
+        <div className="lightbox" onClick={close}>
+          <button className="lightbox__btn lightbox__close" aria-label="Cerrar" onClick={close}>
+            <X size={26} />
+          </button>
+          {fotos.length > 1 && (
+            <button
+              className="lightbox__btn lightbox__prev"
+              aria-label="Anterior"
+              onClick={(e) => {
+                e.stopPropagation();
+                prev();
+              }}
+            >
+              <ChevronLeft size={30} />
+            </button>
+          )}
+          <img src={fotos[open].img} alt={fotos[open].alt} onClick={(e) => e.stopPropagation()} />
+          {fotos.length > 1 && (
+            <button className="lightbox__btn lightbox__next" aria-label="Siguiente" onClick={next}>
+              <ChevronRight size={30} />
+            </button>
           )}
         </div>
-      ))}
-    </div>
+      )}
+    </>
   );
 }
 
@@ -212,7 +277,7 @@ export default function ProyectoView({ project, next }) {
           )}
           <div className="nextpj__c">
             <p className="eyebrow light" style={{ marginBottom: '18px' }}>
-              Próximo proyecto
+              Seguí explorando
             </p>
             <h2
               className="display"

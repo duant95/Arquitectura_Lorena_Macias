@@ -25,7 +25,7 @@ export default function MobileMenu({ open, onClose }) {
           openAgenda();
         }}
       >
-        Agendar reunión
+        Solicitar reunión
       </a>
       <div className="mmenu__foot">{TEL} · Luque, Paraguay</div>
     </div>

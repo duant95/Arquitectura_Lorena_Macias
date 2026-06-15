@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { TEL } from '../data/site';
 import { useAgenda } from '../context/AgendaContext';
 
-const SLOTS = ['Lun 10:00', 'Mar 15:00', 'Mié 11:00', 'Jue 16:00', 'Vie 09:00', 'Vie 17:00'];
+const SLOTS = ['Mañana', 'Tarde', 'Indistinto'];
 
 export default function AgendaModal() {
   const { isOpen, close } = useAgenda();
@@ -69,27 +69,25 @@ export default function AgendaModal() {
         <button className="modal__close" aria-label="Cerrar" onClick={handleClose}>
           ×
         </button>
-        <aside className="modal__aside">
+        <aside className="modal__aside modal__aside--center">
           <div>
             <img src="/assets/logo-cream.png" alt="" />
             <h3 className="h-md" style={{ color: 'var(--cream)', marginBottom: 14 }}>
-              Agendemos una
+              Conversemos sobre
               <br />
-              conversación
+              tu proyecto
             </h3>
             <p style={{ color: 'var(--sage-soft)', fontSize: 15, lineHeight: 1.6 }}>
-              Conversemos sobre tu proyecto, terreno o reforma. Sin compromiso — una primera reunión
-              para entender tu visión.
+              Sin compromiso — una primera charla para entender tu visión y cómo podemos ayudarte.
             </p>
           </div>
           <div style={{ fontSize: 13, color: 'var(--sage-soft)', letterSpacing: '.04em' }}>
-            <p style={{ margin: '0 0 6px' }}>{TEL}</p>
-            <p style={{ margin: 0 }}>Luque · Paraguay</p>
+            <p style={{ margin: 0 }}>{TEL}</p>
           </div>
         </aside>
         <div className="modal__body">
           <p className="eyebrow" style={{ marginBottom: 14 }}>
-            Agenda de reuniones
+            Solicitar una reunión
           </p>
           {!sent ? (
             <form onSubmit={handleSubmit}>
@@ -105,18 +103,20 @@ export default function AgendaModal() {
                 <div className="field">
                   <label>Tipo de proyecto</label>
                   <select name="tipo">
-                    <option>Vivienda nueva</option>
-                    <option>Reforma / ampliación</option>
-                    <option>Diseño de interiores</option>
-                    <option>Paisajismo</option>
                     <option>Proyecto arquitectónico</option>
+                    <option>Edificio / Barrio cerrado</option>
+                    <option>Diseño de interiores residencial</option>
+                    <option>Diseño de interiores comercial</option>
+                    <option>Interiorismo náutico</option>
+                    <option>Reforma / obra</option>
+                    <option>Paisajismo</option>
                     <option>Otro</option>
                   </select>
                 </div>
               </div>
               <div className="field">
-                <label>Horario preferido</label>
-                <div className="slots">
+                <label>¿Qué horario te queda mejor?</label>
+                <div className="slots slots--3">
                   {SLOTS.map((s) => (
                     <div
                       key={s}

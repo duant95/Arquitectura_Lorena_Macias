@@ -223,3 +223,73 @@
     text-align: left;
   }
 }
+
+/* ============ LISTA EDITORIAL DE PROYECTOS (minimalista) ============ */
+.plist {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(44px, 6vw, 96px);
+}
+.prow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 4.5vw, 72px);
+  align-items: center;
+}
+.prow.rev {
+  direction: rtl;
+}
+.prow.rev > * {
+  direction: ltr;
+}
+.prow__img {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: var(--paper-2);
+  border-radius: 1px;
+}
+.prow__img img,
+.prow__img .ph {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--ease);
+}
+.prow:hover .prow__img img {
+  transform: scale(1.04);
+}
+.prow__cat {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--green-ink);
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.prow__name {
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.2vw, 46px);
+  line-height: 1.05;
+  color: var(--ink);
+  margin: 0 0 18px;
+}
+.prow__desc {
+  color: var(--ink-soft);
+  max-width: 48ch;
+  margin: 0 0 18px;
+}
+.prow__meta {
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  margin-bottom: 22px;
+}
+@media (max-width: 880px) {
+  .prow,
+  .prow.rev {
+    grid-template-columns: 1fr;
+    direction: ltr;
+    gap: 22px;
+  }
+}
