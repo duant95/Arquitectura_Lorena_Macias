@@ -1,69 +1,70 @@
 # Lorena Macías · Arquitecta
 
-Sitio web del estudio de arquitectura y diseño de interiores de **Lorena Macías** (Luque, Paraguay).
-Construido con **React + Vite** y enrutado con **React Router**.
+Sitio web + CMS del estudio de arquitectura y diseño de interiores de **Lorena Macías**
+(Luque, Paraguay). Construido con **Next.js (App Router)** y **Supabase**.
 
 ## Requisitos
 
-- Node.js 18 o superior
-- npm 9 o superior
+- Node.js 18.18 o superior
+- Una cuenta de [Supabase](https://supabase.com) (plan gratis)
 
 ## Puesta en marcha
 
 ```bash
-npm install      # instala dependencias
-npm run dev      # servidor de desarrollo (http://localhost:5173)
-npm run build    # genera el sitio de producción en dist/
-npm run preview  # sirve el build de producción localmente
+npm install
+cp .env.example .env.local   # completá con tus keys de Supabase
+npm run dev                  # http://localhost:3000
 ```
 
-## Estructura del proyecto
+Para conectar el CMS (base de datos, panel admin, carga de imágenes) seguí la guía
+paso a paso: [`docs/SETUP-SUPABASE.md`](docs/SETUP-SUPABASE.md).
+
+```bash
+npm run build    # build de producción
+npm run start    # sirve el build
+npm run lint     # ESLint
+node scripts/seed.mjs   # siembra la base con proyectos de ejemplo (opcional)
+```
+
+## Estructura
 
 ```
-public/assets/        Imágenes, logos, texturas y fuentes
 src/
-├─ main.jsx           Punto de entrada (BrowserRouter + estilos globales)
-├─ App.jsx            Rutas de la aplicación
-├─ components/        Componentes compartidos (Nav, Footer, Layout, modal, etc.)
-├─ context/           AgendaContext (estado del modal "Agendar reunión")
-├─ data/              site.js — datos de contacto y navegación centralizados
-├─ hooks/             useReveals — animaciones de aparición al hacer scroll
-├─ pages/             Una página por ruta (Home, Nosotros, Proyectos, …)
-└─ styles/            global.css + un CSS por página
+├─ app/
+│  ├─ layout.jsx            Layout raíz (importa el CSS del sitio, metadatos)
+│  ├─ (site)/               Sitio público (chrome común: nav, footer, modal)
+│  │  ├─ page.jsx           Inicio        (lee proyectos destacados)
+│  │  ├─ proyectos/         Portafolio    (lee de Supabase)
+│  │  ├─ proyecto/[slug]/   Página de obra (galería, planos 2D, renders 3D, proceso)
+│  │  ├─ nosotros/ servicios/ contacto/
+│  ├─ admin/                Panel CMS protegido (login + CRUD de proyectos)
+│  └─ api/proyectos/        API protegida (crear/editar/eliminar)
+├─ components/              Nav, Footer, AgendaModal, SiteShell, admin/*
+├─ views/                  Las vistas de cada página (componentes cliente)
+├─ lib/                    supabase, projects (capa de datos), authServer
+├─ data/                   projects.js / site.js — datos de ejemplo y contacto
+├─ styles/                 CSS del sitio + admin.css (panel)
+└─ middleware.js           Protege /admin con Supabase Auth
+supabase/schema.sql        Esquema de la base (correr una vez en Supabase)
 ```
 
-## Rutas
+## Cómo funciona el contenido
 
-| Ruta         | Página              |
-| ------------ | ------------------- |
-| `/`          | Inicio (Home)       |
-| `/nosotros`  | Nosotros            |
-| `/proyectos` | Portafolio          |
-| `/proyecto`  | Detalle de proyecto |
-| `/servicios` | Servicios           |
-| `/contacto`  | Contacto            |
-| `*`          | 404                 |
-
-## Datos centralizados
-
-Los datos de contacto (WhatsApp, Instagram, email, teléfono) y el menú de navegación
-viven en [`src/data/site.js`](src/data/site.js). Cambiá un valor ahí y se actualiza
-en todo el sitio (nav, footer, contacto, botón flotante).
-
-## Próximos pasos
-
-Ver la sección de pendientes y mejoras sugeridas más abajo o el historial del repo.
-
-- [ ] Conectar los formularios (Contacto y Agenda) a un backend / servicio de email.
-- [ ] Páginas de proyecto dinámicas (`/proyecto/:slug`) con datos reales.
-- [ ] Reemplazar los placeholders de imágenes por fotos/renders definitivos.
-- [ ] Configuración de despliegue (ver más abajo).
+- Los **proyectos** se cargan y editan desde el panel **`/admin`** (sin tocar código):
+  datos, imágenes (portada, galería, planos 2D, renders 3D), paleta y proceso.
+- El sitio lee los proyectos desde **Supabase**. Si la base está vacía o no hay
+  conexión, cae a los datos de ejemplo de [`src/data/projects.js`](src/data/projects.js)
+  para no quedar vacío.
+- Los datos de contacto y el menú viven en [`src/data/site.js`](src/data/site.js).
 
 ## Despliegue
 
-Es una SPA: el servidor debe redirigir todas las rutas a `index.html` para que el
-enrutado del lado del cliente funcione al recargar una URL profunda (p. ej. `/servicios`).
+Pensado para **Vercel**: importás el repo, cargás las 3 variables de entorno
+(`.env.local`) en el proyecto de Vercel y desplegás. El dominio, hosting y SSL los
+gestiona Vercel.
 
-- **Netlify:** incluido en `public/_redirects`.
-- **Vercel:** incluido en `vercel.json`.
-- **GitHub Pages / Apache:** configurar el fallback a `index.html` (o usar `HashRouter`).
+## Pendiente
+
+- [ ] Formularios de Contacto y Agenda enviando a la base + notificaciones.
+- [ ] Reemplazar imágenes de ejemplo por fotos/renders reales (desde el panel).
+- [ ] SEO: sitemap, robots, Google Analytics.

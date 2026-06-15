@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useCallback, useContext, useState } from 'react';
 
 const AgendaContext = createContext({ open: () => {}, close: () => {}, isOpen: false });
@@ -20,7 +22,6 @@ export function AgendaProvider({ children }) {
   );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useAgenda() {
   return useContext(AgendaContext);
 }

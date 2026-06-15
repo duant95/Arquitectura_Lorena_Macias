@@ -678,6 +678,14 @@ h3 em,
   height: 54px;
   margin-bottom: 32px;
 }
+.modal__aside--center {
+  text-align: center;
+  align-items: center;
+  gap: 28px;
+}
+.modal__aside--center img {
+  margin-inline: auto;
+}
 .modal__body {
   padding: 50px 46px;
 }

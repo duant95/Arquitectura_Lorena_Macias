@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { NAV, SERVICES, WA, IG, MAIL, TEL } from '../data/site';
 
 export default function Footer() {
@@ -20,7 +20,7 @@ export default function Footer() {
             <ul>
               {NAV.map(({ label, href }) => (
                 <li key={href}>
-                  <Link to={href}>{label}</Link>
+                  <Link href={href}>{label}</Link>
                 </li>
               ))}
             </ul>
@@ -30,7 +30,7 @@ export default function Footer() {
             <ul>
               {SERVICES.map((s) => (
                 <li key={s}>
-                  <Link to="/servicios">{s}</Link>
+                  <Link href="/servicios">{s}</Link>
                 </li>
               ))}
             </ul>

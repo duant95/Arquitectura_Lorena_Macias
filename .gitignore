@@ -5,6 +5,16 @@ dist-ssr
 *.local
 .vite
 
+# Next.js
+.next
+out
+next-env.d.ts
+
+# Variables de entorno (NUNCA commitear las keys)
+.env
+.env.local
+.env*.local
+
 # Logs
 *.log
 npm-debug.log*
