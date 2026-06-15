@@ -7,8 +7,12 @@ import { useEffect, useState } from 'react';
  * (igual que el diseño original, usando sessionStorage).
  */
 export default function Intro() {
-  const [show, setShow] = useState(() => !sessionStorage.getItem('lm_intro'));
+  const [show, setShow] = useState(false);
   const [hide, setHide] = useState(false);
+
+  useEffect(() => {
+    if (!sessionStorage.getItem('lm_intro')) setShow(true);
+  }, []);
 
   useEffect(() => {
     if (!show) return;
