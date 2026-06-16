@@ -13,6 +13,7 @@
   direction: ltr;
 }
 .svc-item__img {
+  position: relative;
   aspect-ratio: 4/3.1;
   overflow: hidden;
 }

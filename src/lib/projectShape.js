@@ -1,6 +1,11 @@
 // Helpers para normalizar proyectos a la forma que esperan las vistas,
 // vengan de Supabase o de los datos de ejemplo locales.
 
+// ¿La URL es un video? (para galerías con foto + video)
+export function isVideo(url) {
+  return /\.(mp4|webm|mov|ogg|ogv|m4v)(\?|$)/i.test(url || '');
+}
+
 // Luminancia → color de texto legible sobre un color de fondo.
 export function paletteFg(hex) {
   const h = (hex || '').replace('#', '');
@@ -30,6 +35,19 @@ export function autoLayoutGallery(items) {
       const pat = GALLERY_PATTERN[i % GALLERY_PATTERN.length];
       return { img: it.url || it.img, alt: it.alt || '', span: pat.span, ratio: pat.ratio };
     });
+}
+
+// Año para ordenar cronológicamente (recientes primero). Toma el mayor año del
+// texto `anio`; si el proyecto está "en presente/en obra", lo trata como vigente
+// (queda arriba de todo). Sin año → 0 (al final).
+export function projectYear(anio) {
+  if (!anio) return 0;
+  const s = String(anio).toLowerCase();
+  if (/presente|hoy|actual|en obra|activo|vigente/.test(s)) {
+    return new Date().getFullYear() + 1;
+  }
+  const years = (s.match(/\d{4}/g) || []).map(Number);
+  return years.length ? Math.max(...years) : 0;
 }
 
 // Texto multilínea → array de párrafos (cada salto de línea = párrafo).

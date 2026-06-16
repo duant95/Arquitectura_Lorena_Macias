@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { createSupabaseBrowser } from '@/lib/supabase';
-import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star } from 'lucide-react';
+import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star, Play } from 'lucide-react';
+import { isVideo } from '@/lib/projectShape';
 
 function slugify(s) {
   return (s || '')
@@ -45,8 +46,9 @@ function ImageList({ label, hint, items, onChange, cover, onCover }) {
     const urls = await uploadFiles(files);
     const added = urls.map((url) => ({ url, alt: '' }));
     onChange([...items, ...added]);
-    // si todavía no hay portada elegida, la primera imagen subida pasa a serlo
-    if (onCover && !cover && added[0]) onCover(added[0].url);
+    // si todavía no hay portada elegida, la primera imagen (no video) pasa a serlo
+    const firstImg = added.find((a) => !isVideo(a.url));
+    if (onCover && !cover && firstImg) onCover(firstImg.url);
     setBusy(false);
     e.target.value = '';
   }
@@ -70,17 +72,35 @@ function ImageList({ label, hint, items, onChange, cover, onCover }) {
       {hint && <p className="ad-hint">{hint}</p>}
       <label className="ad-upload">
         <Upload size={20} />
-        {busy ? 'Subiendo…' : 'Clic para subir imágenes (varias a la vez)'}
-        <input type="file" accept="image/*" multiple hidden onChange={onUpload} disabled={busy} />
+        {busy ? 'Subiendo…' : 'Clic para subir imágenes o videos (varios a la vez)'}
+        <input
+          type="file"
+          accept="image/*,video/*"
+          multiple
+          hidden
+          onChange={onUpload}
+          disabled={busy}
+        />
       </label>
       {items.length > 0 && (
         <div className="ad-imgs">
           {items.map((it, i) => (
             <div className="ad-img" key={i}>
-              <img src={it.url} alt="" />
-              {onCover && it.url === cover && <span className="ad-img__cover">Portada</span>}
+              {isVideo(it.url) ? (
+                <video src={it.url} muted playsInline preload="metadata" />
+              ) : (
+                <img src={it.url} alt="" />
+              )}
+              {isVideo(it.url) && (
+                <span className="ad-img__play">
+                  <Play size={14} />
+                </span>
+              )}
+              {onCover && it.url === cover && !isVideo(it.url) && (
+                <span className="ad-img__cover">Portada</span>
+              )}
               <div className="ad-img__bar">
-                {onCover && (
+                {onCover && !isVideo(it.url) && (
                   <button
                     type="button"
                     className="ad-img__btn"
@@ -307,7 +327,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
               className="ad-input"
               value={form.ubicacion}
               onChange={(e) => set('ubicacion', e.target.value)}
-              placeholder="Luque, PY"
+              placeholder="Asunción, PY"
             />
           </div>
           <div className="ad-field">

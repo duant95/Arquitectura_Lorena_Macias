@@ -3,12 +3,22 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createSupabaseBrowser } from '@/lib/supabase';
-import { LayoutDashboard, FolderOpen, MessageSquare, LogOut, X } from 'lucide-react';
+import {
+  LayoutDashboard,
+  FolderOpen,
+  Wrench,
+  MessageSquare,
+  Settings,
+  LogOut,
+  X,
+} from 'lucide-react';
 
 const LINKS = [
   { href: '/admin', label: 'Inicio', icon: LayoutDashboard, exact: true },
   { href: '/admin/proyectos', label: 'Proyectos', icon: FolderOpen },
+  { href: '/admin/servicios', label: 'Servicios', icon: Wrench },
   { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquare },
+  { href: '/admin/sitio', label: 'Datos del sitio', icon: Settings },
 ];
 
 export default function AdminSidebar({ email, open = false, onClose = () => {} }) {

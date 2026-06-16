@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
-export default function HomeView({ featured = [] }) {
+export default function HomeView({ featured = [], servicios = [] }) {
   const { open } = useAgenda();
   useReveals();
 
@@ -13,7 +14,12 @@ export default function HomeView({ featured = [] }) {
       {/* HERO INMERSIVO */}
       <section className="hero" data-screen-label="Hero">
         <div className="hero__bg">
-          <img src="/assets/img/living.jpg" alt="Interior de vivienda diseñada por Lorena Macías" />
+          <Img
+            src="/assets/img/living.jpg"
+            alt="Proyecto de Lorena Macías"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="hero__in">
           <p className="eyebrow hero__eyebrow">Arquitectura · Interiorismo</p>
@@ -135,7 +141,7 @@ export default function HomeView({ featured = [] }) {
                 <div className="feat__img reveal-img">
                   <span className="feat__idx">{String(i + 1).padStart(2, '0')}</span>
                   {p.cover ? (
-                    <img src={p.cover} alt={p.name} />
+                    <Img src={p.cover} alt={p.name} sizes="(max-width: 980px) 100vw, 50vw" />
                   ) : (
                     <div
                       className="ph"
@@ -231,36 +237,14 @@ export default function HomeView({ featured = [] }) {
             </Link>
           </div>
           <div className="svc-list reveal">
-            <Link className="svc-row" href="/servicios">
-              <span className="num">01</span>
-              <h4>Proyecto arquitectónico & Project Management</h4>
-              <p>Edificios, barrios cerrados y proyectos de gran envergadura.</p>
-              <span className="go">→</span>
-            </Link>
-            <Link className="svc-row" href="/servicios">
-              <span className="num">02</span>
-              <h4>Diseño de interiores</h4>
-              <p>Residenciales y comerciales, a medida.</p>
-              <span className="go">→</span>
-            </Link>
-            <Link className="svc-row" href="/servicios">
-              <span className="num">03</span>
-              <h4>Interiorismo náutico</h4>
-              <p>Espacios náuticos diseñados al detalle.</p>
-              <span className="go">→</span>
-            </Link>
-            <Link className="svc-row" href="/servicios">
-              <span className="num">04</span>
-              <h4>Reformas y obras</h4>
-              <p>Dirección y ejecución con estándares de calidad.</p>
-              <span className="go">→</span>
-            </Link>
-            <Link className="svc-row" href="/servicios">
-              <span className="num">05</span>
-              <h4>Paisajismo</h4>
-              <p>El exterior como extensión natural de tu ambiente.</p>
-              <span className="go">→</span>
-            </Link>
+            {servicios.map((s, i) => (
+              <Link className="svc-row" href="/servicios" key={i}>
+                <span className="num">{String(i + 1).padStart(2, '0')}</span>
+                <h4>{s.titulo}</h4>
+                <p>{s.descripcion}</p>
+                <span className="go">→</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -304,7 +288,7 @@ export default function HomeView({ featured = [] }) {
 
       {/* CTA FINAL */}
       <section className="section cta-final" data-screen-label="CTA">
-        <img src="/assets/img/terraza.jpg" alt="" />
+        <Img src="/assets/img/terraza.jpg" alt="" sizes="100vw" />
         <div className="wrap">
           <p className="eyebrow light reveal" style={{ marginBottom: 24 }}>
             Tu próximo proyecto
