@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
-export default function Servicios() {
+export default function ServiciosView({ servicios = [] }) {
   const { open } = useAgenda();
   useReveals();
 
@@ -25,106 +25,29 @@ export default function Servicios() {
 
       <section className="section" style={{ paddingBottom: 0 }}>
         <div className="wrap">
-          <article className="svc-item reveal">
-            <div className="svc-item__img reveal-img">
-              <img src="/assets/img/exterior.jpg" alt="Proyecto arquitectónico" />
-            </div>
-            <div>
-              <div className="n">01</div>
-              <h3>Proyecto arquitectónico & Project Management</h3>
-              <p>
-                Edificios, barrios cerrados y proyectos de gran envergadura. Llevamos tu proyecto
-                del anteproyecto a la dirección de obra, con una mirada integral en cada etapa.
-              </p>
-              <ul>
-                <li>Anteproyecto &amp; proyecto ejecutivo</li>
-                <li>Edificios &amp; barrios cerrados</li>
-                <li>Renders 3D</li>
-                <li>Dirección de obra</li>
-                <li>Project management</li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="svc-item rev reveal">
-            <div className="svc-item__img reveal-img">
-              <img src="/assets/img/living.jpg" alt="Diseño de interiores" />
-            </div>
-            <div>
-              <div className="n">02</div>
-              <h3>Diseño de interiores</h3>
-              <p>
-                Interiores residenciales y comerciales a medida. Definimos materialidad, mobiliario
-                e iluminación para lograr espacios cálidos, sofisticados y funcionales.
-              </p>
-              <ul>
-                <li>Residencial &amp; comercial</li>
-                <li>Materialidad</li>
-                <li>Mobiliario a medida</li>
-                <li>Iluminación</li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="svc-item reveal">
-            <div className="svc-item__img reveal-img">
-              <div className="ph" data-ph="Proyecto náutico"></div>
-            </div>
-            <div>
-              <div className="n">03</div>
-              <h3>Interiorismo náutico</h3>
-              <p>
-                Diseño de interiores náuticos: espacios funcionales y elegantes, pensados al detalle
-                para la vida a bordo y el aprovechamiento de cada centímetro.
-              </p>
-              <ul>
-                <li>Aprovechamiento del espacio</li>
-                <li>Materialidad marina</li>
-                <li>Mobiliario a medida</li>
-                <li>Iluminación</li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="svc-item rev reveal">
-            <div className="svc-item__img reveal-img">
-              <img src="/assets/img/cocina.jpg" alt="Reformas y obras" />
-            </div>
-            <div>
-              <div className="n">04</div>
-              <h3>Reformas y obras</h3>
-              <p>
-                Renovamos y ampliamos espacios con visión integral. Dirigimos y ejecutamos la obra
-                con estándares de calidad y atención al detalle.
-              </p>
-              <ul>
-                <li>Reformas integrales</li>
-                <li>Ampliaciones</li>
-                <li>Dirección de obra</li>
-                <li>Ejecución</li>
-              </ul>
-            </div>
-          </article>
-
-          <article className="svc-item reveal">
-            <div className="svc-item__img reveal-img">
-              <img src="/assets/img/terraza.jpg" alt="Paisajismo" />
-            </div>
-            <div>
-              <div className="n">05</div>
-              <h3>Paisajismo</h3>
-              <p>
-                Diseñamos el exterior como una extensión natural de tu ambiente: jardines, decks,
-                piscinas y áreas verdes que conectan el espacio con su entorno.
-              </p>
-              <ul>
-                <li>Diseño de jardines</li>
-                <li>Decks &amp; exteriores</li>
-                <li>Vegetación</li>
-                <li>Áreas de relax</li>
-              </ul>
-            </div>
-          </article>
+          {servicios.map((s, i) => (
+            <article key={i} className={`svc-item reveal${i % 2 === 1 ? ' rev' : ''}`}>
+              <div className="svc-item__img reveal-img">
+                {s.imagen ? (
+                  <img src={s.imagen} alt={s.titulo} />
+                ) : (
+                  <div className="ph" data-ph={s.titulo}></div>
+                )}
+              </div>
+              <div>
+                <div className="n">{String(i + 1).padStart(2, '0')}</div>
+                <h3>{s.titulo}</h3>
+                <p>{s.descripcion}</p>
+                {s.incluye?.length > 0 && (
+                  <ul>
+                    {s.incluye.map((it, j) => (
+                      <li key={j}>{it}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
