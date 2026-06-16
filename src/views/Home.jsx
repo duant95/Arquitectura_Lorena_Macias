@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
-export default function HomeView({ featured = [] }) {
+export default function HomeView({ featured = [], servicios = [] }) {
   const { open } = useAgenda();
   useReveals();
 
@@ -231,36 +231,14 @@ export default function HomeView({ featured = [] }) {
             </Link>
           </div>
           <div className="svc-list reveal">
-            <Link className="svc-row" href="/servicios">
-              <span className="num">01</span>
-              <h4>Proyecto arquitectónico & Project Management</h4>
-              <p>Edificios, barrios cerrados y proyectos de gran envergadura.</p>
-              <span className="go">→</span>
-            </Link>
-            <Link className="svc-row" href="/servicios">
-              <span className="num">02</span>
-              <h4>Diseño de interiores</h4>
-              <p>Residenciales y comerciales, a medida.</p>
-              <span className="go">→</span>
-            </Link>
-            <Link className="svc-row" href="/servicios">
-              <span className="num">03</span>
-              <h4>Interiorismo náutico</h4>
-              <p>Espacios náuticos diseñados al detalle.</p>
-              <span className="go">→</span>
-            </Link>
-            <Link className="svc-row" href="/servicios">
-              <span className="num">04</span>
-              <h4>Reformas y obras</h4>
-              <p>Dirección y ejecución con estándares de calidad.</p>
-              <span className="go">→</span>
-            </Link>
-            <Link className="svc-row" href="/servicios">
-              <span className="num">05</span>
-              <h4>Paisajismo</h4>
-              <p>El exterior como extensión natural de tu ambiente.</p>
-              <span className="go">→</span>
-            </Link>
+            {servicios.map((s, i) => (
+              <Link className="svc-row" href="/servicios" key={i}>
+                <span className="num">{String(i + 1).padStart(2, '0')}</span>
+                <h4>{s.titulo}</h4>
+                <p>{s.descripcion}</p>
+                <span className="go">→</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
