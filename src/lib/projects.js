@@ -1,18 +1,19 @@
 import { supabase, supabaseEnabled } from './supabase';
 import { PROJECTS as LOCAL } from '../data/projects';
-import { normalizeRow, normalizeLocal } from './projectShape';
+import { normalizeRow, normalizeLocal, projectYear } from './projectShape';
 
-// Lee todos los proyectos. Usa Supabase si está configurado y tiene datos;
-// si no, cae a los proyectos de ejemplo locales (para que el sitio nunca quede vacío).
+// Lee todos los proyectos, ordenados cronológicamente (los más recientes primero).
+// Usa Supabase si está configurado y tiene datos; si no, cae a los datos locales.
 export async function getAllProjects() {
   if (supabaseEnabled && supabase) {
-    const { data, error } = await supabase
-      .from('proyectos')
-      .select('*')
-      .order('orden', { ascending: true })
-      .order('created_at', { ascending: false });
+    const { data, error } = await supabase.from('proyectos').select('*');
     if (!error && data && data.length > 0) {
-      return data.map((row, i) => normalizeRow(row, i));
+      const ordenados = [...data].sort(
+        (a, b) =>
+          projectYear(b.anio) - projectYear(a.anio) ||
+          new Date(b.created_at) - new Date(a.created_at)
+      );
+      return ordenados.map((row, i) => normalizeRow(row, i));
     }
   }
   return LOCAL.map(normalizeLocal);

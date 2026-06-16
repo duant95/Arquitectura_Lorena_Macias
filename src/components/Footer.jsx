@@ -11,8 +11,8 @@ export default function Footer() {
               <img src="/assets/logo-cream.png" alt="Lorena Macías Arquitecta" />
             </div>
             <p style={{ maxWidth: 300, color: 'var(--taupe)', fontSize: 15, lineHeight: 1.7 }}>
-              Estudio de arquitectura y diseño de interiores. Espacios que conectan naturaleza,
-              materialidad y función.
+              Estudio de arquitectura, interiorismo y project management. Proyectos de alta
+              complejidad, de principio a fin.
             </p>
           </div>
           <div>
@@ -46,8 +46,7 @@ export default function Footer() {
               <li>
                 <a href={`mailto:${MAIL}`}>{MAIL}</a>
               </li>
-              <li style={{ color: 'var(--taupe)' }}>Calle Fortín Arce e/ Senador Flecha</li>
-              <li style={{ color: 'var(--taupe)' }}>Luque · Paraguay</li>
+              <li style={{ color: 'var(--taupe)' }}>Asunción · Paraguay</li>
             </ul>
             <div className="footer__social" style={{ marginTop: 20 }}>
               <a href={IG} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
@@ -72,7 +71,7 @@ export default function Footer() {
           <span>
             © {new Date().getFullYear()} Lorena Macías · Arquitecta. Todos los derechos reservados.
           </span>
-          <span>Luque, Paraguay · Diseño &amp; arquitectura</span>
+          <span>Asunción, Paraguay · Arquitectura &amp; interiorismo</span>
         </div>
       </div>
     </footer>

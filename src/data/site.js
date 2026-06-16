@@ -2,7 +2,7 @@
 export const WA =
   'https://wa.me/595981109295?text=Hola%20Lorena%2C%20me%20gustar%C3%ADa%20una%20consulta%20sobre%20un%20proyecto.';
 export const IG = 'https://www.instagram.com/lorenamacias_arq';
-export const MAIL = 'arqlmacias@gmail.com';
+export const MAIL = 'arquitectura@lorenamacias.com.py';
 export const TEL = '+595 981 109 295';
 
 export const NAV = [

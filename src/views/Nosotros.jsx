@@ -27,8 +27,9 @@ export default function Nosotros() {
                 <em>escuchar</em>.
               </h1>
               <p className="phero__lead">
-                Soy Lorena Macías, arquitecta e interiorista. Hace más de dos décadas que transformo
-                ideas en espacios con identidad, calidez y propósito.
+                Soy Lorena Macías, arquitecta y project manager. Más de 25 años liderando proyectos
+                de alta complejidad —edificios, barrios cerrados, residencias, interiorismo y diseño
+                náutico— de principio a fin.
               </p>
             </div>
             <div className="imgblock about-portrait reveal-img reveal d1">
@@ -58,9 +59,8 @@ export default function Nosotros() {
                 habitar.
               </p>
               <p style={{ color: 'var(--ink-soft)' }}>
-                Creo en los materiales nobles y en los espacios pensados para vivirse plenamente. Mi
-                compromiso es acompañar cada etapa, desde la primera idea hasta el último detalle de
-                obra.
+                Diseño, documento, dirijo y vendo: una visión integral del proyecto que me permite
+                cuidar tu inversión en cada etapa, desde la primera idea hasta la entrega de obra.
               </p>
               <p className="sign" style={{ marginTop: 24 }}>
                 Lorena Macías
@@ -95,32 +95,34 @@ export default function Nosotros() {
             <div className="tl__row">
               <div className="tl__yr">2001 — 2019</div>
               <div>
-                <h4>Trayectoria en arquitectura y obra</h4>
+                <h4>Gustafson y Asociados · Gerente de Proyectos</h4>
                 <p>
-                  Casi dos décadas en proyectos y dirección de obra —edificios, barrios cerrados y
-                  emprendimientos de gran envergadura—. Una etapa que forjó el rigor técnico y el
-                  conocimiento profundo del proceso.
+                  Fui pieza clave del área de diseño y proyecto ejecutivo, coordinando equipos de
+                  arquitectos, calculistas y especialistas. Durante casi dos décadas ayudé a definir
+                  los estándares del mercado residencial premium de altura de Asunción, en edificios
+                  de hasta 30 niveles.
                 </p>
               </div>
             </div>
             <div className="tl__row">
               <div className="tl__yr">2019 — presente</div>
               <div>
-                <h4>Estudio independiente · CEO &amp; fundadora</h4>
+                <h4>Lorena Macías Arquitectura · Directora y Project Manager</h4>
                 <p>
-                  Nace Lorena Macías, un estudio de arquitectura e interiorismo de autor.
-                  Desarrollando proyectos arquitectónicos, interiores residenciales, comerciales y
-                  náuticos, reformas y paisajismo con identidad propia.
+                  Fundo mi estudio y sigo liderando proyectos de gran escala: edificios, barrios
+                  cerrados, residencias premium, interiorismo y diseño náutico. Project Manager de
+                  proyectos de alta complejidad, coordinando múltiples equipos independientes.
                 </p>
               </div>
             </div>
             <div className="tl__row" style={{ borderBottom: '1px solid var(--taupe)' }}>
               <div className="tl__yr">Hoy</div>
               <div>
-                <h4>Diseño integral y personalizado</h4>
+                <h4>Pionera en diseño náutico</h4>
                 <p>
-                  Cada cliente recibe un acompañamiento completo y a medida, con foco en la
-                  materialidad, la conexión con la naturaleza y la funcionalidad de cada espacio.
+                  Primera arquitecta en Paraguay en diseñar interiores de yates. Hoy combino
+                  arquitectura, interiorismo y gestión, con mercados activos en Paraguay, Brasil y
+                  Uruguay.
                 </p>
               </div>
             </div>
@@ -146,30 +148,35 @@ export default function Nosotros() {
         <div className="wrap">
           <div className="sec-head reveal" style={{ marginBottom: 52 }}>
             <div className="sec-head__l">
-              <span className="eyebrow">Lo que nos guía</span>
-              <h2 className="h-xl">Cuatro principios</h2>
+              <span className="eyebrow">Por qué elegirme</span>
+              <h2 className="h-xl">Lo que me distingue</h2>
             </div>
           </div>
           <div className="pillars reveal d1">
             <div className="pillar">
               <span className="n">01</span>
-              <h4>Funcionalidad</h4>
-              <p>Espacios cómodos y lógicos, pensados para la vida real de quienes los habitan.</p>
+              <h4>Project Management</h4>
+              <p>
+                Coordino proyectos de alta complejidad con múltiples equipos, controlando plazos,
+                costos y calidad.
+              </p>
             </div>
             <div className="pillar">
               <span className="n">02</span>
-              <h4>Materialidad</h4>
-              <p>Materiales nobles que aportan textura, calidez y carácter.</p>
+              <h4>Visión integral</h4>
+              <p>
+                Diseño, documento, dirijo y vendo: cuido tu inversión en cada etapa del proyecto.
+              </p>
             </div>
             <div className="pillar">
               <span className="n">03</span>
-              <h4>Conexión natural</h4>
-              <p>La naturaleza como protagonista: luz, verde y paisaje integrados al espacio.</p>
+              <h4>Diseño náutico</h4>
+              <p>Primera arquitecta en Paraguay en diseñar interiores de yates.</p>
             </div>
             <div className="pillar">
               <span className="n">04</span>
-              <h4>Diseño a medida</h4>
-              <p>Ningún proyecto se repite. Cada propuesta refleja a su dueño y su lugar.</p>
+              <h4>Equipo &amp; tecnología</h4>
+              <p>Equipo BIM propio (Revit · Navisworks) para proyectos de gran escala.</p>
             </div>
           </div>
         </div>

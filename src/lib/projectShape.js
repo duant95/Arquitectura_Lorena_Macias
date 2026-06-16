@@ -32,6 +32,19 @@ export function autoLayoutGallery(items) {
     });
 }
 
+// Año para ordenar cronológicamente (recientes primero). Toma el mayor año del
+// texto `anio`; si el proyecto está "en presente/en obra", lo trata como vigente
+// (queda arriba de todo). Sin año → 0 (al final).
+export function projectYear(anio) {
+  if (!anio) return 0;
+  const s = String(anio).toLowerCase();
+  if (/presente|hoy|actual|en obra|activo|vigente/.test(s)) {
+    return new Date().getFullYear() + 1;
+  }
+  const years = (s.match(/\d{4}/g) || []).map(Number);
+  return years.length ? Math.max(...years) : 0;
+}
+
 // Texto multilínea → array de párrafos (cada salto de línea = párrafo).
 export function splitParagraphs(text) {
   if (!text) return [];

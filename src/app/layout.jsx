@@ -7,7 +7,7 @@ import '../styles/servicios.css';
 import '../styles/contacto.css';
 
 const description =
-  'Estudio de arquitectura y diseño de interiores en Luque, Paraguay. Espacios que conectan naturaleza, materialidad y función.';
+  'Estudio de arquitectura e interiorismo en Asunción, Paraguay. Proyectos de alta complejidad: edificios, barrios cerrados, residencias, interiorismo y diseño náutico.';
 
 export const metadata = {
   metadataBase: new URL('https://lorenamacias.com'),

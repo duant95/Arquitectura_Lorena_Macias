@@ -27,7 +27,7 @@ export default function MobileMenu({ open, onClose }) {
       >
         Solicitar reunión
       </a>
-      <div className="mmenu__foot">{TEL} · Luque, Paraguay</div>
+      <div className="mmenu__foot">{TEL} · Asunción, Paraguay</div>
     </div>
   );
 }

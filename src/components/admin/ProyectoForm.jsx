@@ -307,7 +307,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
               className="ad-input"
               value={form.ubicacion}
               onChange={(e) => set('ubicacion', e.target.value)}
-              placeholder="Luque, PY"
+              placeholder="Asunción, PY"
             />
           </div>
           <div className="ad-field">
