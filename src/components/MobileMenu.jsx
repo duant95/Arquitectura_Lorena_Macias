@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { NAV, TEL } from '../data/site';
+import { NAV } from '../data/site';
 import { useAgenda } from '../context/AgendaContext';
+import { useSiteConfig } from '../context/ConfigContext';
 
 export default function MobileMenu({ open, onClose }) {
   const { open: openAgenda } = useAgenda();
+  const { contacto_tel, contacto_ciudad } = useSiteConfig();
 
   return (
     <div className={'mmenu' + (open ? ' open' : '')}>
@@ -27,7 +29,9 @@ export default function MobileMenu({ open, onClose }) {
       >
         Solicitar reunión
       </a>
-      <div className="mmenu__foot">{TEL} · Asunción, Paraguay</div>
+      <div className="mmenu__foot">
+        {contacto_tel} · {contacto_ciudad}
+      </div>
     </div>
   );
 }

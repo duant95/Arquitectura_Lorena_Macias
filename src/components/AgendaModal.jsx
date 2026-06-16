@@ -1,13 +1,14 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { TEL } from '../data/site';
 import { useAgenda } from '../context/AgendaContext';
+import { useSiteConfig } from '../context/ConfigContext';
 
 const SLOTS = ['Mañana', 'Tarde', 'Indistinto'];
 
 export default function AgendaModal() {
   const { isOpen, close } = useAgenda();
+  const { contacto_tel } = useSiteConfig();
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
@@ -82,7 +83,7 @@ export default function AgendaModal() {
             </p>
           </div>
           <div style={{ fontSize: 13, color: 'var(--sage-soft)', letterSpacing: '.04em' }}>
-            <p style={{ margin: 0 }}>{TEL}</p>
+            <p style={{ margin: 0 }}>{contacto_tel}</p>
           </div>
         </aside>
         <div className="modal__body">

@@ -50,6 +50,33 @@ export const SERVICIOS_DEFAULT = [
   },
 ];
 
+// Datos de contacto / marca editables desde el panel (con valores por defecto).
+export const SITE_DEFAULTS = {
+  contacto_email: 'arquitectura@lorenamacias.com.py',
+  contacto_tel: '+595 981 109 295',
+  contacto_whatsapp: '595981109295',
+  contacto_whatsapp_msg: 'Hola Lorena, me gustaría una consulta sobre un proyecto.',
+  contacto_instagram: 'lorenamacias_arq',
+  contacto_ciudad: 'Asunción, Paraguay',
+};
+
+// Lee toda la config de contacto/marca (Supabase sobre los valores por defecto).
+export async function getSiteConfig() {
+  const cfg = { ...SITE_DEFAULTS };
+  if (supabaseEnabled && supabase) {
+    const { data } = await supabase
+      .from('configuracion')
+      .select('clave, valor')
+      .in('clave', Object.keys(SITE_DEFAULTS));
+    if (data) {
+      for (const row of data) {
+        if (row.clave in cfg && row.valor != null && row.valor !== '') cfg[row.clave] = row.valor;
+      }
+    }
+  }
+  return cfg;
+}
+
 function parseJSON(value, fallback) {
   try {
     const parsed = JSON.parse(value);

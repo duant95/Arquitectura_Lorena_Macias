@@ -1,6 +1,7 @@
 'use client';
 
 import { AgendaProvider } from '../context/AgendaContext';
+import { ConfigProvider } from '../context/ConfigContext';
 import Intro from './Intro';
 import Nav from './Nav';
 import Footer from './Footer';
@@ -12,15 +13,17 @@ import AgendaModal from './AgendaModal';
  * más el botón flotante de WhatsApp, el modal de agenda y la intro.
  * El modo del nav (claro/oscuro) lo decide el propio Nav según la ruta.
  */
-export default function SiteShell({ children }) {
+export default function SiteShell({ children, config }) {
   return (
-    <AgendaProvider>
-      <Intro />
-      <Nav />
-      <main>{children}</main>
-      <Footer />
-      <WhatsAppButton />
-      <AgendaModal />
-    </AgendaProvider>
+    <ConfigProvider value={config}>
+      <AgendaProvider>
+        <Intro />
+        <Nav />
+        <main>{children}</main>
+        <Footer />
+        <WhatsAppButton />
+        <AgendaModal />
+      </AgendaProvider>
+    </ConfigProvider>
   );
 }
