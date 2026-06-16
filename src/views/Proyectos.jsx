@@ -1,12 +1,25 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
+const FILTERS = [
+  { f: 'all', label: 'Todos' },
+  { f: 'edificio', label: 'Edificios' },
+  { f: 'residencial', label: 'Residencias' },
+  { f: 'interior', label: 'Interiorismo' },
+  { f: 'nautico', label: 'Náutico' },
+  { f: 'paisaje', label: 'Paisajismo' },
+];
+
 export default function ProyectosView({ projects = [] }) {
   const { open } = useAgenda();
+  const [active, setActive] = useState('all');
   useReveals();
+
+  const visibles = projects.filter((p) => active === 'all' || (p.cat || '').includes(active));
 
   return (
     <>
@@ -17,27 +30,39 @@ export default function ProyectosView({ projects = [] }) {
           </div>
           <h1>Proyectos</h1>
           <p className="phero__lead">
-            Una selección de proyectos: arquitectura, interiores, reformas y paisajismo. Cada uno,
-            una historia construida con intención.
+            Una selección de proyectos: edificios, barrios cerrados, residencias, interiorismo y
+            diseño náutico. Cada uno, una historia construida con intención.
           </p>
         </div>
       </section>
 
       <section className="section" style={{ paddingTop: 'clamp(40px,5vw,72px)' }}>
         <div className="wrap">
-          {projects.length === 0 ? (
+          <div className="filters">
+            {FILTERS.map((flt) => (
+              <button
+                key={flt.f}
+                className={`filter${active === flt.f ? ' on' : ''}`}
+                onClick={() => setActive(flt.f)}
+              >
+                {flt.label}
+              </button>
+            ))}
+          </div>
+
+          {visibles.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--ink-soft)' }}>
-              Todavía no hay proyectos publicados.
+              No hay proyectos en esta categoría todavía.
             </div>
           ) : (
-            <div className="plist">
-              {projects.map((p, i) => (
+            <div className="plist" key={active}>
+              {visibles.map((p, i) => (
                 <Link
                   key={p.slug}
-                  className={`prow reveal${i % 2 === 1 ? ' rev' : ''}`}
+                  className={`prow${i % 2 === 1 ? ' rev' : ''}`}
                   href={`/proyecto/${p.slug}`}
                 >
-                  <div className="prow__img reveal-img">
+                  <div className="prow__img">
                     {p.cover ? (
                       <img src={p.cover} alt={p.name} />
                     ) : (

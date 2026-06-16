@@ -15,7 +15,7 @@ const sb = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_
 });
 
 const PALETA = [
-  { name: 'Camel', hex: '#b08a5d' },
+  { name: 'Bronce', hex: '#9c8765' },
   { name: 'Madera', hex: '#8a5d33' },
   { name: 'Piedra', hex: '#a89f90' },
   { name: 'Arena', hex: '#e9ddca' },
