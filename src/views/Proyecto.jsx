@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import useReveals from '../hooks/useReveals';
-import { splitParagraphs } from '../lib/projectShape';
+import { splitParagraphs, isVideo } from '../lib/projectShape';
 
 // Galería ordenada y uniforme, con visor (lightbox) para ampliar las imágenes.
 function Galeria({ items }) {
@@ -55,7 +55,16 @@ function Galeria({ items }) {
           const idx = fotoIdx;
           return (
             <button type="button" className="pj-gal__item" key={i} onClick={() => setOpen(idx)}>
-              <img src={g.img} alt={g.alt} />
+              {isVideo(g.img) ? (
+                <>
+                  <video src={g.img} muted loop playsInline preload="metadata" />
+                  <span className="pj-gal__play">
+                    <Play size={20} />
+                  </span>
+                </>
+              ) : (
+                <img src={g.img} alt={g.alt} />
+              )}
             </button>
           );
         })}
@@ -78,7 +87,17 @@ function Galeria({ items }) {
               <ChevronLeft size={30} />
             </button>
           )}
-          <img src={fotos[open].img} alt={fotos[open].alt} onClick={(e) => e.stopPropagation()} />
+          {isVideo(fotos[open].img) ? (
+            <video
+              src={fotos[open].img}
+              controls
+              autoPlay
+              playsInline
+              onClick={(e) => e.stopPropagation()}
+            />
+          ) : (
+            <img src={fotos[open].img} alt={fotos[open].alt} onClick={(e) => e.stopPropagation()} />
+          )}
           {fotos.length > 1 && (
             <button className="lightbox__btn lightbox__next" aria-label="Siguiente" onClick={next}>
               <ChevronRight size={30} />

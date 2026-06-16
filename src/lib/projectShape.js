@@ -1,6 +1,11 @@
 // Helpers para normalizar proyectos a la forma que esperan las vistas,
 // vengan de Supabase o de los datos de ejemplo locales.
 
+// ¿La URL es un video? (para galerías con foto + video)
+export function isVideo(url) {
+  return /\.(mp4|webm|mov|ogg|ogv|m4v)(\?|$)/i.test(url || '');
+}
+
 // Luminancia → color de texto legible sobre un color de fondo.
 export function paletteFg(hex) {
   const h = (hex || '').replace('#', '');
