@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
@@ -13,7 +14,12 @@ export default function HomeView({ featured = [], servicios = [] }) {
       {/* HERO INMERSIVO */}
       <section className="hero" data-screen-label="Hero">
         <div className="hero__bg">
-          <img src="/assets/img/living.jpg" alt="Interior de vivienda diseñada por Lorena Macías" />
+          <Img
+            src="/assets/img/living.jpg"
+            alt="Proyecto de Lorena Macías"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="hero__in">
           <p className="eyebrow hero__eyebrow">Arquitectura · Interiorismo</p>
@@ -135,7 +141,7 @@ export default function HomeView({ featured = [], servicios = [] }) {
                 <div className="feat__img reveal-img">
                   <span className="feat__idx">{String(i + 1).padStart(2, '0')}</span>
                   {p.cover ? (
-                    <img src={p.cover} alt={p.name} />
+                    <Img src={p.cover} alt={p.name} sizes="(max-width: 980px) 100vw, 50vw" />
                   ) : (
                     <div
                       className="ph"
@@ -282,7 +288,7 @@ export default function HomeView({ featured = [], servicios = [] }) {
 
       {/* CTA FINAL */}
       <section className="section cta-final" data-screen-label="CTA">
-        <img src="/assets/img/terraza.jpg" alt="" />
+        <Img src="/assets/img/terraza.jpg" alt="" sizes="100vw" />
         <div className="wrap">
           <p className="eyebrow light reveal" style={{ marginBottom: 24 }}>
             Tu próximo proyecto

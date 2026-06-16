@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
@@ -73,13 +74,9 @@ export default function Nosotros() {
       {/* IMAGEN ROMPE */}
       <section
         className="reveal-img"
-        style={{ height: 'clamp(340px,54vh,640px)', overflow: 'hidden' }}
+        style={{ position: 'relative', height: 'clamp(340px,54vh,640px)', overflow: 'hidden' }}
       >
-        <img
-          src="/assets/img/proceso.jpg"
-          alt="Proceso de diseño"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+        <Img src="/assets/img/proceso.jpg" alt="Proceso de diseño" sizes="100vw" />
       </section>
 
       {/* TRAYECTORIA */}
@@ -218,7 +215,7 @@ export default function Nosotros() {
 
       {/* CTA */}
       <section className="section cta-final" style={{ textAlign: 'center' }}>
-        <img src="/assets/img/living.jpg" alt="" />
+        <Img src="/assets/img/living.jpg" alt="" sizes="100vw" />
         <div className="wrap">
           <h2
             className="display reveal"

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
@@ -64,7 +65,7 @@ export default function ProyectosView({ projects = [] }) {
                 >
                   <div className="prow__img">
                     {p.cover ? (
-                      <img src={p.cover} alt={p.name} />
+                      <Img src={p.cover} alt={p.name} sizes="(max-width: 880px) 100vw, 50vw" />
                     ) : (
                       <div
                         className="ph"

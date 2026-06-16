@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
@@ -29,7 +30,7 @@ export default function ServiciosView({ servicios = [] }) {
             <article key={i} className={`svc-item reveal${i % 2 === 1 ? ' rev' : ''}`}>
               <div className="svc-item__img reveal-img">
                 {s.imagen ? (
-                  <img src={s.imagen} alt={s.titulo} />
+                  <Img src={s.imagen} alt={s.titulo} sizes="(max-width: 980px) 100vw, 50vw" />
                 ) : (
                   <div className="ph" data-ph={s.titulo}></div>
                 )}

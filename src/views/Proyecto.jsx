@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import Img from '../components/Img';
 import useReveals from '../hooks/useReveals';
 import { splitParagraphs, isVideo } from '../lib/projectShape';
 
@@ -63,7 +64,7 @@ function Galeria({ items }) {
                   </span>
                 </>
               ) : (
-                <img src={g.img} alt={g.alt} />
+                <Img src={g.img} alt={g.alt} sizes="(max-width: 760px) 50vw, 33vw" />
               )}
             </button>
           );
@@ -119,7 +120,7 @@ export default function ProyectoView({ project, next }) {
       {/* HERO */}
       <section className="pj-hero">
         {project.cover ? (
-          <img src={project.cover} alt={project.name} />
+          <Img src={project.cover} alt={project.name} priority sizes="100vw" />
         ) : (
           <div className="ph" data-ph={project.ph} style={{ position: 'absolute', inset: 0 }}></div>
         )}
@@ -290,7 +291,7 @@ export default function ProyectoView({ project, next }) {
       {next && (
         <Link className="nextpj" href={`/proyecto/${next.slug}`}>
           {next.cover ? (
-            <img src={next.cover} alt="" />
+            <Img src={next.cover} alt="" sizes="100vw" />
           ) : (
             <div className="ph" data-ph={next.ph} style={{ position: 'absolute', inset: 0 }}></div>
           )}
