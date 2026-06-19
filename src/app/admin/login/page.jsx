@@ -43,7 +43,8 @@ export default function AdminLoginPage() {
     <div className="admin-login">
       <div className="admin-login__card">
         <div className="admin-login__brand">
-          <img src="/assets/logo-charcoal.png" alt="Lorena Macías" />
+          <img src="/assets/mark-charcoal.png" alt="Lorena Macías" />
+          <h2>Lorena Macías</h2>
           <p>Panel de administración</p>
         </div>
         <form className="ad-form" onSubmit={handleLogin}>

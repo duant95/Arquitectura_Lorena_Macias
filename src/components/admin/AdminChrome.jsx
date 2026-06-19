@@ -11,7 +11,10 @@ export default function AdminChrome({ email }) {
   return (
     <>
       <header className="admin-mobile">
-        <img src="/assets/logo-charcoal.png" alt="Lorena Macías" />
+        <div className="admin-mobile__brand">
+          <img src="/assets/mark-charcoal.png" alt="Lorena Macías" />
+          <span>Lorena Macías</span>
+        </div>
         <button aria-label="Abrir menú" onClick={() => setOpen(true)}>
           <Menu size={22} />
         </button>

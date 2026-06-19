@@ -41,7 +41,10 @@ export default function AdminSidebar({ email, open = false, onClose = () => {} }
       <button className="admin-side__close" aria-label="Cerrar menú" onClick={onClose}>
         <X size={20} />
       </button>
-      <img className="admin-side__logo" src="/assets/logo-charcoal.png" alt="Lorena Macías" />
+      <div className="admin-side__brand">
+        <img src="/assets/mark-charcoal.png" alt="Lorena Macías" />
+        <span>Lorena Macías</span>
+      </div>
       <nav>
         {LINKS.map((l) => {
           const Icon = l.icon;
