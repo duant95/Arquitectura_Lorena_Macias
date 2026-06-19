@@ -533,3 +533,68 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Contenido: pestañas y editor de trayectoria ---------- */
+.ad-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+.ad-tab {
+  border: 1px solid var(--ad-line);
+  background: #fff;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ad-soft);
+  cursor: pointer;
+  transition: 0.15s;
+}
+.ad-tab:hover {
+  color: var(--ad-ink);
+}
+.ad-tab.on {
+  background: var(--ad-green);
+  border-color: var(--ad-green);
+  color: #fff;
+}
+.ad-sep {
+  border: 0;
+  border-top: 1px solid var(--ad-line);
+  margin: 4px 0;
+}
+.ad-card__title {
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+.ad-etapa {
+  border: 1px solid var(--ad-line);
+  border-radius: var(--ad-radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--ad-bg);
+}
+.ad-proy {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.ad-etapa__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+@media (max-width: 640px) {
+  .ad-proy {
+    grid-template-columns: 1fr;
+  }
+}

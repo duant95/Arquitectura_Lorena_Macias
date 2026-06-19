@@ -1052,6 +1052,61 @@ html.intro-playing .hero__meta {
   margin: 0;
   max-width: 580px;
 }
+.tl__row:last-child {
+  border-bottom: 1px solid var(--taupe);
+}
+/* línea de tiempo desplegable */
+.tl__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 16px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--green-ink);
+}
+.tl__toggle svg {
+  transition: transform 0.3s var(--ease);
+}
+.tl__toggle svg.is-open {
+  transform: rotate(180deg);
+}
+.tl__projects {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.tl__projects.open {
+  grid-template-rows: 1fr;
+}
+.tl__projects__in {
+  overflow: hidden;
+}
+.tl__project {
+  padding: 16px 0;
+  border-top: 1px dashed var(--taupe);
+}
+.tl__project:first-child {
+  margin-top: 14px;
+}
+.tl__project h5 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 19px;
+  margin: 0 0 4px;
+}
+.tl__project p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14.5px;
+}
 
 /* pilares */
 .pillars {

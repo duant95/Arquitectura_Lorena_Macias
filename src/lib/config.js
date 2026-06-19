@@ -77,6 +77,112 @@ export async function getSiteConfig() {
   return cfg;
 }
 
+// ---------------------------------------------------------------------------
+// CONTENIDO EDITABLE de las páginas (textos e imágenes), por página.
+// Los textos admiten <em>palabra</em> para resaltar en itálica.
+// ---------------------------------------------------------------------------
+export const CONTENT_DEFAULTS = {
+  // Inicio
+  inicio_hero_imagen: '/assets/img/living.jpg',
+  inicio_hero_eyebrow: 'Arquitectura · Interiorismo',
+  inicio_hero_descripcion:
+    'Proyectos de arquitectura e interiorismo con identidad y propósito. Del edificio al detalle.',
+  inicio_cta_imagen: '/assets/img/terraza.jpg',
+  inicio_cta_titulo: 'Demos vida a tu <em>proyecto</em>.',
+  inicio_cta_descripcion:
+    'Contanos tu idea o el proyecto que imaginás. Nosotros te ayudamos a hacerlo realidad.',
+  // Nosotros
+  nosotros_hero_titulo: 'Diseñar es<br /><em>escuchar</em>.',
+  nosotros_hero_lead:
+    'Soy Lorena Macías, arquitecta y project manager. Más de 25 años liderando proyectos de alta complejidad (edificios, barrios cerrados, residencias, interiorismo y diseño náutico), de principio a fin.',
+  nosotros_retrato_imagen: '',
+  nosotros_proceso_imagen: '/assets/img/proceso.jpg',
+  nosotros_cta_imagen: '/assets/img/living.jpg',
+  nosotros_cita:
+    'Diseño espacios para ser vividos: cuidados en su materialidad, conectados con la luz y fieles a quienes los habitan.',
+};
+
+// Línea de tiempo de Nosotros (cada etapa se despliega y muestra sus proyectos).
+export const TRAYECTORIA_DEFAULT = [
+  {
+    yr: '2001–2019',
+    titulo: 'Gustafson y Asociados · Gerente de Proyectos',
+    descripcion:
+      'Fui pieza clave del área de diseño y proyecto ejecutivo, coordinando equipos de arquitectos, calculistas y especialistas. Ayudé a definir los estándares del mercado residencial premium de altura de Asunción, en edificios de hasta 30 niveles.',
+    proyectos: [
+      {
+        titulo: 'Edificio Altagracia · 30 niveles',
+        descripcion:
+          'Diseño, proyecto ejecutivo y dirección de obra. Unidades premium. (2012–2015)',
+      },
+      {
+        titulo: 'Edificio Casa Vista · 12 niveles',
+        descripcion: 'Diseño, dirección de obra, interiorismo y paisajismo. (2007–2009)',
+      },
+      {
+        titulo: 'Edificio Soleil',
+        descripcion: 'Pionero del segmento residencial de lujo en Asunción. (2004–2005)',
+      },
+      {
+        titulo: 'Edificio Santa Teresa',
+        descripcion: 'Diseño integral, dirección de obra, interiorismo y paisajismo.',
+      },
+    ],
+  },
+  {
+    yr: '2019–presente',
+    titulo: 'Lorena Macías Arquitectura · Directora y Project Manager',
+    descripcion:
+      'Fundo mi estudio y sigo liderando proyectos de gran escala: edificios, barrios cerrados, residencias premium, interiorismo y diseño náutico, coordinando múltiples equipos independientes.',
+    proyectos: [
+      {
+        titulo: 'Barrio Cerrado Pirarenda',
+        descripcion:
+          'Coordinación y Project Management del emprendimiento (12 ha): amenities y 11 viviendas (5 finalizadas).',
+      },
+      {
+        titulo: 'Edificio Carmen Dora · 27 niveles',
+        descripcion: 'Dirección arquitectónica de obra. (2019–2022)',
+      },
+      {
+        titulo: 'Salumax · Project Management',
+        descripcion: 'PM externo; obra finalizada en plazo. (2020–2022)',
+      },
+      { titulo: 'V426 Victory Yachts', descripcion: 'Interiores náuticos. (2026)' },
+    ],
+  },
+  {
+    yr: 'Hoy',
+    titulo: 'Pionera en diseño náutico',
+    descripcion:
+      'Primera arquitecta en Paraguay en diseñar interiores de yates. Mercados activos en Paraguay, Brasil y Uruguay.',
+    proyectos: [],
+  },
+];
+
+// Lee el contenido editable de las páginas (Supabase sobre los valores por defecto).
+export async function getContent() {
+  const c = { ...CONTENT_DEFAULTS, trayectoria: TRAYECTORIA_DEFAULT };
+  if (supabaseEnabled && supabase) {
+    const claves = [...Object.keys(CONTENT_DEFAULTS), 'nosotros_trayectoria'];
+    const { data } = await supabase
+      .from('configuracion')
+      .select('clave, valor')
+      .in('clave', claves);
+    if (data) {
+      for (const row of data) {
+        if (row.valor == null || row.valor === '') continue;
+        if (row.clave === 'nosotros_trayectoria') {
+          c.trayectoria = parseJSON(row.valor, TRAYECTORIA_DEFAULT);
+        } else if (row.clave in c) {
+          c[row.clave] = row.valor;
+        }
+      }
+    }
+  }
+  return c;
+}
+
 function parseJSON(value, fallback) {
   try {
     const parsed = JSON.parse(value);

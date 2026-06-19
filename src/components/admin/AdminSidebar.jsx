@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   FolderOpen,
   Wrench,
+  FileText,
   MessageSquare,
   Settings,
   LogOut,
@@ -17,6 +18,7 @@ const LINKS = [
   { href: '/admin', label: 'Inicio', icon: LayoutDashboard, exact: true },
   { href: '/admin/proyectos', label: 'Proyectos', icon: FolderOpen },
   { href: '/admin/servicios', label: 'Servicios', icon: Wrench },
+  { href: '/admin/contenido', label: 'Contenido', icon: FileText },
   { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquare },
   { href: '/admin/sitio', label: 'Datos del sitio', icon: Settings },
 ];

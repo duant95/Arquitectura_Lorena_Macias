@@ -2,10 +2,11 @@
 
 import Link from 'next/link';
 import Img from '../components/Img';
+import Trayectoria from '../components/Trayectoria';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
-export default function Nosotros() {
+export default function Nosotros({ content = {} }) {
   const { open } = useAgenda();
   useReveals();
 
@@ -22,23 +23,19 @@ export default function Nosotros() {
               <p className="eyebrow" style={{ marginBottom: 24 }}>
                 El estudio
               </p>
-              <h1>
-                Diseñar es
-                <br />
-                <em>escuchar</em>.
-              </h1>
-              <p className="phero__lead">
-                Soy Lorena Macías, arquitecta y project manager. Más de 25 años liderando proyectos
-                de alta complejidad (edificios, barrios cerrados, residencias, interiorismo y diseño
-                náutico), de principio a fin.
-              </p>
+              <h1 dangerouslySetInnerHTML={{ __html: content.nosotros_hero_titulo }} />
+              <p className="phero__lead">{content.nosotros_hero_lead}</p>
             </div>
             <div className="imgblock about-portrait reveal-img reveal d1">
-              <div
-                className="ph"
-                style={{ position: 'absolute', inset: 0 }}
-                data-ph="Retrato de Lorena"
-              ></div>
+              {content.nosotros_retrato_imagen ? (
+                <Img src={content.nosotros_retrato_imagen} alt="Lorena Macías" sizes="40vw" />
+              ) : (
+                <div
+                  className="ph"
+                  style={{ position: 'absolute', inset: 0 }}
+                  data-ph="Retrato de Lorena"
+                ></div>
+              )}
             </div>
           </div>
         </div>
@@ -76,7 +73,7 @@ export default function Nosotros() {
         className="reveal-img"
         style={{ position: 'relative', height: 'clamp(340px,54vh,640px)', overflow: 'hidden' }}
       >
-        <Img src="/assets/img/proceso.jpg" alt="Proceso de diseño" sizes="100vw" />
+        <Img src={content.nosotros_proceso_imagen} alt="Proceso de diseño" sizes="100vw" />
       </section>
 
       {/* TRAYECTORIA */}
@@ -88,52 +85,14 @@ export default function Nosotros() {
               <h2 className="h-xl">25 años de trayectoria</h2>
             </div>
           </div>
-          <div className="tl reveal">
-            <div className="tl__row">
-              <div className="tl__yr">2001–2019</div>
-              <div>
-                <h4>Gustafson y Asociados · Gerente de Proyectos</h4>
-                <p>
-                  Fui pieza clave del área de diseño y proyecto ejecutivo, coordinando equipos de
-                  arquitectos, calculistas y especialistas. Durante casi dos décadas ayudé a definir
-                  los estándares del mercado residencial premium de altura de Asunción, en edificios
-                  de hasta 30 niveles.
-                </p>
-              </div>
-            </div>
-            <div className="tl__row">
-              <div className="tl__yr">2019–presente</div>
-              <div>
-                <h4>Lorena Macías Arquitectura · Directora y Project Manager</h4>
-                <p>
-                  Fundo mi estudio y sigo liderando proyectos de gran escala: edificios, barrios
-                  cerrados, residencias premium, interiorismo y diseño náutico. Project Manager de
-                  proyectos de alta complejidad, coordinando múltiples equipos independientes.
-                </p>
-              </div>
-            </div>
-            <div className="tl__row" style={{ borderBottom: '1px solid var(--taupe)' }}>
-              <div className="tl__yr">Hoy</div>
-              <div>
-                <h4>Pionera en diseño náutico</h4>
-                <p>
-                  Primera arquitecta en Paraguay en diseñar interiores de yates. Hoy combino
-                  arquitectura, interiorismo y gestión, con mercados activos en Paraguay, Brasil y
-                  Uruguay.
-                </p>
-              </div>
-            </div>
-          </div>
+          <Trayectoria items={content.trayectoria || []} />
         </div>
       </section>
 
       {/* CITA */}
       <section className="section quote-band">
         <div className="wrap reveal">
-          <p className="q">
-            “Diseño espacios para ser vividos: cuidados en su materialidad, conectados con la luz y
-            fieles a quienes los habitan.”
-          </p>
+          <p className="q">“{content.nosotros_cita}”</p>
           <p className="sign" style={{ marginTop: 36 }}>
             Lorena Macías
           </p>
@@ -215,7 +174,7 @@ export default function Nosotros() {
 
       {/* CTA */}
       <section className="section cta-final" style={{ textAlign: 'center' }}>
-        <Img src="/assets/img/living.jpg" alt="" sizes="100vw" />
+        <Img src={content.nosotros_cta_imagen} alt="" sizes="100vw" />
         <div className="wrap">
           <h2
             className="display reveal"

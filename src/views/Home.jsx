@@ -5,7 +5,7 @@ import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 
-export default function HomeView({ featured = [], servicios = [] }) {
+export default function HomeView({ featured = [], servicios = [], content = {} }) {
   const { open } = useAgenda();
   useReveals();
 
@@ -15,14 +15,14 @@ export default function HomeView({ featured = [], servicios = [] }) {
       <section className="hero" data-screen-label="Hero">
         <div className="hero__bg">
           <Img
-            src="/assets/img/living.jpg"
+            src={content.inicio_hero_imagen}
             alt="Proyecto de Lorena Macías"
             priority
             sizes="100vw"
           />
         </div>
         <div className="hero__in">
-          <p className="eyebrow hero__eyebrow">Arquitectura · Interiorismo</p>
+          <p className="eyebrow hero__eyebrow">{content.inicio_hero_eyebrow}</p>
           <h1 className="hero__title">
             <span className="ln">
               <span>Arquitectura</span>
@@ -35,10 +35,7 @@ export default function HomeView({ featured = [], servicios = [] }) {
           </h1>
           <div className="hero__sub">
             <div>
-              <p style={{ marginBottom: 26 }}>
-                Proyectos de arquitectura e interiorismo con identidad y propósito. Del edificio al
-                detalle.
-              </p>
+              <p style={{ marginBottom: 26 }}>{content.inicio_hero_descripcion}</p>
               <div className="hero__cta">
                 <Link className="btn btn--light" href="/proyectos">
                   Ver proyectos <span className="arr">→</span>
@@ -288,7 +285,7 @@ export default function HomeView({ featured = [], servicios = [] }) {
 
       {/* CTA FINAL */}
       <section className="section cta-final" data-screen-label="CTA">
-        <Img src="/assets/img/terraza.jpg" alt="" sizes="100vw" />
+        <Img src={content.inicio_cta_imagen} alt="" sizes="100vw" />
         <div className="wrap">
           <p className="eyebrow light reveal" style={{ marginBottom: 24 }}>
             Tu próximo proyecto
@@ -296,16 +293,13 @@ export default function HomeView({ featured = [], servicios = [] }) {
           <h2
             className="display reveal d1"
             style={{ fontSize: 'clamp(38px,5.7vw,92px)', marginBottom: 32 }}
-          >
-            Demos vida a tu
-            <br />
-            <em>proyecto</em>.
-          </h2>
+            dangerouslySetInnerHTML={{ __html: content.inicio_cta_titulo }}
+          />
           <p
             className="lead reveal d2"
             style={{ color: 'rgba(246,242,233,.85)', maxWidth: 580, margin: '0 auto 42px' }}
           >
-            Contanos tu idea o el proyecto que imaginás. Nosotros te ayudamos a hacerlo realidad.
+            {content.inicio_cta_descripcion}
           </p>
           <div
             className="reveal d3"
