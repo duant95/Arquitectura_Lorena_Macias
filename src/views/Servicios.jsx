@@ -14,7 +14,7 @@ export default function ServiciosView({ servicios = [] }) {
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> — Servicios
+            <Link href="/">Inicio</Link> / Servicios
           </div>
           <h1>Servicios</h1>
           <p className="phero__lead">

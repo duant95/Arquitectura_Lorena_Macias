@@ -27,7 +27,7 @@ export default function ProyectosView({ projects = [] }) {
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> — Proyectos
+            <Link href="/">Inicio</Link> / Proyectos
           </div>
           <h1>Proyectos</h1>
           <p className="phero__lead">

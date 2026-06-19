@@ -50,7 +50,7 @@ export default function HomeView({ featured = [], servicios = [] }) {
             </div>
             <div className="hero__meta">
               <span>+200 proyectos</span>
-              <span>2001 — presente</span>
+              <span>2001–presente</span>
               <span>Arq. + Interiorismo</span>
             </div>
           </div>
@@ -92,22 +92,22 @@ export default function HomeView({ featured = [], servicios = [] }) {
                 Más de dos décadas dando forma al espacio.
               </h2>
               <p className="lead" style={{ color: 'var(--ink)', maxWidth: 560 }}>
-                Con más de <b style={{ fontWeight: 400 }}>dos décadas</b> de trayectoria —de
-                edificios y barrios cerrados al interiorismo— Lorena funda en 2019 su estudio de
+                Con más de <b style={{ fontWeight: 400 }}>dos décadas</b> de trayectoria, de los
+                edificios y barrios cerrados al interiorismo, Lorena funda en 2019 su estudio de
                 autor: arquitectura e interiores con identidad, calidez y propósito.
               </p>
               <p style={{ color: 'var(--ink-soft)', maxWidth: 540 }}>
                 Del proyecto de gran envergadura al detalle más íntimo de un interior, su mirada une
-                rigor técnico y sensibilidad — atenta siempre a la luz, los materiales y la forma de
+                rigor técnico y sensibilidad, atenta siempre a la luz, los materiales y la forma de
                 habitar de cada cliente.
               </p>
               <div className="story__mini">
                 <div>
-                  <div className="yr">2001 — 2019</div>
+                  <div className="yr">2001–2019</div>
                   <div className="lb">Trayectoria en arquitectura y obra</div>
                 </div>
                 <div>
-                  <div className="yr">2019 — presente</div>
+                  <div className="yr">2019–presente</div>
                   <div className="lb">Estudio independiente de autor</div>
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function HomeView({ featured = [], servicios = [] }) {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="sec-head__l">
-              <span className="num">01 — Proyectos</span>
+              <span className="num">01 · Proyectos</span>
               <h2 className="h-xl">Proyectos seleccionados</h2>
             </div>
             <Link className="link-arrow" href="/proyectos">
@@ -184,14 +184,14 @@ export default function HomeView({ featured = [], servicios = [] }) {
           <div className="matr__head reveal">
             <div>
               <p className="eyebrow" style={{ marginBottom: 18 }}>
-                02 — Materialidad
+                02 · Materialidad
               </p>
               <h2 className="h-lg" style={{ maxWidth: '14ch' }}>
                 Texturas y ambientes que se sienten
               </h2>
             </div>
             <p style={{ maxWidth: 400, color: 'var(--ink-soft)', margin: 0 }}>
-              Trabajamos con materiales nobles — madera, piedra, cuero, hormigón y verde — para
+              Trabajamos con materiales nobles (madera, piedra, cuero, hormigón y verde) para
               componer atmósferas que envejecen con belleza.
             </p>
           </div>
@@ -225,7 +225,7 @@ export default function HomeView({ featured = [], servicios = [] }) {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="sec-head__l">
-              <span className="num">03 — Servicios</span>
+              <span className="num">03 · Servicios</span>
               <h2 className="h-xl">
                 Cómo acompañamos
                 <br />
@@ -255,7 +255,7 @@ export default function HomeView({ featured = [], servicios = [] }) {
           <div className="tray__grid">
             <div className="reveal">
               <p className="eyebrow" style={{ marginBottom: 24 }}>
-                04 — Trayectoria
+                04 · Trayectoria
               </p>
               <blockquote className="tray__quote" style={{ margin: '0 0 38px' }}>
                 “Más de dos décadas dando forma a espacios con identidad y propósito.”

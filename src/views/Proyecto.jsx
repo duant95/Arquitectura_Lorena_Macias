@@ -138,7 +138,7 @@ export default function ProyectoView({ project, next }) {
             <Link href="/proyectos" style={{ color: 'var(--sage)' }}>
               Proyectos
             </Link>{' '}
-            — {project.name}
+            / {project.name}
           </div>
           <div className="pj-hero__cat">{project.catLabel}</div>
           <h1>{project.name}</h1>

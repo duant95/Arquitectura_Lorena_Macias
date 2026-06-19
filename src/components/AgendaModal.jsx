@@ -79,7 +79,7 @@ export default function AgendaModal() {
               tu proyecto
             </h3>
             <p style={{ color: 'var(--sage-soft)', fontSize: 15, lineHeight: 1.6 }}>
-              Sin compromiso — una primera charla para entender tu visión y cómo podemos ayudarte.
+              Sin compromiso: una primera charla para entender tu visión y cómo podemos ayudarte.
             </p>
           </div>
           <div style={{ fontSize: 13, color: 'var(--sage-soft)', letterSpacing: '.04em' }}>

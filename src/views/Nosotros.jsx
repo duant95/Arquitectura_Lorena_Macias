@@ -15,7 +15,7 @@ export default function Nosotros() {
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> — Nosotros
+            <Link href="/">Inicio</Link> / Nosotros
           </div>
           <div className="about-hero">
             <div className="reveal">
@@ -29,8 +29,8 @@ export default function Nosotros() {
               </h1>
               <p className="phero__lead">
                 Soy Lorena Macías, arquitecta y project manager. Más de 25 años liderando proyectos
-                de alta complejidad —edificios, barrios cerrados, residencias, interiorismo y diseño
-                náutico— de principio a fin.
+                de alta complejidad (edificios, barrios cerrados, residencias, interiorismo y diseño
+                náutico), de principio a fin.
               </p>
             </div>
             <div className="imgblock about-portrait reveal-img reveal d1">
@@ -90,7 +90,7 @@ export default function Nosotros() {
           </div>
           <div className="tl reveal">
             <div className="tl__row">
-              <div className="tl__yr">2001 — 2019</div>
+              <div className="tl__yr">2001–2019</div>
               <div>
                 <h4>Gustafson y Asociados · Gerente de Proyectos</h4>
                 <p>
@@ -102,7 +102,7 @@ export default function Nosotros() {
               </div>
             </div>
             <div className="tl__row">
-              <div className="tl__yr">2019 — presente</div>
+              <div className="tl__yr">2019–presente</div>
               <div>
                 <h4>Lorena Macías Arquitectura · Directora y Project Manager</h4>
                 <p>
