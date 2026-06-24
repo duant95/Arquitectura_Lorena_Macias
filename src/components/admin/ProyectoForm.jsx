@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star, Play } from 'lucide-react';
-import { isVideo } from '@/lib/projectShape';
+import { isVideo, inferEtapa } from '@/lib/projectShape';
 
 function slugify(s) {
   return (s || '')
@@ -160,7 +160,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
     superficie: proyecto?.superficie ?? '',
     ubicacion: proyecto?.ubicacion ?? '',
     servicios: proyecto?.servicios ?? '',
-    etapa: proyecto?.etapa ?? 'propio',
+    etapa: proyecto?.etapa ?? (proyecto?.anio ? inferEtapa(proyecto.anio) : 'propio'),
     destacado: proyecto?.destacado ?? false,
     orden: proyecto?.orden ?? 99,
   });

@@ -17,7 +17,7 @@ create table if not exists proyectos (
   superficie      text,
   ubicacion       text,
   servicios       text,
-  etapa           text default 'propio', -- etapa de carrera: 'propio' (estudio propio 2019+) | 'gustafson' (colaboración 2001-2019)
+  etapa           text,                 -- etapa de carrera: 'propio' | 'gustafson'. Si es null, se infiere por el año.
   imagen_portada  text,
   galeria         jsonb default '[]'::jsonb,  -- [{ "url": "...", "alt": "..." }]
   planos          jsonb default '[]'::jsonb,  -- planos 2D: [{ "url": "...", "alt": "..." }]
@@ -30,8 +30,13 @@ create table if not exists proyectos (
 
 create index if not exists proyectos_orden_idx on proyectos (orden, created_at desc);
 
--- Migración para bases ya existentes (agrega la columna si falta):
-alter table proyectos add column if not exists etapa text default 'propio';
+-- Migración para bases ya existentes (agrega la columna si falta, SIN default):
+alter table proyectos add column if not exists etapa text;
+
+-- Si antes se agregó la columna con default 'propio' (rellenó todas las filas),
+-- corregir para que la división por etapa vuelva a inferirse por año:
+alter table proyectos alter column etapa drop default;
+update proyectos set etapa = null where etapa = 'propio';
 
 -- ---------- MENSAJES (Contacto + Agenda) ----------
 create table if not exists mensajes (
