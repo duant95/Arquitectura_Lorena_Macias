@@ -2,7 +2,7 @@
 // (/admin/sitio) y se inyectan vía ConfigContext.
 export const NAV = [
   { label: 'Inicio', href: '/' },
-  { label: 'Nosotros', href: '/nosotros' },
+  { label: 'Sobre mí', href: '/sobre-mi' },
   { label: 'Proyectos', href: '/proyectos' },
   { label: 'Servicios', href: '/servicios' },
   { label: 'Contacto', href: '/contacto' },

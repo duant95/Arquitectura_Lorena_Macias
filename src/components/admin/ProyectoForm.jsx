@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star, Play } from 'lucide-react';
-import { isVideo } from '@/lib/projectShape';
+import { isVideo, inferEtapa } from '@/lib/projectShape';
 
 function slugify(s) {
   return (s || '')
@@ -160,6 +160,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
     superficie: proyecto?.superficie ?? '',
     ubicacion: proyecto?.ubicacion ?? '',
     servicios: proyecto?.servicios ?? '',
+    etapa: proyecto?.etapa ?? (proyecto?.anio ? inferEtapa(proyecto.anio) : 'propio'),
     destacado: proyecto?.destacado ?? false,
     orden: proyecto?.orden ?? 99,
   });
@@ -339,6 +340,21 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
               placeholder="Arq. + Interiores"
             />
           </div>
+        </div>
+        <div className="ad-field">
+          <label>Etapa</label>
+          <select
+            className="ad-input"
+            value={form.etapa}
+            onChange={(e) => set('etapa', e.target.value)}
+          >
+            <option value="propio">Estudio propio (2019 – presente)</option>
+            <option value="gustafson">Colaboración · Gustafson y Asociados (2001 – 2019)</option>
+          </select>
+          <p className="ad-hint">
+            En la etapa Gustafson la obra figura como colaboración (la propiedad intelectual no es del
+            estudio). Si lo dejás vacío, se ubica según el año.
+          </p>
         </div>
         <div className="ad-row-2">
           <div className="ad-field">

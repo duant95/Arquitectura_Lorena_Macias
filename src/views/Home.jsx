@@ -1,325 +1,185 @@
 'use client';
 
 import Link from 'next/link';
-import Img from '../components/Img';
+import { motion } from 'framer-motion';
 import { useAgenda } from '../context/AgendaContext';
-import useReveals from '../hooks/useReveals';
+import { Parallax, Reveal, LineReveal, Magnetic, EASE } from '../components/fx/Motion';
 
-export default function HomeView({ featured = [], servicios = [] }) {
+// Texto editable con saltos de línea (\n) y <em> → líneas para el reveal.
+function toLines(text) {
+  return String(text || '')
+    .split('\n')
+    .filter((l) => l.trim() !== '')
+    .map((l, i) => <span key={i} dangerouslySetInnerHTML={{ __html: l }} />);
+}
+
+export default function HomeView({ servicios = [], content = {} }) {
   const { open } = useAgenda();
-  useReveals();
+  const showcase = content.showcase || [];
+  const stats = content.stats || [];
 
   return (
-    <>
-      {/* HERO INMERSIVO */}
-      <section className="hero" data-screen-label="Hero">
-        <div className="hero__bg">
-          <Img
-            src="/assets/img/living.jpg"
-            alt="Proyecto de Lorena Macías"
-            priority
-            sizes="100vw"
-          />
-        </div>
-        <div className="hero__in">
-          <p className="eyebrow hero__eyebrow">Arquitectura · Interiorismo</p>
-          <h1 className="hero__title">
-            <span className="ln">
-              <span>Arquitectura</span>
-            </span>
-            <span className="ln">
-              <span>
-                que <em>respira</em>.
-              </span>
-            </span>
+    <div className="hm">
+      {/* ===================== HERO ===================== */}
+      <section className="hm-hero" data-screen-label="Hero">
+        <Parallax className="hm-hero__media" src={content.inicio_hero_imagen} strength={10} priority />
+        <div className="hm-hero__in">
+          <motion.p
+            className="hm-eyebrow"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: 0.45 }}
+          >
+            {content.inicio_hero_eyebrow}
+          </motion.p>
+
+          <h1 className="hm-hero__title">
+            <LineReveal lines={toLines(content.inicio_hero_titulo)} delay={0.25} />
           </h1>
-          <div className="hero__sub">
-            <div>
-              <p style={{ marginBottom: 26 }}>
-                Proyectos de arquitectura e interiorismo con identidad y propósito. Del edificio al
-                detalle.
-              </p>
-              <div className="hero__cta">
-                <Link className="btn btn--light" href="/proyectos">
-                  Ver proyectos <span className="arr">→</span>
+
+          <motion.div
+            className="hm-hero__foot"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: 0.85 }}
+          >
+            <p className="hm-hero__lead">{content.inicio_hero_descripcion}</p>
+            <div className="hm-hero__cta">
+              <Link className="btn btn--light" href="/proyectos">
+                Ver proyectos <span className="arr">→</span>
+              </Link>
+              <button className="btn btn--ghost-light" onClick={open}>
+                Solicitar reunión
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          className="hm-scrollcue"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.3 }}
+        >
+          Scroll
+        </motion.div>
+      </section>
+
+      {/* ===================== MANIFIESTO ===================== */}
+      <section className="hm-statement">
+        <div className="wrap">
+          <Reveal>
+            <p className="hm-statement__eyebrow">Filosofía</p>
+          </Reveal>
+          <h2 className="hm-statement__text">
+            <LineReveal lines={toLines(content.inicio_manifiesto)} stagger={0.1} />
+          </h2>
+        </div>
+      </section>
+
+      {/* ===================== PROYECTOS (full-bleed, showcase editable) ===================== */}
+      <div className="hm-projects" data-screen-label="Proyectos">
+        {showcase.map((p, i) => (
+          <section className="hm-proj" key={i}>
+            <Parallax
+              className="hm-proj__media"
+              src={p.imagen || content.inicio_hero_imagen}
+              alt={p.titulo}
+              strength={16}
+            />
+            <div className="hm-proj__in wrap">
+              <Reveal y={56}>
+                <span className="hm-proj__idx">{String(i + 1).padStart(2, '0')}</span>
+                {p.categoria && <p className="hm-proj__cat">{p.categoria}</p>}
+                <h3 className="hm-proj__name">{p.titulo}</h3>
+                <Link
+                  className="hm-proj__link"
+                  href={p.slug ? `/proyecto/${p.slug}` : '/proyectos'}
+                >
+                  Ver proyecto <span className="arr">→</span>
                 </Link>
-                <button className="btn btn--ghost-light" onClick={open}>
-                  Solicitar reunión
-                </button>
-              </div>
+              </Reveal>
             </div>
-            <div className="hero__meta">
-              <span>+200 proyectos</span>
-              <span>2001 — presente</span>
-              <span>Arq. + Interiorismo</span>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        ))}
+      </div>
 
-      {/* MANIFIESTO */}
-      <section className="section" style={{ background: 'var(--paper)' }}>
+      <section className="hm-allprojects">
         <div className="wrap">
-          <div className="manifesto reveal">
-            <p className="eyebrow" style={{ marginBottom: 30 }}>
-              Nuestra filosofía
-            </p>
-            <p className="q">
-              Creemos en una arquitectura que escucha el <span className="hl">lugar</span>, abraza
-              la luz natural y se construye para <span className="hl">vivirse</span>, no solo para
-              mirarse.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* HISTORIA / SOBRE LORENA */}
-      <section className="section story" data-screen-label="Historia">
-        <div className="wrap">
-          <div className="story__grid">
-            <div className="story__portrait reveal-img reveal">
-              <div className="ph" data-ph="Retrato de Lorena"></div>
-              <div className="story__tag">
-                <b>Lorena Macías</b>
-                <span>Arquitecta · Fundadora</span>
-              </div>
-            </div>
-            <div className="reveal d1">
-              <p className="eyebrow" style={{ marginBottom: 24 }}>
-                La arquitecta
-              </p>
-              <h2 className="h-xl" style={{ marginBottom: 30, maxWidth: '15ch' }}>
-                Más de dos décadas dando forma al espacio.
-              </h2>
-              <p className="lead" style={{ color: 'var(--ink)', maxWidth: 560 }}>
-                Con más de <b style={{ fontWeight: 400 }}>dos décadas</b> de trayectoria —de
-                edificios y barrios cerrados al interiorismo— Lorena funda en 2019 su estudio de
-                autor: arquitectura e interiores con identidad, calidez y propósito.
-              </p>
-              <p style={{ color: 'var(--ink-soft)', maxWidth: 540 }}>
-                Del proyecto de gran envergadura al detalle más íntimo de un interior, su mirada une
-                rigor técnico y sensibilidad — atenta siempre a la luz, los materiales y la forma de
-                habitar de cada cliente.
-              </p>
-              <div className="story__mini">
-                <div>
-                  <div className="yr">2001 — 2019</div>
-                  <div className="lb">Trayectoria en arquitectura y obra</div>
-                </div>
-                <div>
-                  <div className="yr">2019 — presente</div>
-                  <div className="lb">Estudio independiente de autor</div>
-                </div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 28, flexWrap: 'wrap' }}>
-                <span className="sign">Lorena Macías</span>
-                <Link className="link-arrow" href="/nosotros">
-                  Conocé su trayectoria <span className="arr">→</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* PROYECTOS DESTACADOS */}
-      <section className="section" data-screen-label="Proyectos destacados">
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div className="sec-head__l">
-              <span className="num">01 — Proyectos</span>
-              <h2 className="h-xl">Proyectos seleccionados</h2>
-            </div>
+          <Reveal>
             <Link className="link-arrow" href="/proyectos">
               Ver todos los proyectos <span className="arr">→</span>
             </Link>
-          </div>
+          </Reveal>
+        </div>
+      </section>
 
-          <div className="feat">
-            {featured.map((p, i) => (
-              <article key={p.slug} className={`feat__item reveal${i === 1 ? ' rev' : ''}`}>
-                <div className="feat__img reveal-img">
-                  <span className="feat__idx">{String(i + 1).padStart(2, '0')}</span>
-                  {p.cover ? (
-                    <Img src={p.cover} alt={p.name} sizes="(max-width: 980px) 100vw, 50vw" />
-                  ) : (
-                    <div
-                      className="ph"
-                      data-ph={p.ph}
-                      style={{ position: 'absolute', inset: 0 }}
-                    ></div>
-                  )}
-                </div>
-                <div>
-                  <div className="feat__cat">{p.catLabel}</div>
-                  <h3 className="feat__name">{p.name}</h3>
-                  <p className="feat__desc" dangerouslySetInnerHTML={{ __html: p.leadParagraph }} />
-                  <div className="feat__spec">
-                    <div>
-                      <span className="micro">Año</span>
-                      <b>{p.year}</b>
-                    </div>
-                    <div>
-                      <span className="micro">Superficie</span>
-                      <b>{p.area}</b>
-                    </div>
-                    <div>
-                      <span className="micro">Ubicación</span>
-                      <b>{p.location}</b>
-                    </div>
-                  </div>
-                  <Link className="link-arrow" href={`/proyecto/${p.slug}`}>
-                    Ver proyecto <span className="arr">→</span>
-                  </Link>
-                </div>
-              </article>
+      {/* ===================== CIFRAS ===================== */}
+      <section className="hm-stats">
+        <div className="wrap">
+          <div className="hm-stats__grid">
+            {stats.map((s, i) => (
+              <Reveal className="hm-stat" key={i} delay={i * 0.09}>
+                <div className="hm-stat__n">{s.n}</div>
+                <div className="hm-stat__l">{s.l}</div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* MATERIALIDAD */}
-      <section className="section matr" data-screen-label="Materialidad">
+      {/* ===================== SERVICIOS ===================== */}
+      <section className="hm-services" data-screen-label="Servicios">
         <div className="wrap">
-          <div className="matr__head reveal">
-            <div>
-              <p className="eyebrow" style={{ marginBottom: 18 }}>
-                02 — Materialidad
-              </p>
-              <h2 className="h-lg" style={{ maxWidth: '14ch' }}>
-                Texturas y ambientes que se sienten
-              </h2>
-            </div>
-            <p style={{ maxWidth: 400, color: 'var(--ink-soft)', margin: 0 }}>
-              Trabajamos con materiales nobles — madera, piedra, cuero, hormigón y verde — para
-              componer atmósferas que envejecen con belleza.
-            </p>
-          </div>
-          <div className="matr__grid reveal d1">
-            <div className="matr__cell">
-              <img src="/assets/tex/maderatex.jpg" alt="Madera" />
-              <span>Madera</span>
-            </div>
-            <div className="matr__cell">
-              <img src="/assets/tex/cuero.jpg" alt="Cuero" />
-              <span>Cuero</span>
-            </div>
-            <div className="matr__cell">
-              <img src="/assets/tex/hormigon.jpg" alt="Hormigón" />
-              <span>Hormigón</span>
-            </div>
-            <div className="matr__cell">
-              <img src="/assets/tex/piedra.jpg" alt="Piedra" />
-              <span>Piedra</span>
-            </div>
-            <div className="matr__cell">
-              <img src="/assets/tex/pasto.jpg" alt="Verde" />
-              <span>Paisaje</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICIOS */}
-      <section className="section" data-screen-label="Servicios">
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div className="sec-head__l">
-              <span className="num">03 — Servicios</span>
-              <h2 className="h-xl">
+          <div className="hm-services__head">
+            <Reveal>
+              <p className="hm-eyebrow hm-eyebrow--dark">Servicios</p>
+              <h2 className="hm-services__title">
                 Cómo acompañamos
                 <br />
-                tu proyecto
+                tu <em>proyecto</em>.
               </h2>
-            </div>
-            <Link className="link-arrow" href="/servicios">
-              Conocer servicios <span className="arr">→</span>
-            </Link>
-          </div>
-          <div className="svc-list reveal">
-            {servicios.map((s, i) => (
-              <Link className="svc-row" href="/servicios" key={i}>
-                <span className="num">{String(i + 1).padStart(2, '0')}</span>
-                <h4>{s.titulo}</h4>
-                <p>{s.descripcion}</p>
-                <span className="go">→</span>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <Link className="link-arrow" href="/servicios">
+                Conocer servicios <span className="arr">→</span>
               </Link>
+            </Reveal>
+          </div>
+          <div className="hm-services__list">
+            {servicios.map((s, i) => (
+              <Reveal key={i} delay={Math.min(i, 3) * 0.06}>
+                <Link className="hm-srv" href="/servicios">
+                  <span className="hm-srv__n">{String(i + 1).padStart(2, '0')}</span>
+                  <h4 className="hm-srv__name">{s.titulo}</h4>
+                  <p className="hm-srv__desc">{s.descripcion}</p>
+                  <span className="hm-srv__go">→</span>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* TRAYECTORIA */}
-      <section className="section tray" data-screen-label="Trayectoria">
-        <div className="wrap">
-          <div className="tray__grid">
-            <div className="reveal">
-              <p className="eyebrow" style={{ marginBottom: 24 }}>
-                04 — Trayectoria
-              </p>
-              <blockquote className="tray__quote" style={{ margin: '0 0 38px' }}>
-                “Más de dos décadas dando forma a espacios con identidad y propósito.”
-              </blockquote>
-              <Link className="btn" href="/nosotros">
-                Conocé a Lorena <span className="arr">→</span>
-              </Link>
-            </div>
-            <div className="stats reveal d1">
-              <div className="stat">
-                <div className="n">25</div>
-                <div className="l">años de trayectoria profesional</div>
-              </div>
-              <div className="stat">
-                <div className="n">7</div>
-                <div className="l">años de estudio independiente</div>
-              </div>
-              <div className="stat">
-                <div className="n">+200</div>
-                <div className="l">proyectos realizados</div>
-              </div>
-              <div className="stat">
-                <div className="n">100%</div>
-                <div className="l">diseño personalizado y a medida</div>
-              </div>
-            </div>
-          </div>
+      {/* ===================== CTA FINAL ===================== */}
+      <section className="hm-cta" data-screen-label="CTA">
+        <Parallax className="hm-cta__media" src={content.inicio_cta_imagen} strength={12} />
+        <div className="hm-cta__in">
+          <Reveal>
+            <p className="hm-eyebrow">Tu próximo proyecto</p>
+            <h2
+              className="hm-cta__title"
+              dangerouslySetInnerHTML={{ __html: content.inicio_cta_titulo }}
+            />
+            <p className="hm-cta__lead">{content.inicio_cta_descripcion}</p>
+            <Magnetic>
+              <button className="btn btn--light hm-cta__btn" onClick={open}>
+                Solicitar reunión <span className="arr">→</span>
+              </button>
+            </Magnetic>
+          </Reveal>
         </div>
       </section>
-
-      {/* CTA FINAL */}
-      <section className="section cta-final" data-screen-label="CTA">
-        <Img src="/assets/img/terraza.jpg" alt="" sizes="100vw" />
-        <div className="wrap">
-          <p className="eyebrow light reveal" style={{ marginBottom: 24 }}>
-            Tu próximo proyecto
-          </p>
-          <h2
-            className="display reveal d1"
-            style={{ fontSize: 'clamp(38px,5.7vw,92px)', marginBottom: 32 }}
-          >
-            Demos vida a tu
-            <br />
-            <em>proyecto</em>.
-          </h2>
-          <p
-            className="lead reveal d2"
-            style={{ color: 'rgba(246,242,233,.85)', maxWidth: 580, margin: '0 auto 42px' }}
-          >
-            Contanos tu idea o el proyecto que imaginás. Nosotros te ayudamos a hacerlo realidad.
-          </p>
-          <div
-            className="reveal d3"
-            style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}
-          >
-            <button className="btn btn--light" onClick={open}>
-              Solicitar reunión <span className="arr">→</span>
-            </button>
-            <Link className="btn btn--ghost-light" href="/contacto">
-              Contacto
-            </Link>
-          </div>
-        </div>
-      </section>
-    </>
+    </div>
   );
 }

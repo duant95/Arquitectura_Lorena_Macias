@@ -52,7 +52,7 @@ export default function Contacto() {
       <section className="phero phero--soft">
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> — Contacto
+            <Link href="/">Inicio</Link> / Contacto
           </div>
           <h1>
             Conversemos

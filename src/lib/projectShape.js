@@ -50,6 +50,15 @@ export function projectYear(anio) {
   return years.length ? Math.max(...years) : 0;
 }
 
+// Etapa de carrera del proyecto. Si no está definida explícitamente, se infiere
+// por el año: 2019 en adelante = estudio propio; antes = etapa Gustafson.
+// 'gustafson' implica colaboración (la propiedad intelectual no es del estudio).
+export function inferEtapa(anio, explicit) {
+  const e = String(explicit || '').toLowerCase();
+  if (e === 'propio' || e === 'gustafson') return e;
+  return projectYear(anio) >= 2019 ? 'propio' : 'gustafson';
+}
+
 // Texto multilínea → array de párrafos (cada salto de línea = párrafo).
 export function splitParagraphs(text) {
   if (!text) return [];
@@ -96,6 +105,7 @@ export function normalizeRow(row, index = 0) {
     area: row.superficie || '—',
     location: row.ubicacion || '—',
     services: row.servicios || '—',
+    etapa: inferEtapa(row.anio, row.etapa),
     heroTitle: row.resumen || row.titulo,
     leadParagraph: paragraphs[0] || '',
     bodyParagraphs: paragraphs.slice(1),
@@ -130,6 +140,7 @@ export function normalizeLocal(p) {
     area: p.area,
     location: p.location,
     services: p.services,
+    etapa: inferEtapa(p.year, p.etapa),
     heroTitle: p.heroTitle,
     leadParagraph: p.intro || '',
     bodyParagraphs: p.body ? [p.body] : [],

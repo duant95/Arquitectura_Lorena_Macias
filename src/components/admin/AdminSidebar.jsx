@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   FolderOpen,
   Wrench,
+  FileText,
   MessageSquare,
   Settings,
   LogOut,
@@ -17,6 +18,7 @@ const LINKS = [
   { href: '/admin', label: 'Inicio', icon: LayoutDashboard, exact: true },
   { href: '/admin/proyectos', label: 'Proyectos', icon: FolderOpen },
   { href: '/admin/servicios', label: 'Servicios', icon: Wrench },
+  { href: '/admin/contenido', label: 'Contenido', icon: FileText },
   { href: '/admin/mensajes', label: 'Mensajes', icon: MessageSquare },
   { href: '/admin/sitio', label: 'Datos del sitio', icon: Settings },
 ];
@@ -39,7 +41,10 @@ export default function AdminSidebar({ email, open = false, onClose = () => {} }
       <button className="admin-side__close" aria-label="Cerrar menú" onClick={onClose}>
         <X size={20} />
       </button>
-      <img className="admin-side__logo" src="/assets/logo-charcoal.png" alt="Lorena Macías" />
+      <div className="admin-side__brand">
+        <img src="/assets/mark-charcoal.png" alt="Lorena Macías" />
+        <span>Lorena Macías</span>
+      </div>
       <nav>
         {LINKS.map((l) => {
           const Icon = l.icon;

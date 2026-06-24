@@ -17,13 +17,13 @@
 }
 
 :root {
-  /* ---- fondos cálidos (luminosos) ---- */
-  --paper: #f7f4ed; /* marfil principal */
-  --paper-2: #f0eadf; /* arena suave (secciones alternas) */
-  --sand: #e9ddca; /* beige cálido (bandas) */
-  --clay: #e0d2bc; /* beige profundo (acento puntual) */
+  /* ---- fondos cálidos (luminosos) — paleta beige sofisticada ---- */
+  --paper: #f5f1e8; /* crema principal */
+  --paper-2: #ece5d8; /* arena suave (secciones alternas) */
+  --sand: #e3d9c6; /* beige cálido (bandas) */
+  --clay: #dccdb4; /* beige profundo (acento puntual) */
   --cream: #f6f2e9; /* texto claro sobre footer/imágenes */
-  --green-wash: #efe7d7; /* banda elegante — BEIGE cálido (antes verde menta) */
+  --green-wash: #ece4d4; /* banda elegante — beige cálido */
 
   /* ---- verde musgo (intacto, como estaba en el diseño) ---- */
   --green: #7d9472; /* musgo medio (bandas, botones grandes) */
@@ -39,16 +39,16 @@
   --sienna: #8a5d33;
   --taupe: #a89f90;
   --stone: #867d6e;
-  --footer: #3f3c36; /* gris cálido — ÚNICA zona oscura (solo footer) */
-  --ink: #2f2c26; /* texto: casi negro cálido (no negro puro) */
-  --ink-soft: #6b6457; /* texto secundario */
+  --footer: #2e2924; /* marrón muy oscuro — zonas oscuras (poco negro) */
+  --ink: #2b2722; /* texto: negro cálido suave (no negro puro) */
+  --ink-soft: #6e665a; /* texto secundario */
 
   /* compatibilidad (tokens antiguos remapeados) */
   --olive: #5f7556;
   --olive-deep: #506248;
   --sage-soft: #e8dcc6;
-  --charcoal: #3f3c36;
-  --charcoal-2: #4a473f;
+  --charcoal: #2e2924;
+  --charcoal-2: #3a342d;
   --light: #e6e1d6;
 
   /* tipografía */
@@ -261,7 +261,7 @@ h3 em,
   font-size: 12.5px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cream);
+  color: var(--sage);
   position: relative;
   padding: 6px 0;
   font-weight: 500;
@@ -286,8 +286,8 @@ h3 em,
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  border: 1px solid rgba(246, 242, 233, 0.6);
-  color: var(--cream);
+  border: 1px solid rgba(228, 213, 184, 0.55);
+  color: var(--sage);
   padding: 12px 24px;
   border-radius: 1px;
   transition: all 0.35s var(--ease);
@@ -296,8 +296,9 @@ h3 em,
   cursor: pointer;
 }
 .nav__cta:hover {
-  background: var(--cream);
+  background: var(--sage);
   color: var(--ink);
+  border-color: var(--sage);
 }
 .nav__burger {
   display: none;
@@ -315,7 +316,7 @@ h3 em,
   display: block;
   height: 1.5px;
   width: 26px;
-  background: var(--cream);
+  background: var(--sage);
   transition: 0.35s var(--ease);
 }
 
@@ -939,6 +940,56 @@ h3 em,
   margin-top: 30px;
 }
 
+/* hero interior con imagen de fondo (editable) */
+.phero--image {
+  background: var(--footer);
+  color: var(--cream);
+  min-height: clamp(420px, 64vh, 660px);
+  display: flex;
+  align-items: flex-end;
+  padding-top: calc(var(--nav-h) + clamp(48px, 7vw, 96px));
+  padding-bottom: clamp(44px, 6vw, 80px);
+}
+.phero__bg {
+  position: absolute;
+  inset: -8% 0;
+  z-index: 0;
+}
+.phero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.phero--image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(46, 41, 36, 0.42),
+    rgba(46, 41, 36, 0.12) 42%,
+    rgba(46, 41, 36, 0.78)
+  );
+}
+.phero--image .phero__in {
+  position: relative;
+  z-index: 2;
+}
+.phero--image .crumb,
+.phero--image .crumb a {
+  color: var(--sage);
+}
+.phero--image h1 {
+  color: var(--cream);
+}
+.phero--image h1 em {
+  color: var(--sage);
+}
+.phero--image .phero__lead {
+  color: rgba(246, 242, 233, 0.86);
+}
+
 /* entrada elegante y escalonada del hero interior (igual de cuidada que el hero del inicio) */
 @keyframes pheroRise {
   from {
@@ -967,20 +1018,8 @@ h3 em,
 }
 
 /* ============ TRANSICIÓN ENTRE PÁGINAS ============ */
-/* cada ruta monta su propio <main>, así que la animación corre al navegar */
-@keyframes pageFade {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-main {
-  animation: pageFade 0.5s var(--ease) both;
-}
+/* la maneja src/app/(site)/template.jsx con Framer Motion (fade + subida)
+   en cada navegación, sincronizada con el scroll suave. */
 
 /* ============ INTRO: no malgastar la animación del hero ============ */
 /* mientras la intro tapa la pantalla, pausamos la entrada del hero del inicio;
@@ -1051,6 +1090,61 @@ html.intro-playing .hero__meta {
   color: var(--ink-soft);
   margin: 0;
   max-width: 580px;
+}
+.tl__row:last-child {
+  border-bottom: 1px solid var(--taupe);
+}
+/* línea de tiempo desplegable */
+.tl__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 16px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--green-ink);
+}
+.tl__toggle svg {
+  transition: transform 0.3s var(--ease);
+}
+.tl__toggle svg.is-open {
+  transform: rotate(180deg);
+}
+.tl__projects {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease);
+}
+.tl__projects.open {
+  grid-template-rows: 1fr;
+}
+.tl__projects__in {
+  overflow: hidden;
+}
+.tl__project {
+  padding: 16px 0;
+  border-top: 1px dashed var(--taupe);
+}
+.tl__project:first-child {
+  margin-top: 14px;
+}
+.tl__project h5 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 19px;
+  margin: 0 0 4px;
+}
+.tl__project p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 14.5px;
 }
 
 /* pilares */

@@ -1,26 +1,30 @@
 'use client';
 
 import Link from 'next/link';
-import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
+import { Parallax } from '../components/fx/Motion';
 
-export default function ServiciosView({ servicios = [] }) {
+export default function ServiciosView({ servicios = [], content = {} }) {
   const { open } = useAgenda();
   useReveals();
 
   return (
     <>
-      <section className="phero">
+      <section className={'phero' + (content.servicios_hero_imagen ? ' phero--image' : '')}>
+        {content.servicios_hero_imagen && (
+          <Parallax className="phero__bg" src={content.servicios_hero_imagen} strength={8} priority />
+        )}
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> — Servicios
+            <Link href="/">Inicio</Link> / Servicios
           </div>
-          <h1>Servicios</h1>
-          <p className="phero__lead">
-            Acompañamiento integral, desde la primera idea hasta el último detalle de obra. Diseño a
-            medida en cada etapa.
-          </p>
+          <h1
+            dangerouslySetInnerHTML={{
+              __html: (content.servicios_hero_titulo || 'Servicios').replace(/\n/g, '<br />'),
+            }}
+          />
+          <p className="phero__lead">{content.servicios_hero_lead}</p>
         </div>
       </section>
 
@@ -28,9 +32,9 @@ export default function ServiciosView({ servicios = [] }) {
         <div className="wrap">
           {servicios.map((s, i) => (
             <article key={i} className={`svc-item reveal${i % 2 === 1 ? ' rev' : ''}`}>
-              <div className="svc-item__img reveal-img">
+              <div className="svc-item__img">
                 {s.imagen ? (
-                  <Img src={s.imagen} alt={s.titulo} sizes="(max-width: 980px) 100vw, 50vw" />
+                  <Parallax className="svc-item__media" src={s.imagen} alt={s.titulo} strength={8} />
                 ) : (
                   <div className="ph" data-ph={s.titulo}></div>
                 )}
@@ -65,26 +69,13 @@ export default function ServiciosView({ servicios = [] }) {
             </p>
           </div>
           <div className="steps reveal d1">
-            <div className="step">
-              <div className="n">01</div>
-              <h4>Escuchar</h4>
-              <p>Entendemos tu idea, necesidades y presupuesto.</p>
-            </div>
-            <div className="step">
-              <div className="n">02</div>
-              <h4>Diseñar</h4>
-              <p>Anteproyecto, materialidad y renders.</p>
-            </div>
-            <div className="step">
-              <div className="n">03</div>
-              <h4>Construir</h4>
-              <p>Documentación y dirección de obra.</p>
-            </div>
-            <div className="step">
-              <div className="n">04</div>
-              <h4>Habitar</h4>
-              <p>Un espacio listo para vivirse.</p>
-            </div>
+            {(content.servicios_pasos || []).map((p, i) => (
+              <div className="step" key={i}>
+                <div className="n">{String(i + 1).padStart(2, '0')}</div>
+                <h4>{p.titulo}</h4>
+                <p>{p.descripcion}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

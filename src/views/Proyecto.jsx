@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import Img from '../components/Img';
 import useReveals from '../hooks/useReveals';
+import { Parallax, EASE } from '../components/fx/Motion';
 import { splitParagraphs, isVideo } from '../lib/projectShape';
 
 // Galería ordenada y uniforme, con visor (lightbox) para ampliar las imágenes.
@@ -120,7 +122,7 @@ export default function ProyectoView({ project, next }) {
       {/* HERO */}
       <section className="pj-hero">
         {project.cover ? (
-          <Img src={project.cover} alt={project.name} priority sizes="100vw" />
+          <Parallax className="pj-hero__media" src={project.cover} alt={project.name} strength={10} priority />
         ) : (
           <div className="ph" data-ph={project.ph} style={{ position: 'absolute', inset: 0 }}></div>
         )}
@@ -138,10 +140,28 @@ export default function ProyectoView({ project, next }) {
             <Link href="/proyectos" style={{ color: 'var(--sage)' }}>
               Proyectos
             </Link>{' '}
-            — {project.name}
+            / {project.name}
           </div>
-          <div className="pj-hero__cat">{project.catLabel}</div>
-          <h1>{project.name}</h1>
+          <motion.div
+            className="pj-hero__cat"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
+          >
+            {project.catLabel}
+          </motion.div>
+          <h1 className="pj-hero__title">
+            <span className="ln">
+              <motion.span
+                style={{ display: 'block' }}
+                initial={{ y: '115%' }}
+                animate={{ y: 0 }}
+                transition={{ duration: 1.05, ease: EASE, delay: 0.25 }}
+              >
+                {project.name}
+              </motion.span>
+            </span>
+          </h1>
         </div>
       </section>
 
@@ -291,7 +311,7 @@ export default function ProyectoView({ project, next }) {
       {next && (
         <Link className="nextpj" href={`/proyecto/${next.slug}`}>
           {next.cover ? (
-            <Img src={next.cover} alt="" sizes="100vw" />
+            <Parallax className="nextpj__media" src={next.cover} alt="" strength={10} />
           ) : (
             <div className="ph" data-ph={next.ph} style={{ position: 'absolute', inset: 0 }}></div>
           )}
