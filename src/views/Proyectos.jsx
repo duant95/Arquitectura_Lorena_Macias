@@ -16,35 +16,18 @@ const FILTERS = [
   { f: 'paisaje', label: 'Paisajismo' },
 ];
 
-const STAGES = {
-  propio: {
-    key: 'propio',
-    label: 'Estudio propio',
-    period: '2019 — presente',
-    blurb:
-      'Mi estudio de autor. Diseño, documento, dirijo y vendo cada proyecto de principio a fin: barrios cerrados, residencias premium, interiorismo y diseño náutico.',
-  },
-  gustafson: {
-    key: 'gustafson',
-    label: 'Gustafson y Asociados',
-    period: '2001 — 2019',
-    blurb:
-      'Mi etapa como Gerente de Proyectos en Gustafson y Asociados, donde ayudé a definir el estándar residencial premium de altura de Asunción.',
-    note: 'Obras realizadas en colaboración. La propiedad intelectual corresponde al estudio.',
-  },
-};
-
 export default function ProyectosView({ projects = [], content = {} }) {
   const { open } = useAgenda();
-  const [stage, setStage] = useState('propio');
+  const etapas =
+    Array.isArray(content.etapas) && content.etapas.length ? content.etapas : [];
+  const [stage, setStage] = useState(etapas[0]?.key || 'propio');
   const [active, setActive] = useState('all');
   useReveals();
 
-  const countByStage = {
-    propio: projects.filter((p) => p.etapa === 'propio').length,
-    gustafson: projects.filter((p) => p.etapa === 'gustafson').length,
-  };
-  const st = STAGES[stage];
+  const countByStage = Object.fromEntries(
+    etapas.map((e) => [e.key, projects.filter((p) => p.etapa === e.key).length])
+  );
+  const st = etapas.find((e) => e.key === stage) || etapas[0] || {};
   const visibles = projects.filter(
     (p) => p.etapa === stage && (active === 'all' || (p.cat || '').includes(active))
   );
@@ -78,7 +61,7 @@ export default function ProyectosView({ projects = [], content = {} }) {
       <div className="pstage-bar">
         <div className="wrap">
           <div className="pstage-tabs" role="tablist">
-            {Object.values(STAGES).map((s) => (
+            {etapas.map((s) => (
               <button
                 key={s.key}
                 role="tab"

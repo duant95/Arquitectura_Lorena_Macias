@@ -69,26 +69,13 @@ export default function ServiciosView({ servicios = [], content = {} }) {
             </p>
           </div>
           <div className="steps reveal d1">
-            <div className="step">
-              <div className="n">01</div>
-              <h4>Escuchar</h4>
-              <p>Entendemos tu idea, necesidades y presupuesto.</p>
-            </div>
-            <div className="step">
-              <div className="n">02</div>
-              <h4>Diseñar</h4>
-              <p>Anteproyecto, materialidad y renders.</p>
-            </div>
-            <div className="step">
-              <div className="n">03</div>
-              <h4>Construir</h4>
-              <p>Documentación y dirección de obra.</p>
-            </div>
-            <div className="step">
-              <div className="n">04</div>
-              <h4>Habitar</h4>
-              <p>Un espacio listo para vivirse.</p>
-            </div>
+            {(content.servicios_pasos || []).map((p, i) => (
+              <div className="step" key={i}>
+                <div className="n">{String(i + 1).padStart(2, '0')}</div>
+                <h4>{p.titulo}</h4>
+                <p>{p.descripcion}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

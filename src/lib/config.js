@@ -106,6 +106,11 @@ export const CONTENT_DEFAULTS = {
     'Acompañamiento integral, desde la primera idea hasta el último detalle de obra. Diseño a medida en cada etapa.',
   // Sobre mí
   nosotros_hero_titulo: 'Diseñar es<br /><em>escuchar</em>.',
+  nosotros_intro_titulo: 'Una mirada que combina técnica, sensibilidad y trayectoria.',
+  nosotros_intro_lead:
+    'Mi trabajo es <em>funcional</em>, <em>sofisticado</em> y <em>práctico</em>. Cada proyecto es una conversación con el lugar, la luz y las personas que lo van a habitar.',
+  nosotros_intro_texto:
+    'Diseño, documento, dirijo y vendo: una visión integral del proyecto que me permite cuidar tu inversión en cada etapa, desde la primera idea hasta la entrega de obra.',
   nosotros_hero_lead:
     'Soy Lorena Macías, arquitecta y project manager. Más de 25 años liderando proyectos de alta complejidad (edificios, barrios cerrados, residencias, interiorismo y diseño náutico), de principio a fin.',
   nosotros_historia:
@@ -144,6 +149,104 @@ export const INICIO_SHOWCASE_DEFAULT = [
     titulo: 'V426 Victory Yachts',
     categoria: 'Interiorismo náutico',
     slug: 'v426-victory-yachts',
+  },
+];
+
+// Pilares ("Lo que me distingue") de Sobre mí.
+export const NOSOTROS_PILARES_DEFAULT = [
+  {
+    titulo: 'Project Management',
+    descripcion:
+      'Coordino proyectos de alta complejidad con múltiples equipos, controlando plazos, costos y calidad.',
+  },
+  {
+    titulo: 'Visión integral',
+    descripcion: 'Diseño, documento, dirijo y vendo: cuido tu inversión en cada etapa del proyecto.',
+  },
+  {
+    titulo: 'Diseño náutico',
+    descripcion: 'Primera arquitecta en Paraguay en diseñar interiores de yates.',
+  },
+  {
+    titulo: 'Equipo & tecnología',
+    descripcion: 'Equipo BIM propio (Revit · Navisworks) para proyectos de gran escala.',
+  },
+];
+
+// Pasos del proceso (Sobre mí y Servicios comparten el mismo formato).
+export const NOSOTROS_PASOS_DEFAULT = [
+  { titulo: 'Escuchar', descripcion: 'Entendemos tu idea, tu forma de habitar y tu presupuesto.' },
+  {
+    titulo: 'Diseñar',
+    descripcion: 'Anteproyecto, materialidad y renders para visualizar tu futuro espacio.',
+  },
+  {
+    titulo: 'Construir',
+    descripcion: 'Documentación ejecutiva y dirección de obra con estándares de calidad.',
+  },
+  { titulo: 'Habitar', descripcion: 'Entregamos un espacio listo para vivirse, hasta el último detalle.' },
+];
+
+export const SERVICIOS_PASOS_DEFAULT = [
+  { titulo: 'Escuchar', descripcion: 'Entendemos tu idea, necesidades y presupuesto.' },
+  { titulo: 'Diseñar', descripcion: 'Anteproyecto, materialidad y renders.' },
+  { titulo: 'Construir', descripcion: 'Documentación y dirección de obra.' },
+  { titulo: 'Habitar', descripcion: 'Un espacio listo para vivirse.' },
+];
+
+// Formación & capacidades (columnas con listas).
+export const NOSOTROS_FORMACION_DEFAULT = [
+  {
+    titulo: 'Formación',
+    items: [
+      'Arquitectura · Universidad Católica de Asunción',
+      'Dirección Integrada de Proyectos · UCOM',
+      'Desarrollo y Negocios Inmobiliarios',
+      'Sistema de Calidad en Construcción',
+      'Gestión de Presupuestos en Obras · USIL',
+      'Project Management para Construcción',
+      'Diseño de Interiores Náuticos · Brasil (2023)',
+    ],
+  },
+  {
+    titulo: 'Capacidades & herramientas',
+    items: [
+      'Project Management & coordinación multidisciplinaria',
+      'Dirección de obra & control de plazos y costos',
+      'Equipo BIM (Revit · Navisworks · BIM 360 / ACC)',
+      'SketchUp · Lumion',
+      'Arquitectura residencial premium · interiorismo · paisajismo',
+      'Arquitectura fluvial & diseño náutico',
+    ],
+  },
+  {
+    titulo: 'Idiomas & mercados',
+    items: [
+      'Español (nativo)',
+      'Portugués (avanzado)',
+      'Inglés (lectocomprensión)',
+      'Mercados: Paraguay · Brasil · Uruguay',
+    ],
+  },
+];
+
+// Etapas de la página de Proyectos (textos del selector).
+export const PROYECTOS_ETAPAS_DEFAULT = [
+  {
+    key: 'propio',
+    label: 'Estudio propio',
+    period: '2019 — presente',
+    blurb:
+      'Mi estudio de autor. Diseño, documento, dirijo y vendo cada proyecto de principio a fin: barrios cerrados, residencias premium, interiorismo y diseño náutico.',
+    note: '',
+  },
+  {
+    key: 'gustafson',
+    label: 'Gustafson y Asociados',
+    period: '2001 — 2019',
+    blurb:
+      'Mi etapa como Gerente de Proyectos en Gustafson y Asociados, donde ayudé a definir el estándar residencial premium de altura de Asunción.',
+    note: 'Obras realizadas en colaboración. La propiedad intelectual corresponde al estudio.',
   },
 ];
 
@@ -229,14 +332,25 @@ export async function getContent() {
     trayectoria: TRAYECTORIA_DEFAULT,
     stats: INICIO_STATS_DEFAULT,
     showcase: INICIO_SHOWCASE_DEFAULT,
+    pilares: NOSOTROS_PILARES_DEFAULT,
+    pasos: NOSOTROS_PASOS_DEFAULT,
+    formacion: NOSOTROS_FORMACION_DEFAULT,
+    etapas: PROYECTOS_ETAPAS_DEFAULT,
+    servicios_pasos: SERVICIOS_PASOS_DEFAULT,
+  };
+  // claves JSON (array) → propiedad del objeto
+  const JSON_KEYS = {
+    nosotros_trayectoria: ['trayectoria', TRAYECTORIA_DEFAULT],
+    inicio_stats: ['stats', INICIO_STATS_DEFAULT],
+    inicio_showcase: ['showcase', INICIO_SHOWCASE_DEFAULT],
+    nosotros_pilares: ['pilares', NOSOTROS_PILARES_DEFAULT],
+    nosotros_pasos: ['pasos', NOSOTROS_PASOS_DEFAULT],
+    nosotros_formacion: ['formacion', NOSOTROS_FORMACION_DEFAULT],
+    proyectos_etapas: ['etapas', PROYECTOS_ETAPAS_DEFAULT],
+    servicios_pasos: ['servicios_pasos', SERVICIOS_PASOS_DEFAULT],
   };
   if (supabaseEnabled && supabase) {
-    const claves = [
-      ...Object.keys(CONTENT_DEFAULTS),
-      'nosotros_trayectoria',
-      'inicio_stats',
-      'inicio_showcase',
-    ];
+    const claves = [...Object.keys(CONTENT_DEFAULTS), ...Object.keys(JSON_KEYS)];
     const { data } = await supabase
       .from('configuracion')
       .select('clave, valor')
@@ -244,12 +358,9 @@ export async function getContent() {
     if (data) {
       for (const row of data) {
         if (row.valor == null || row.valor === '') continue;
-        if (row.clave === 'nosotros_trayectoria') {
-          c.trayectoria = parseJSON(row.valor, TRAYECTORIA_DEFAULT);
-        } else if (row.clave === 'inicio_stats') {
-          c.stats = parseJSON(row.valor, INICIO_STATS_DEFAULT);
-        } else if (row.clave === 'inicio_showcase') {
-          c.showcase = parseJSON(row.valor, INICIO_SHOWCASE_DEFAULT);
+        if (JSON_KEYS[row.clave]) {
+          const [prop, fallback] = JSON_KEYS[row.clave];
+          c[prop] = parseJSON(row.valor, fallback);
         } else if (row.clave in c) {
           c[row.clave] = row.valor;
         }

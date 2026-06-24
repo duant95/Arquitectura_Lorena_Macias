@@ -49,20 +49,22 @@ export default function Nosotros({ content = {} }) {
         <div className="wrap">
           <div className="split split--narrow">
             <div className="reveal">
-              <h2 className="h-lg" style={{ marginBottom: 28, maxWidth: '16ch' }}>
-                Una mirada que combina técnica, sensibilidad y trayectoria.
-              </h2>
+              <h2
+                className="h-lg"
+                style={{ marginBottom: 28, maxWidth: '16ch' }}
+                dangerouslySetInnerHTML={{ __html: content.nosotros_intro_titulo }}
+              />
             </div>
             <div className="reveal d1">
-              <p className="lead-serif" style={{ marginBottom: 26 }}>
-                Mi trabajo es <em>funcional</em>, <em>sofisticado</em> y <em>práctico</em>. Cada
-                proyecto es una conversación con el lugar, la luz y las personas que lo van a
-                habitar.
-              </p>
-              <p style={{ color: 'var(--ink-soft)' }}>
-                Diseño, documento, dirijo y vendo: una visión integral del proyecto que me permite
-                cuidar tu inversión en cada etapa, desde la primera idea hasta la entrega de obra.
-              </p>
+              <p
+                className="lead-serif"
+                style={{ marginBottom: 26 }}
+                dangerouslySetInnerHTML={{ __html: content.nosotros_intro_lead }}
+              />
+              <p
+                style={{ color: 'var(--ink-soft)' }}
+                dangerouslySetInnerHTML={{ __html: content.nosotros_intro_texto }}
+              />
               <p className="sign" style={{ marginTop: 24 }}>
                 Lorena Macías
               </p>
@@ -138,31 +140,13 @@ export default function Nosotros({ content = {} }) {
             </div>
           </div>
           <div className="pillars reveal d1">
-            <div className="pillar">
-              <span className="n">01</span>
-              <h4>Project Management</h4>
-              <p>
-                Coordino proyectos de alta complejidad con múltiples equipos, controlando plazos,
-                costos y calidad.
-              </p>
-            </div>
-            <div className="pillar">
-              <span className="n">02</span>
-              <h4>Visión integral</h4>
-              <p>
-                Diseño, documento, dirijo y vendo: cuido tu inversión en cada etapa del proyecto.
-              </p>
-            </div>
-            <div className="pillar">
-              <span className="n">03</span>
-              <h4>Diseño náutico</h4>
-              <p>Primera arquitecta en Paraguay en diseñar interiores de yates.</p>
-            </div>
-            <div className="pillar">
-              <span className="n">04</span>
-              <h4>Equipo &amp; tecnología</h4>
-              <p>Equipo BIM propio (Revit · Navisworks) para proyectos de gran escala.</p>
-            </div>
+            {(content.pilares || []).map((p, i) => (
+              <div className="pillar" key={i}>
+                <span className="n">{String(i + 1).padStart(2, '0')}</span>
+                <h4>{p.titulo}</h4>
+                <p>{p.descripcion}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -177,43 +161,16 @@ export default function Nosotros({ content = {} }) {
             </div>
           </div>
           <div className="creds reveal d1">
-            <div className="cred">
-              <h4>Formación</h4>
-              <ul>
-                <li>Arquitectura · Universidad Católica de Asunción</li>
-                <li>Dirección Integrada de Proyectos · UCOM</li>
-                <li>Desarrollo y Negocios Inmobiliarios</li>
-                <li>Sistema de Calidad en Construcción</li>
-                <li>Gestión de Presupuestos en Obras · USIL</li>
-                <li>Project Management para Construcción</li>
-                <li>Diseño de Interiores Náuticos · Brasil (2023)</li>
-              </ul>
-            </div>
-            <div className="cred">
-              <h4>Capacidades &amp; herramientas</h4>
-              <ul>
-                <li>Project Management &amp; coordinación multidisciplinaria</li>
-                <li>Dirección de obra &amp; control de plazos y costos</li>
-                <li>Equipo BIM (Revit · Navisworks · BIM 360 / ACC)</li>
-                <li>SketchUp · Lumion</li>
-                <li>Arquitectura residencial premium · interiorismo · paisajismo</li>
-                <li>Arquitectura fluvial &amp; diseño náutico</li>
-              </ul>
-            </div>
-            <div className="cred">
-              <h4>Idiomas</h4>
-              <ul>
-                <li>Español (nativo)</li>
-                <li>Portugués (avanzado)</li>
-                <li>Inglés (lectocomprensión)</li>
-              </ul>
-              <h4 style={{ marginTop: 28 }}>Mercados</h4>
-              <ul>
-                <li>Paraguay</li>
-                <li>Brasil (Paraná, São Paulo, costa)</li>
-                <li>Uruguay (Punta del Este)</li>
-              </ul>
-            </div>
+            {(content.formacion || []).map((col, i) => (
+              <div className="cred" key={i}>
+                <h4>{col.titulo}</h4>
+                <ul>
+                  {(col.items || []).map((it, j) => (
+                    <li key={j}>{it}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -228,26 +185,13 @@ export default function Nosotros({ content = {} }) {
             </div>
           </div>
           <div className="steps reveal d1">
-            <div className="step">
-              <div className="n">01</div>
-              <h4>Escuchar</h4>
-              <p>Entendemos tu idea, tu forma de habitar y tu presupuesto.</p>
-            </div>
-            <div className="step">
-              <div className="n">02</div>
-              <h4>Diseñar</h4>
-              <p>Anteproyecto, materialidad y renders para visualizar tu futuro espacio.</p>
-            </div>
-            <div className="step">
-              <div className="n">03</div>
-              <h4>Construir</h4>
-              <p>Documentación ejecutiva y dirección de obra con estándares de calidad.</p>
-            </div>
-            <div className="step">
-              <div className="n">04</div>
-              <h4>Habitar</h4>
-              <p>Entregamos un espacio listo para vivirse, hasta el último detalle.</p>
-            </div>
+            {(content.pasos || []).map((p, i) => (
+              <div className="step" key={i}>
+                <div className="n">{String(i + 1).padStart(2, '0')}</div>
+                <h4>{p.titulo}</h4>
+                <p>{p.descripcion}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

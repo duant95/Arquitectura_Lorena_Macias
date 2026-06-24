@@ -6,6 +6,52 @@ import toast from 'react-hot-toast';
 import { Plus, Trash2 } from 'lucide-react';
 import ImageField from './ImageField';
 
+// Editor de lista de {titulo, descripcion} (pilares, pasos, servicios…).
+function TituloDescList({ titulo, hint, items, setItems, addLabel = 'Agregar' }) {
+  const set = (i, patch) => setItems(items.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  return (
+    <div className="ad-card">
+      <h2 className="ad-card__title">{titulo}</h2>
+      {hint && (
+        <p className="ad-hint" style={{ marginBottom: 12 }}>
+          {hint}
+        </p>
+      )}
+      {items.map((it, i) => (
+        <div className="ad-proy" key={i}>
+          <input
+            className="ad-input"
+            value={it.titulo}
+            placeholder="Título"
+            onChange={(e) => set(i, { titulo: e.target.value })}
+          />
+          <input
+            className="ad-input"
+            value={it.descripcion}
+            placeholder="Descripción"
+            onChange={(e) => set(i, { descripcion: e.target.value })}
+          />
+          <button
+            type="button"
+            className="ad-btn ad-btn--danger"
+            onClick={() => setItems(items.filter((_, idx) => idx !== i))}
+            title="Quitar"
+          >
+            <Trash2 size={14} />
+          </button>
+        </div>
+      ))}
+      <button
+        type="button"
+        className="ad-btn ad-btn--ghost"
+        onClick={() => setItems([...items, { titulo: '', descripcion: '' }])}
+      >
+        <Plus size={14} /> {addLabel}
+      </button>
+    </div>
+  );
+}
+
 const TEXT_KEYS = [
   // Inicio
   'inicio_hero_imagen',
@@ -19,6 +65,9 @@ const TEXT_KEYS = [
   // Sobre mí
   'nosotros_hero_titulo',
   'nosotros_hero_lead',
+  'nosotros_intro_titulo',
+  'nosotros_intro_lead',
+  'nosotros_intro_texto',
   'nosotros_historia',
   'nosotros_cita',
   'nosotros_retrato_imagen',
@@ -53,8 +102,24 @@ export default function ContenidoEditor({ inicial = {} }) {
   const [showcase, setShowcase] = useState(() =>
     Array.isArray(inicial.showcase) ? inicial.showcase : []
   );
+  const [pilares, setPilares] = useState(() =>
+    Array.isArray(inicial.pilares) ? inicial.pilares : []
+  );
+  const [pasos, setPasos] = useState(() => (Array.isArray(inicial.pasos) ? inicial.pasos : []));
+  const [formacion, setFormacion] = useState(() =>
+    Array.isArray(inicial.formacion) ? inicial.formacion : []
+  );
+  const [etapas, setEtapas] = useState(() => (Array.isArray(inicial.etapas) ? inicial.etapas : []));
+  const [serviciosPasos, setServiciosPasos] = useState(() =>
+    Array.isArray(inicial.servicios_pasos) ? inicial.servicios_pasos : []
+  );
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+
+  // helpers formación / etapas
+  const setFor = (i, patch) =>
+    setFormacion((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  const setEt = (i, patch) => setEtapas((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
 
   // --- helpers trayectoria ---
   const setEtapa = (i, patch) =>
@@ -93,6 +158,11 @@ export default function ContenidoEditor({ inicial = {} }) {
         nosotros_trayectoria: JSON.stringify(trayectoria),
         inicio_stats: JSON.stringify(stats),
         inicio_showcase: JSON.stringify(showcase),
+        nosotros_pilares: JSON.stringify(pilares),
+        nosotros_pasos: JSON.stringify(pasos),
+        nosotros_formacion: JSON.stringify(formacion),
+        proyectos_etapas: JSON.stringify(etapas),
+        servicios_pasos: JSON.stringify(serviciosPasos),
       };
       const res = await fetch('/api/configuracion', {
         method: 'POST',
@@ -329,6 +399,33 @@ export default function ContenidoEditor({ inicial = {} }) {
                 onChange={(e) => set('nosotros_hero_lead', e.target.value)}
               />
             </div>
+            <hr className="ad-sep" />
+            <div className="ad-field">
+              <label>Intro · título</label>
+              <input
+                className="ad-input"
+                value={form.nosotros_intro_titulo}
+                onChange={(e) => set('nosotros_intro_titulo', e.target.value)}
+              />
+            </div>
+            <div className="ad-field">
+              <label>Intro · frase principal</label>
+              <textarea
+                className="ad-textarea"
+                value={form.nosotros_intro_lead}
+                onChange={(e) => set('nosotros_intro_lead', e.target.value)}
+              />
+              <p className="ad-hint">{EM_HINT}</p>
+            </div>
+            <div className="ad-field">
+              <label>Intro · texto</label>
+              <textarea
+                className="ad-textarea"
+                value={form.nosotros_intro_texto}
+                onChange={(e) => set('nosotros_intro_texto', e.target.value)}
+              />
+            </div>
+            <hr className="ad-sep" />
             <div className="ad-field">
               <label>Mi historia</label>
               <textarea
@@ -451,70 +548,196 @@ export default function ContenidoEditor({ inicial = {} }) {
               <Plus size={15} /> Agregar etapa
             </button>
           </div>
+
+          <TituloDescList
+            titulo="Lo que me distingue (pilares)"
+            items={pilares}
+            setItems={setPilares}
+            addLabel="Agregar pilar"
+          />
+
+          <TituloDescList
+            titulo="El proceso (pasos)"
+            items={pasos}
+            setItems={setPasos}
+            addLabel="Agregar paso"
+          />
+
+          {/* Formación & capacidades */}
+          <div className="ad-card">
+            <h2 className="ad-card__title">Formación &amp; capacidades</h2>
+            <p className="ad-hint" style={{ marginBottom: 12 }}>
+              Tres columnas. Escribí un ítem por línea.
+            </p>
+            {formacion.map((col, i) => (
+              <div className="ad-etapa" key={i}>
+                <div className="ad-field">
+                  <label>Título de la columna</label>
+                  <input
+                    className="ad-input"
+                    value={col.titulo}
+                    onChange={(e) => setFor(i, { titulo: e.target.value })}
+                  />
+                </div>
+                <div className="ad-field">
+                  <label>Ítems (uno por línea)</label>
+                  <textarea
+                    className="ad-textarea"
+                    rows={6}
+                    value={(col.items || []).join('\n')}
+                    onChange={(e) =>
+                      setFor(i, { items: e.target.value.split('\n').filter((x) => x.trim() !== '') })
+                    }
+                  />
+                </div>
+                <div className="ad-etapa__actions">
+                  <button
+                    type="button"
+                    className="ad-btn ad-btn--danger"
+                    onClick={() => setFormacion(formacion.filter((_, idx) => idx !== i))}
+                  >
+                    <Trash2 size={14} /> Eliminar columna
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="ad-btn ad-btn--ghost"
+              onClick={() => setFormacion([...formacion, { titulo: '', items: [] }])}
+            >
+              <Plus size={15} /> Agregar columna
+            </button>
+          </div>
         </>
       )}
 
       {/* ===================== PROYECTOS ===================== */}
       {tab === 'proyectos' && (
-        <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <h2 className="ad-card__title">Encabezado de Proyectos</h2>
-          <ImageField
-            label="Foto del hero"
-            value={form.proyectos_hero_imagen}
-            onChange={(v) => set('proyectos_hero_imagen', v)}
-          />
-          <div className="ad-field">
-            <label>Título del hero</label>
-            <textarea
-              className="ad-textarea"
-              rows={2}
-              value={form.proyectos_hero_titulo}
-              onChange={(e) => set('proyectos_hero_titulo', e.target.value)}
+        <>
+          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <h2 className="ad-card__title">Encabezado de Proyectos</h2>
+            <ImageField
+              label="Foto del hero"
+              value={form.proyectos_hero_imagen}
+              onChange={(v) => set('proyectos_hero_imagen', v)}
             />
-            <p className="ad-hint">{LINE_HINT}</p>
+            <div className="ad-field">
+              <label>Título del hero</label>
+              <textarea
+                className="ad-textarea"
+                rows={2}
+                value={form.proyectos_hero_titulo}
+                onChange={(e) => set('proyectos_hero_titulo', e.target.value)}
+              />
+              <p className="ad-hint">{LINE_HINT}</p>
+            </div>
+            <div className="ad-field">
+              <label>Bajada del hero</label>
+              <textarea
+                className="ad-textarea"
+                value={form.proyectos_hero_lead}
+                onChange={(e) => set('proyectos_hero_lead', e.target.value)}
+              />
+            </div>
           </div>
-          <div className="ad-field">
-            <label>Bajada del hero</label>
-            <textarea
-              className="ad-textarea"
-              value={form.proyectos_hero_lead}
-              onChange={(e) => set('proyectos_hero_lead', e.target.value)}
-            />
+
+          <div className="ad-card">
+            <h2 className="ad-card__title">Etapas (selector)</h2>
+            <p className="ad-hint" style={{ marginBottom: 12 }}>
+              Los textos de las dos etapas. El <b>identificador</b> conecta cada proyecto con su
+              etapa: no lo cambies salvo que sepas lo que hacés.
+            </p>
+            {etapas.map((et, i) => (
+              <div className="ad-etapa" key={i}>
+                <div className="ad-row-2">
+                  <div className="ad-field">
+                    <label>Nombre</label>
+                    <input
+                      className="ad-input"
+                      value={et.label}
+                      onChange={(e) => setEt(i, { label: e.target.value })}
+                    />
+                  </div>
+                  <div className="ad-field">
+                    <label>Período</label>
+                    <input
+                      className="ad-input"
+                      value={et.period}
+                      onChange={(e) => setEt(i, { period: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div className="ad-field">
+                  <label>Descripción</label>
+                  <textarea
+                    className="ad-textarea"
+                    value={et.blurb}
+                    onChange={(e) => setEt(i, { blurb: e.target.value })}
+                  />
+                </div>
+                <div className="ad-field">
+                  <label>Nota (opcional, ej. colaboración)</label>
+                  <input
+                    className="ad-input"
+                    value={et.note || ''}
+                    onChange={(e) => setEt(i, { note: e.target.value })}
+                  />
+                </div>
+                <div className="ad-field">
+                  <label>Identificador</label>
+                  <input
+                    className="ad-input"
+                    value={et.key}
+                    onChange={(e) => setEt(i, { key: e.target.value })}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+        </>
       )}
 
       {/* ===================== SERVICIOS ===================== */}
       {tab === 'servicios' && (
-        <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <h2 className="ad-card__title">Encabezado de Servicios</h2>
-          <p className="ad-hint">
-            El detalle de cada servicio se edita en la sección <b>Servicios</b> del panel.
-          </p>
-          <ImageField
-            label="Foto del hero"
-            value={form.servicios_hero_imagen}
-            onChange={(v) => set('servicios_hero_imagen', v)}
+        <>
+          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <h2 className="ad-card__title">Encabezado de Servicios</h2>
+            <p className="ad-hint">
+              El detalle de cada servicio se edita en la sección <b>Servicios</b> del panel.
+            </p>
+            <ImageField
+              label="Foto del hero"
+              value={form.servicios_hero_imagen}
+              onChange={(v) => set('servicios_hero_imagen', v)}
+            />
+            <div className="ad-field">
+              <label>Título del hero</label>
+              <textarea
+                className="ad-textarea"
+                rows={2}
+                value={form.servicios_hero_titulo}
+                onChange={(e) => set('servicios_hero_titulo', e.target.value)}
+              />
+              <p className="ad-hint">{LINE_HINT}</p>
+            </div>
+            <div className="ad-field">
+              <label>Bajada del hero</label>
+              <textarea
+                className="ad-textarea"
+                value={form.servicios_hero_lead}
+                onChange={(e) => set('servicios_hero_lead', e.target.value)}
+              />
+            </div>
+          </div>
+
+          <TituloDescList
+            titulo="El proceso (pasos)"
+            items={serviciosPasos}
+            setItems={setServiciosPasos}
+            addLabel="Agregar paso"
           />
-          <div className="ad-field">
-            <label>Título del hero</label>
-            <textarea
-              className="ad-textarea"
-              rows={2}
-              value={form.servicios_hero_titulo}
-              onChange={(e) => set('servicios_hero_titulo', e.target.value)}
-            />
-            <p className="ad-hint">{LINE_HINT}</p>
-          </div>
-          <div className="ad-field">
-            <label>Bajada del hero</label>
-            <textarea
-              className="ad-textarea"
-              value={form.servicios_hero_lead}
-              onChange={(e) => set('servicios_hero_lead', e.target.value)}
-            />
-          </div>
-        </div>
+        </>
       )}
 
       <div className="ad-actions">
