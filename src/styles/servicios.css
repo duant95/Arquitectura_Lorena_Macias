@@ -24,6 +24,16 @@
   object-fit: cover;
   transition: transform 1.1s var(--ease);
 }
+.svc-item__media {
+  position: absolute;
+  inset: -6% 0;
+  z-index: 0;
+}
+.svc-item__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .svc-item:hover .svc-item__img img {
   transform: scale(1.05);
 }
