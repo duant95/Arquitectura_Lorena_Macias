@@ -35,3 +35,50 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ============ MI HISTORIA (Sobre mí) ============ */
+.histories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(28px, 3.5vw, 56px);
+}
+.history {
+  border-top: 1px solid var(--taupe);
+  padding-top: 26px;
+}
+.history__yr {
+  font-family: var(--serif-accent);
+  font-style: italic;
+  font-size: clamp(20px, 1.8vw, 26px);
+  color: var(--camel);
+  display: block;
+  margin-bottom: 14px;
+}
+.history__t {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.1;
+  margin: 0 0 16px;
+}
+.history p {
+  color: var(--ink-soft);
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.62;
+}
+.history p em {
+  font-style: italic;
+  color: var(--green-ink);
+  font-family: var(--serif-accent);
+  font-size: 1.06em;
+}
+@media (max-width: 880px) {
+  .histories {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .history {
+    padding: 26px 0;
+  }
+}

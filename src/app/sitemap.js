@@ -3,7 +3,7 @@ import { getAllProjects } from '@/lib/projects';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://lorenamacias.com';
 
 export default async function sitemap() {
-  const fijas = ['', '/nosotros', '/proyectos', '/servicios', '/contacto'].map((p) => ({
+  const fijas = ['', '/sobre-mi', '/proyectos', '/servicios', '/contacto'].map((p) => ({
     url: `${SITE_URL}${p}`,
     lastModified: new Date(),
     changeFrequency: 'monthly',

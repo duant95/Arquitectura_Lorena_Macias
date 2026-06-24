@@ -16,12 +16,12 @@ export default function Nosotros({ content = {} }) {
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> / Nosotros
+            <Link href="/">Inicio</Link> / Sobre mí
           </div>
           <div className="about-hero">
             <div className="reveal">
               <p className="eyebrow" style={{ marginBottom: 24 }}>
-                El estudio
+                Sobre mí
               </p>
               <h1 dangerouslySetInnerHTML={{ __html: content.nosotros_hero_titulo }} />
               <p className="phero__lead">{content.nosotros_hero_lead}</p>
@@ -62,6 +62,56 @@ export default function Nosotros({ content = {} }) {
               </p>
               <p className="sign" style={{ marginTop: 24 }}>
                 Lorena Macías
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MI HISTORIA */}
+      <section className="section" style={{ background: 'var(--paper-2)' }}>
+        <div className="wrap">
+          <div className="sec-head reveal" style={{ marginBottom: 'clamp(40px,5vw,64px)' }}>
+            <div className="sec-head__l">
+              <span className="eyebrow">Mi historia</span>
+              <h2 className="h-xl" style={{ maxWidth: '16ch' }}>
+                De los edificios en altura a un estudio de autor.
+              </h2>
+            </div>
+          </div>
+
+          <div className="histories">
+            <div className="history reveal">
+              <span className="history__yr">2001 — 2019</span>
+              <h3 className="history__t">Los cimientos: Gustafson y Asociados</h3>
+              <p>
+                Empecé mi carrera en <em>Gustafson y Asociados</em>, donde llegué a ser{' '}
+                <b style={{ fontWeight: 400 }}>Gerente de Proyectos</b>. Fui pieza clave del área de
+                diseño y proyecto ejecutivo, coordinando equipos de arquitectos, calculistas y
+                especialistas. Ayudé a definir el estándar del mercado residencial premium de altura
+                de Asunción, en edificios de hasta 30 niveles.
+              </p>
+            </div>
+
+            <div className="history reveal d1">
+              <span className="history__yr">2019</span>
+              <h3 className="history__t">Mi propio estudio</h3>
+              <p>
+                En 2019 di el paso de fundar <em>Lorena Macías Arquitectura</em>: un estudio de autor
+                desde el que diseño, documento, dirijo y acompaño cada proyecto de principio a fin.
+                Sigo liderando obras de gran escala —edificios, barrios cerrados y residencias
+                premium— ahora con una mirada propia.
+              </p>
+            </div>
+
+            <div className="history reveal d2">
+              <span className="history__yr">Hoy</span>
+              <h3 className="history__t">Pionera en diseño náutico</h3>
+              <p>
+                Soy la primera arquitecta en Paraguay en diseñar interiores de yates, con proyectos
+                que cruzan fronteras: mercados activos en <em>Paraguay, Brasil y Uruguay</em>. Cada
+                encargo, en tierra o a bordo, lo abordo con el mismo rigor técnico y la misma
+                sensibilidad por la luz, los materiales y la forma de habitar.
               </p>
             </div>
           </div>

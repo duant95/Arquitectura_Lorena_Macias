@@ -91,7 +91,7 @@ export default function ContenidoEditor({ inicial = {} }) {
           className={'ad-tab' + (tab === 'nosotros' ? ' on' : '')}
           onClick={() => setTab('nosotros')}
         >
-          Nosotros
+          Sobre mí
         </button>
       </div>
 
