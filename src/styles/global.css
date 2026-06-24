@@ -261,7 +261,7 @@ h3 em,
   font-size: 12.5px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--cream);
+  color: var(--sage);
   position: relative;
   padding: 6px 0;
   font-weight: 500;
@@ -286,8 +286,8 @@ h3 em,
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  border: 1px solid rgba(246, 242, 233, 0.6);
-  color: var(--cream);
+  border: 1px solid rgba(228, 213, 184, 0.55);
+  color: var(--sage);
   padding: 12px 24px;
   border-radius: 1px;
   transition: all 0.35s var(--ease);
@@ -296,8 +296,9 @@ h3 em,
   cursor: pointer;
 }
 .nav__cta:hover {
-  background: var(--cream);
+  background: var(--sage);
   color: var(--ink);
+  border-color: var(--sage);
 }
 .nav__burger {
   display: none;
@@ -315,7 +316,7 @@ h3 em,
   display: block;
   height: 1.5px;
   width: 26px;
-  background: var(--cream);
+  background: var(--sage);
   transition: 0.35s var(--ease);
 }
 
@@ -967,20 +968,8 @@ h3 em,
 }
 
 /* ============ TRANSICIÓN ENTRE PÁGINAS ============ */
-/* cada ruta monta su propio <main>, así que la animación corre al navegar */
-@keyframes pageFade {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-main {
-  animation: pageFade 0.5s var(--ease) both;
-}
+/* la maneja src/app/(site)/template.jsx con Framer Motion (fade + subida)
+   en cada navegación, sincronizada con el scroll suave. */
 
 /* ============ INTRO: no malgastar la animación del hero ============ */
 /* mientras la intro tapa la pantalla, pausamos la entrada del hero del inicio;

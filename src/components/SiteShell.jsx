@@ -7,6 +7,7 @@ import Nav from './Nav';
 import Footer from './Footer';
 import WhatsAppButton from './WhatsAppButton';
 import AgendaModal from './AgendaModal';
+import SmoothScroll from './fx/SmoothScroll';
 
 /**
  * Envoltura común a todas las páginas públicas: nav + contenido + footer,
@@ -17,6 +18,7 @@ export default function SiteShell({ children, config }) {
   return (
     <ConfigProvider value={config}>
       <AgendaProvider>
+        <SmoothScroll />
         <Intro />
         <Nav />
         <main>{children}</main>
