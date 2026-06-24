@@ -5,22 +5,26 @@ import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 import { Parallax } from '../components/fx/Motion';
 
-export default function ServiciosView({ servicios = [] }) {
+export default function ServiciosView({ servicios = [], content = {} }) {
   const { open } = useAgenda();
   useReveals();
 
   return (
     <>
-      <section className="phero">
+      <section className={'phero' + (content.servicios_hero_imagen ? ' phero--image' : '')}>
+        {content.servicios_hero_imagen && (
+          <Parallax className="phero__bg" src={content.servicios_hero_imagen} strength={8} priority />
+        )}
         <div className="phero__in">
           <div className="crumb">
             <Link href="/">Inicio</Link> / Servicios
           </div>
-          <h1>Servicios</h1>
-          <p className="phero__lead">
-            Acompañamiento integral, desde la primera idea hasta el último detalle de obra. Diseño a
-            medida en cada etapa.
-          </p>
+          <h1
+            dangerouslySetInnerHTML={{
+              __html: (content.servicios_hero_titulo || 'Servicios').replace(/\n/g, '<br />'),
+            }}
+          />
+          <p className="phero__lead">{content.servicios_hero_lead}</p>
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
+import { Parallax } from '../components/fx/Motion';
 
 const FILTERS = [
   { f: 'all', label: 'Todos' },
@@ -33,7 +34,7 @@ const STAGES = {
   },
 };
 
-export default function ProyectosView({ projects = [] }) {
+export default function ProyectosView({ projects = [], content = {} }) {
   const { open } = useAgenda();
   const [stage, setStage] = useState('propio');
   const [active, setActive] = useState('all');
@@ -56,20 +57,20 @@ export default function ProyectosView({ projects = [] }) {
   return (
     <>
       {/* HERO */}
-      <section className="phero phero--soft">
+      <section className={'phero' + (content.proyectos_hero_imagen ? ' phero--image' : ' phero--soft')}>
+        {content.proyectos_hero_imagen && (
+          <Parallax className="phero__bg" src={content.proyectos_hero_imagen} strength={8} priority />
+        )}
         <div className="phero__in">
           <div className="crumb">
             <Link href="/">Inicio</Link> / Proyectos
           </div>
-          <h1>
-            Dos décadas
-            <br />
-            de <em>proyectos</em>.
-          </h1>
-          <p className="phero__lead">
-            Una trayectoria contada por su obra: de los edificios en altura junto a Gustafson y
-            Asociados al estudio de autor de hoy. Elegí la etapa para recorrerla.
-          </p>
+          <h1
+            dangerouslySetInnerHTML={{
+              __html: (content.proyectos_hero_titulo || '').replace(/\n/g, '<br />'),
+            }}
+          />
+          <p className="phero__lead">{content.proyectos_hero_lead}</p>
         </div>
       </section>
 

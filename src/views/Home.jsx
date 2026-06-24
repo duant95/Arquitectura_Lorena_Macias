@@ -5,8 +5,18 @@ import { motion } from 'framer-motion';
 import { useAgenda } from '../context/AgendaContext';
 import { Parallax, Reveal, LineReveal, Magnetic, EASE } from '../components/fx/Motion';
 
-export default function HomeView({ featured = [], servicios = [], content = {} }) {
+// Texto editable con saltos de línea (\n) y <em> → líneas para el reveal.
+function toLines(text) {
+  return String(text || '')
+    .split('\n')
+    .filter((l) => l.trim() !== '')
+    .map((l, i) => <span key={i} dangerouslySetInnerHTML={{ __html: l }} />);
+}
+
+export default function HomeView({ servicios = [], content = {} }) {
   const { open } = useAgenda();
+  const showcase = content.showcase || [];
+  const stats = content.stats || [];
 
   return (
     <div className="hm">
@@ -24,10 +34,7 @@ export default function HomeView({ featured = [], servicios = [], content = {} }
           </motion.p>
 
           <h1 className="hm-hero__title">
-            <LineReveal
-              lines={['Arquitectura', <>que <em>respira</em>.</>]}
-              delay={0.25}
-            />
+            <LineReveal lines={toLines(content.inicio_hero_titulo)} delay={0.25} />
           </h1>
 
           <motion.div
@@ -65,34 +72,30 @@ export default function HomeView({ featured = [], servicios = [], content = {} }
             <p className="hm-statement__eyebrow">Filosofía</p>
           </Reveal>
           <h2 className="hm-statement__text">
-            <LineReveal
-              lines={[
-                'Una arquitectura que escucha',
-                <>el lugar, abraza la <em>luz</em></>,
-                'y se construye para vivirse.',
-              ]}
-              stagger={0.1}
-            />
+            <LineReveal lines={toLines(content.inicio_manifiesto)} stagger={0.1} />
           </h2>
         </div>
       </section>
 
-      {/* ===================== PROYECTOS (full-bleed) ===================== */}
+      {/* ===================== PROYECTOS (full-bleed, showcase editable) ===================== */}
       <div className="hm-projects" data-screen-label="Proyectos">
-        {featured.map((p, i) => (
-          <section className="hm-proj" key={p.slug}>
+        {showcase.map((p, i) => (
+          <section className="hm-proj" key={i}>
             <Parallax
               className="hm-proj__media"
-              src={p.cover || content.inicio_hero_imagen}
-              alt={p.name}
+              src={p.imagen || content.inicio_hero_imagen}
+              alt={p.titulo}
               strength={16}
             />
             <div className="hm-proj__in wrap">
               <Reveal y={56}>
                 <span className="hm-proj__idx">{String(i + 1).padStart(2, '0')}</span>
-                {p.catLabel && <p className="hm-proj__cat">{p.catLabel}</p>}
-                <h3 className="hm-proj__name">{p.name}</h3>
-                <Link className="hm-proj__link" href={`/proyecto/${p.slug}`}>
+                {p.categoria && <p className="hm-proj__cat">{p.categoria}</p>}
+                <h3 className="hm-proj__name">{p.titulo}</h3>
+                <Link
+                  className="hm-proj__link"
+                  href={p.slug ? `/proyecto/${p.slug}` : '/proyectos'}
+                >
                   Ver proyecto <span className="arr">→</span>
                 </Link>
               </Reveal>
@@ -115,15 +118,10 @@ export default function HomeView({ featured = [], servicios = [], content = {} }
       <section className="hm-stats">
         <div className="wrap">
           <div className="hm-stats__grid">
-            {[
-              ['+200', 'proyectos realizados'],
-              ['25', 'años de trayectoria'],
-              ['30', 'niveles · obra premium'],
-              ['1ª', 'en diseño náutico en PY'],
-            ].map(([n, l], i) => (
-              <Reveal className="hm-stat" key={l} delay={i * 0.09}>
-                <div className="hm-stat__n">{n}</div>
-                <div className="hm-stat__l">{l}</div>
+            {stats.map((s, i) => (
+              <Reveal className="hm-stat" key={i} delay={i * 0.09}>
+                <div className="hm-stat__n">{s.n}</div>
+                <div className="hm-stat__l">{s.l}</div>
               </Reveal>
             ))}
           </div>

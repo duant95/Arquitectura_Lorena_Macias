@@ -85,12 +85,25 @@ export const CONTENT_DEFAULTS = {
   // Inicio
   inicio_hero_imagen: '/assets/img/living.jpg',
   inicio_hero_eyebrow: 'Arquitectura · Interiorismo',
+  inicio_hero_titulo: 'Arquitectura\nque <em>respira</em>.',
   inicio_hero_descripcion:
     'Proyectos de arquitectura e interiorismo con identidad y propósito. Del edificio al detalle.',
+  inicio_manifiesto:
+    'Una arquitectura que escucha el lugar, abraza la <em>luz</em> y se construye para vivirse.',
   inicio_cta_imagen: '/assets/img/terraza.jpg',
   inicio_cta_titulo: 'Demos vida a tu <em>proyecto</em>.',
   inicio_cta_descripcion:
     'Contanos tu idea o el proyecto que imaginás. Nosotros te ayudamos a hacerlo realidad.',
+  // Proyectos (hero)
+  proyectos_hero_imagen: '/assets/img/exterior.jpg',
+  proyectos_hero_titulo: 'Dos décadas\nde <em>proyectos</em>.',
+  proyectos_hero_lead:
+    'Una trayectoria contada por su obra: de los edificios en altura junto a Gustafson y Asociados al estudio de autor de hoy. Elegí la etapa para recorrerla.',
+  // Servicios (hero)
+  servicios_hero_imagen: '/assets/img/cocina.jpg',
+  servicios_hero_titulo: 'Servicios',
+  servicios_hero_lead:
+    'Acompañamiento integral, desde la primera idea hasta el último detalle de obra. Diseño a medida en cada etapa.',
   // Sobre mí
   nosotros_hero_titulo: 'Diseñar es<br /><em>escuchar</em>.',
   nosotros_hero_lead:
@@ -103,6 +116,36 @@ export const CONTENT_DEFAULTS = {
   nosotros_cita:
     'Diseño espacios para ser vividos: cuidados en su materialidad, conectados con la luz y fieles a quienes los habitan.',
 };
+
+// Cifras del inicio (editables).
+export const INICIO_STATS_DEFAULT = [
+  { n: '+200', l: 'proyectos realizados' },
+  { n: '25', l: 'años de trayectoria' },
+  { n: '30', l: 'niveles · obra premium' },
+  { n: '1ª', l: 'en diseño náutico en PY' },
+];
+
+// Showcase del inicio: bloques a pantalla completa (imagen + proyecto), editables.
+export const INICIO_SHOWCASE_DEFAULT = [
+  {
+    imagen: '/assets/img/exterior.jpg',
+    titulo: 'Barrio Cerrado Pirarenda',
+    categoria: 'Arquitectura · Barrio cerrado',
+    slug: 'barrio-pirarenda-viviendas',
+  },
+  {
+    imagen: '/assets/img/escalera.jpg',
+    titulo: 'Edificio Carmen Dora',
+    categoria: 'Arquitectura · 27 niveles',
+    slug: 'edificio-carmen-dora',
+  },
+  {
+    imagen: '/assets/img/dormitorio.jpg',
+    titulo: 'V426 Victory Yachts',
+    categoria: 'Interiorismo náutico',
+    slug: 'v426-victory-yachts',
+  },
+];
 
 // Línea de tiempo de Nosotros (cada etapa se despliega y muestra sus proyectos).
 export const TRAYECTORIA_DEFAULT = [
@@ -181,9 +224,19 @@ export const TRAYECTORIA_DEFAULT = [
 
 // Lee el contenido editable de las páginas (Supabase sobre los valores por defecto).
 export async function getContent() {
-  const c = { ...CONTENT_DEFAULTS, trayectoria: TRAYECTORIA_DEFAULT };
+  const c = {
+    ...CONTENT_DEFAULTS,
+    trayectoria: TRAYECTORIA_DEFAULT,
+    stats: INICIO_STATS_DEFAULT,
+    showcase: INICIO_SHOWCASE_DEFAULT,
+  };
   if (supabaseEnabled && supabase) {
-    const claves = [...Object.keys(CONTENT_DEFAULTS), 'nosotros_trayectoria'];
+    const claves = [
+      ...Object.keys(CONTENT_DEFAULTS),
+      'nosotros_trayectoria',
+      'inicio_stats',
+      'inicio_showcase',
+    ];
     const { data } = await supabase
       .from('configuracion')
       .select('clave, valor')
@@ -193,6 +246,10 @@ export async function getContent() {
         if (row.valor == null || row.valor === '') continue;
         if (row.clave === 'nosotros_trayectoria') {
           c.trayectoria = parseJSON(row.valor, TRAYECTORIA_DEFAULT);
+        } else if (row.clave === 'inicio_stats') {
+          c.stats = parseJSON(row.valor, INICIO_STATS_DEFAULT);
+        } else if (row.clave === 'inicio_showcase') {
+          c.showcase = parseJSON(row.valor, INICIO_SHOWCASE_DEFAULT);
         } else if (row.clave in c) {
           c[row.clave] = row.valor;
         }

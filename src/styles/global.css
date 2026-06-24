@@ -17,13 +17,13 @@
 }
 
 :root {
-  /* ---- fondos cálidos (luminosos) ---- */
-  --paper: #f7f4ed; /* marfil principal */
-  --paper-2: #f0eadf; /* arena suave (secciones alternas) */
-  --sand: #e9ddca; /* beige cálido (bandas) */
-  --clay: #e0d2bc; /* beige profundo (acento puntual) */
+  /* ---- fondos cálidos (luminosos) — paleta beige sofisticada ---- */
+  --paper: #f5f1e8; /* crema principal */
+  --paper-2: #ece5d8; /* arena suave (secciones alternas) */
+  --sand: #e3d9c6; /* beige cálido (bandas) */
+  --clay: #dccdb4; /* beige profundo (acento puntual) */
   --cream: #f6f2e9; /* texto claro sobre footer/imágenes */
-  --green-wash: #efe7d7; /* banda elegante — BEIGE cálido (antes verde menta) */
+  --green-wash: #ece4d4; /* banda elegante — beige cálido */
 
   /* ---- verde musgo (intacto, como estaba en el diseño) ---- */
   --green: #7d9472; /* musgo medio (bandas, botones grandes) */
@@ -39,16 +39,16 @@
   --sienna: #8a5d33;
   --taupe: #a89f90;
   --stone: #867d6e;
-  --footer: #3f3c36; /* gris cálido — ÚNICA zona oscura (solo footer) */
-  --ink: #2f2c26; /* texto: casi negro cálido (no negro puro) */
-  --ink-soft: #6b6457; /* texto secundario */
+  --footer: #2e2924; /* marrón muy oscuro — zonas oscuras (poco negro) */
+  --ink: #2b2722; /* texto: negro cálido suave (no negro puro) */
+  --ink-soft: #6e665a; /* texto secundario */
 
   /* compatibilidad (tokens antiguos remapeados) */
   --olive: #5f7556;
   --olive-deep: #506248;
   --sage-soft: #e8dcc6;
-  --charcoal: #3f3c36;
-  --charcoal-2: #4a473f;
+  --charcoal: #2e2924;
+  --charcoal-2: #3a342d;
   --light: #e6e1d6;
 
   /* tipografía */
@@ -938,6 +938,56 @@ h3 em,
   font-size: clamp(18px, 1.6vw, 22px);
   line-height: 1.62;
   margin-top: 30px;
+}
+
+/* hero interior con imagen de fondo (editable) */
+.phero--image {
+  background: var(--footer);
+  color: var(--cream);
+  min-height: clamp(420px, 64vh, 660px);
+  display: flex;
+  align-items: flex-end;
+  padding-top: calc(var(--nav-h) + clamp(48px, 7vw, 96px));
+  padding-bottom: clamp(44px, 6vw, 80px);
+}
+.phero__bg {
+  position: absolute;
+  inset: -8% 0;
+  z-index: 0;
+}
+.phero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.phero--image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(46, 41, 36, 0.42),
+    rgba(46, 41, 36, 0.12) 42%,
+    rgba(46, 41, 36, 0.78)
+  );
+}
+.phero--image .phero__in {
+  position: relative;
+  z-index: 2;
+}
+.phero--image .crumb,
+.phero--image .crumb a {
+  color: var(--sage);
+}
+.phero--image h1 {
+  color: var(--cream);
+}
+.phero--image h1 em {
+  color: var(--sage);
+}
+.phero--image .phero__lead {
+  color: rgba(246, 242, 233, 0.86);
 }
 
 /* entrada elegante y escalonada del hero interior (igual de cuidada que el hero del inicio) */
