@@ -17,6 +17,7 @@ create table if not exists proyectos (
   superficie      text,
   ubicacion       text,
   servicios       text,
+  etapa           text default 'propio', -- etapa de carrera: 'propio' (estudio propio 2019+) | 'gustafson' (colaboración 2001-2019)
   imagen_portada  text,
   galeria         jsonb default '[]'::jsonb,  -- [{ "url": "...", "alt": "..." }]
   planos          jsonb default '[]'::jsonb,  -- planos 2D: [{ "url": "...", "alt": "..." }]
@@ -28,6 +29,9 @@ create table if not exists proyectos (
 );
 
 create index if not exists proyectos_orden_idx on proyectos (orden, created_at desc);
+
+-- Migración para bases ya existentes (agrega la columna si falta):
+alter table proyectos add column if not exists etapa text default 'propio';
 
 -- ---------- MENSAJES (Contacto + Agenda) ----------
 create table if not exists mensajes (

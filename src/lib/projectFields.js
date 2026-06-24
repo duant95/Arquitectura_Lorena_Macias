@@ -11,6 +11,7 @@ const FIELDS = [
   'superficie',
   'ubicacion',
   'servicios',
+  'etapa',
   'imagen_portada',
   'galeria',
   'planos',
