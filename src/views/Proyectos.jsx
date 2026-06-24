@@ -21,7 +21,7 @@ const STAGES = {
     label: 'Estudio propio',
     period: '2019 — presente',
     blurb:
-      'Mi estudio de autor. Diseño, documento, dirijo y acompaño cada proyecto de principio a fin: edificios, barrios cerrados, residencias, interiorismo y diseño náutico.',
+      'Mi estudio de autor. Diseño, documento, dirijo y vendo cada proyecto de principio a fin: barrios cerrados, residencias premium, interiorismo y diseño náutico.',
   },
   gustafson: {
     key: 'gustafson',

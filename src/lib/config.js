@@ -91,10 +91,12 @@ export const CONTENT_DEFAULTS = {
   inicio_cta_titulo: 'Demos vida a tu <em>proyecto</em>.',
   inicio_cta_descripcion:
     'Contanos tu idea o el proyecto que imaginás. Nosotros te ayudamos a hacerlo realidad.',
-  // Nosotros
+  // Sobre mí
   nosotros_hero_titulo: 'Diseñar es<br /><em>escuchar</em>.',
   nosotros_hero_lead:
     'Soy Lorena Macías, arquitecta y project manager. Más de 25 años liderando proyectos de alta complejidad (edificios, barrios cerrados, residencias, interiorismo y diseño náutico), de principio a fin.',
+  nosotros_historia:
+    'Soy arquitecta con más de 25 años de trayectoria ininterrumpida en Paraguay. Desde 2001 me dediqué al diseño, la documentación técnica y la dirección de obra de edificios residenciales de alto estándar, hasta llegar a ser Gerente de Proyectos en Gustafson y Asociados, donde lideré las obras de mayor envergadura del mercado premium de Asunción: edificios de 12 a 30 niveles, con departamentos de 350 a 550 m².\n\nDurante una década trabajé además en la comercialización de unidades premium. Esa doble mirada, técnica y de negocio, me permite acompañar cada proyecto entendiendo también su valor y su mercado, y cuidar tu inversión en cada etapa.\n\nEn 2019 fundé Lorena Macías Arquitectura. Hoy lidero proyectos de gran complejidad como Project Manager y Directora de Obras: de barrios cerrados y residencias premium al interiorismo náutico, siendo la primera arquitecta en Paraguay en diseñar interiores de yates, con proyectos en Paraguay, Brasil y Uruguay.',
   nosotros_retrato_imagen: '',
   nosotros_proceso_imagen: '/assets/img/proceso.jpg',
   nosotros_cta_imagen: '/assets/img/living.jpg',
@@ -106,22 +108,24 @@ export const CONTENT_DEFAULTS = {
 export const TRAYECTORIA_DEFAULT = [
   {
     yr: '2001–2019',
-    titulo: 'Gustafson y Asociados · Gerente de Proyectos',
+    titulo: 'Gustafson y Asociados · Gerente del Área de Proyectos',
     descripcion:
-      'Fui pieza clave del área de diseño y proyecto ejecutivo, coordinando equipos de arquitectos, calculistas y especialistas. Ayudé a definir los estándares del mercado residencial premium de altura de Asunción, en edificios de hasta 30 niveles.',
+      'Máxima responsable del área de diseño y proyecto ejecutivo (Gerente de Proyectos desde 2007). Dirigí equipos de arquitectos, calculistas y especialistas, y ayudé a definir el estándar del mercado residencial premium de altura de Asunción, en edificios de hasta 30 niveles con unidades de 350 a 550 m².',
     proyectos: [
       {
         titulo: 'Edificio Altagracia · 30 niveles',
         descripcion:
-          'Diseño, proyecto ejecutivo y dirección de obra. Unidades premium. (2012–2015)',
+          'Diseño, proyecto ejecutivo, dirección de obra, interiorismo y paisajismo. Residencial premium. (2012–2015)',
       },
       {
         titulo: 'Edificio Casa Vista · 12 niveles',
-        descripcion: 'Diseño, dirección de obra, interiorismo y paisajismo. (2007–2009)',
+        descripcion:
+          'Diseño, proyecto ejecutivo, dirección de obra, interiorismo y paisajismo. (2007–2009)',
       },
       {
         titulo: 'Edificio Soleil',
-        descripcion: 'Pionero del segmento residencial de lujo en Asunción. (2004–2005)',
+        descripcion:
+          'Diseño integral y dirección de obra. Pionero del segmento residencial de lujo en Asunción. (2004–2005)',
       },
       {
         titulo: 'Edificio Santa Teresa',
@@ -133,29 +137,44 @@ export const TRAYECTORIA_DEFAULT = [
     yr: '2019–presente',
     titulo: 'Lorena Macías Arquitectura · Directora y Project Manager',
     descripcion:
-      'Fundo mi estudio y sigo liderando proyectos de gran escala: edificios, barrios cerrados, residencias premium, interiorismo y diseño náutico, coordinando múltiples equipos independientes.',
+      'Fundo mi estudio y sigo liderando proyectos de gran complejidad: barrios cerrados, residencias premium, interiorismo y diseño náutico, coordinando múltiples equipos independientes.',
     proyectos: [
       {
-        titulo: 'Barrio Cerrado Pirarenda',
+        titulo: 'Barrio Cerrado Pirarenda · Itacora',
         descripcion:
-          'Coordinación y Project Management del emprendimiento (12 ha): amenities y 11 viviendas (5 finalizadas).',
+          'Coordinadora y Project Manager desde el inicio (12 ha): infraestructura, amenities (Club House de 300 m², piscina infinita) y viviendas. 11 proyectos, 5 obras finalizadas. (2021–presente)',
       },
       {
         titulo: 'Edificio Carmen Dora · 27 niveles',
-        descripcion: 'Dirección arquitectónica de obra. (2019–2022)',
+        descripcion:
+          'Dirección arquitectónica de obra de un proyecto que yo misma diseñé en Gustafson. (2019–2022)',
       },
       {
-        titulo: 'Salumax · Project Management',
-        descripcion: 'PM externo; obra finalizada en plazo. (2020–2022)',
+        titulo: 'Salumax · Project Manager externo',
+        descripcion:
+          'Coordinación entre la constructora CCI y los proveedores del cliente. Obra finalizada en plazo. (2020–2022)',
       },
-      { titulo: 'V426 Victory Yachts', descripcion: 'Interiores náuticos. (2026)' },
+      {
+        titulo: 'Casa Itacora',
+        descripcion:
+          'Residencia premium: diseño, memoria y pliego de especificaciones. Concurso Portinari (Porcelanosa). (2024–2025)',
+      },
+      {
+        titulo: 'Casa del Río · Pirarenda',
+        descripcion: 'Project Management y diseño integral, con empresa constructora asociada. (2024)',
+      },
+      {
+        titulo: 'V426 Victory Yachts · interiorismo náutico',
+        descripcion:
+          'Relevamiento del casco, digitalización en CAD/SketchUp y desarrollo del interior junto al astillero. (2026)',
+      },
     ],
   },
   {
     yr: 'Hoy',
     titulo: 'Pionera en diseño náutico',
     descripcion:
-      'Primera arquitecta en Paraguay en diseñar interiores de yates. Mercados activos en Paraguay, Brasil y Uruguay.',
+      'Primera arquitecta en Paraguay en diseñar interiores de yates, con mercados activos en Paraguay, Brasil (Paraná, São Paulo, costa) y Uruguay (Punta del Este, en expansión).',
     proyectos: [],
   },
 ];

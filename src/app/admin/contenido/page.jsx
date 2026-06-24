@@ -11,7 +11,7 @@ export default async function AdminContenido() {
       <div className="admin-head">
         <div>
           <h1>Contenido de las páginas</h1>
-          <p>Editá las fotos y los textos del Inicio y de Nosotros, y la línea de tiempo.</p>
+          <p>Editá las fotos y los textos del Inicio y de Sobre mí, y la línea de tiempo.</p>
         </div>
       </div>
       <ContenidoEditor inicial={content} />

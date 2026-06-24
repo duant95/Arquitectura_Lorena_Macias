@@ -15,6 +15,7 @@ const TEXT_KEYS = [
   'inicio_cta_imagen',
   'nosotros_hero_titulo',
   'nosotros_hero_lead',
+  'nosotros_historia',
   'nosotros_cita',
   'nosotros_retrato_imagen',
   'nosotros_proceso_imagen',
@@ -165,6 +166,16 @@ export default function ContenidoEditor({ inicial = {} }) {
                 value={form.nosotros_hero_lead}
                 onChange={(e) => set('nosotros_hero_lead', e.target.value)}
               />
+            </div>
+            <div className="ad-field">
+              <label>Mi historia</label>
+              <textarea
+                className="ad-textarea"
+                rows={8}
+                value={form.nosotros_historia}
+                onChange={(e) => set('nosotros_historia', e.target.value)}
+              />
+              <p className="ad-hint">Cada línea en blanco separa un párrafo. El primero se resalta.</p>
             </div>
             <ImageField
               label="Retrato de Lorena"

@@ -5,10 +5,13 @@ import Img from '../components/Img';
 import Trayectoria from '../components/Trayectoria';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
+import { splitParagraphs } from '../lib/projectShape';
 
 export default function Nosotros({ content = {} }) {
   const { open } = useAgenda();
   useReveals();
+
+  const historia = splitParagraphs(content.nosotros_historia);
 
   return (
     <>
@@ -68,51 +71,24 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* MI HISTORIA */}
+      {/* MI HISTORIA (editable) */}
       <section className="section" style={{ background: 'var(--paper-2)' }}>
         <div className="wrap">
-          <div className="sec-head reveal" style={{ marginBottom: 'clamp(40px,5vw,64px)' }}>
-            <div className="sec-head__l">
-              <span className="eyebrow">Mi historia</span>
-              <h2 className="h-xl" style={{ maxWidth: '16ch' }}>
+          <div className="split split--narrow">
+            <div className="reveal">
+              <p className="eyebrow" style={{ marginBottom: 24 }}>
+                Mi historia
+              </p>
+              <h2 className="h-xl" style={{ maxWidth: '15ch' }}>
                 De los edificios en altura a un estudio de autor.
               </h2>
             </div>
-          </div>
-
-          <div className="histories">
-            <div className="history reveal">
-              <span className="history__yr">2001 — 2019</span>
-              <h3 className="history__t">Los cimientos: Gustafson y Asociados</h3>
-              <p>
-                Empecé mi carrera en <em>Gustafson y Asociados</em>, donde llegué a ser{' '}
-                <b style={{ fontWeight: 400 }}>Gerente de Proyectos</b>. Fui pieza clave del área de
-                diseño y proyecto ejecutivo, coordinando equipos de arquitectos, calculistas y
-                especialistas. Ayudé a definir el estándar del mercado residencial premium de altura
-                de Asunción, en edificios de hasta 30 niveles.
-              </p>
-            </div>
-
-            <div className="history reveal d1">
-              <span className="history__yr">2019</span>
-              <h3 className="history__t">Mi propio estudio</h3>
-              <p>
-                En 2019 di el paso de fundar <em>Lorena Macías Arquitectura</em>: un estudio de autor
-                desde el que diseño, documento, dirijo y acompaño cada proyecto de principio a fin.
-                Sigo liderando obras de gran escala —edificios, barrios cerrados y residencias
-                premium— ahora con una mirada propia.
-              </p>
-            </div>
-
-            <div className="history reveal d2">
-              <span className="history__yr">Hoy</span>
-              <h3 className="history__t">Pionera en diseño náutico</h3>
-              <p>
-                Soy la primera arquitecta en Paraguay en diseñar interiores de yates, con proyectos
-                que cruzan fronteras: mercados activos en <em>Paraguay, Brasil y Uruguay</em>. Cada
-                encargo, en tierra o a bordo, lo abordo con el mismo rigor técnico y la misma
-                sensibilidad por la luz, los materiales y la forma de habitar.
-              </p>
+            <div className="reveal d1 historia-prose">
+              {historia.map((p, i) => (
+                <p key={i} className={i === 0 ? 'lead-serif' : ''} style={{ marginBottom: 20 }}>
+                  {p}
+                </p>
+              ))}
             </div>
           </div>
         </div>
@@ -132,8 +108,11 @@ export default function Nosotros({ content = {} }) {
           <div className="sec-head reveal">
             <div className="sec-head__l">
               <span className="eyebrow">Trayectoria</span>
-              <h2 className="h-xl">25 años de trayectoria</h2>
+              <h2 className="h-xl">De 2001 a hoy</h2>
             </div>
+            <p style={{ maxWidth: 360, color: 'var(--ink-soft)', margin: 0 }}>
+              Las etapas de mi camino, con sus proyectos. Tocá cada período para ver las obras.
+            </p>
           </div>
           <Trayectoria items={content.trayectoria || []} />
         </div>
@@ -183,6 +162,57 @@ export default function Nosotros({ content = {} }) {
               <span className="n">04</span>
               <h4>Equipo &amp; tecnología</h4>
               <p>Equipo BIM propio (Revit · Navisworks) para proyectos de gran escala.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FORMACIÓN Y CAPACIDADES */}
+      <section className="section" style={{ background: 'var(--paper-2)' }}>
+        <div className="wrap">
+          <div className="sec-head reveal" style={{ marginBottom: 'clamp(36px,4.5vw,58px)' }}>
+            <div className="sec-head__l">
+              <span className="eyebrow">Credenciales</span>
+              <h2 className="h-xl">Formación &amp; capacidades</h2>
+            </div>
+          </div>
+          <div className="creds reveal d1">
+            <div className="cred">
+              <h4>Formación</h4>
+              <ul>
+                <li>Arquitectura · Universidad Católica de Asunción</li>
+                <li>Dirección Integrada de Proyectos · UCOM</li>
+                <li>Desarrollo y Negocios Inmobiliarios</li>
+                <li>Sistema de Calidad en Construcción</li>
+                <li>Gestión de Presupuestos en Obras · USIL</li>
+                <li>Project Management para Construcción</li>
+                <li>Diseño de Interiores Náuticos · Brasil (2023)</li>
+              </ul>
+            </div>
+            <div className="cred">
+              <h4>Capacidades &amp; herramientas</h4>
+              <ul>
+                <li>Project Management &amp; coordinación multidisciplinaria</li>
+                <li>Dirección de obra &amp; control de plazos y costos</li>
+                <li>Equipo BIM (Revit · Navisworks · BIM 360 / ACC)</li>
+                <li>SketchUp · Lumion</li>
+                <li>Arquitectura residencial premium · interiorismo · paisajismo</li>
+                <li>Arquitectura fluvial &amp; diseño náutico</li>
+              </ul>
+            </div>
+            <div className="cred">
+              <h4>Idiomas</h4>
+              <ul>
+                <li>Español (nativo)</li>
+                <li>Portugués (avanzado)</li>
+                <li>Inglés (lectocomprensión)</li>
+              </ul>
+              <h4 style={{ marginTop: 28 }}>Mercados</h4>
+              <ul>
+                <li>Paraguay</li>
+                <li>Brasil (Paraná, São Paulo, costa)</li>
+                <li>Uruguay (Punta del Este)</li>
+              </ul>
             </div>
           </div>
         </div>
