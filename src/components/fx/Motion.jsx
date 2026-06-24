@@ -29,19 +29,23 @@ export function Parallax({ src, alt = '', className, strength = 14, priority = f
 }
 
 /**
- * Aparición al entrar en viewport (fade + desplazamiento). Base de las reveals.
+ * Aparición con fade + desplazamiento. Por defecto anima al montar (fiable en
+ * todos los navegadores). Con `inView` usa la entrada al viewport (scroll).
+ * El estado animado garantiza que el contenido SIEMPRE termina visible.
  */
-export function Reveal({ children, className, delay = 0, y = 48, as = 'div', once = true }) {
+export function Reveal({ children, className, delay = 0, y = 48, as = 'div', inView = false }) {
   const reduce = useReducedMotion();
   const Comp = motion[as] || motion.div;
   if (reduce) return <Comp className={className}>{children}</Comp>;
+  const anim = inView
+    ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-10%' } }
+    : { animate: { opacity: 1, y: 0 } };
   return (
     <Comp
       className={className}
       initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: '-10%' }}
       transition={{ duration: 0.95, ease: EASE, delay }}
+      {...anim}
     >
       {children}
     </Comp>
@@ -49,8 +53,8 @@ export function Reveal({ children, className, delay = 0, y = 48, as = 'div', onc
 }
 
 /**
- * Título que sube línea por línea desde abajo. Pasale un array de líneas
- * (cada línea puede ser texto o JSX). El recorte lo hace .ln en el CSS.
+ * Título que sube línea por línea desde abajo. Anima al montar (fiable).
+ * Pasale un array de líneas (texto o JSX). El recorte lo hace .ln en el CSS.
  */
 export function LineReveal({ lines = [], className, delay = 0, stagger = 0.13 }) {
   const reduce = useReducedMotion();
@@ -64,8 +68,7 @@ export function LineReveal({ lines = [], className, delay = 0, stagger = 0.13 })
             <motion.span
               style={{ display: 'block' }}
               initial={{ y: '115%' }}
-              whileInView={{ y: 0 }}
-              viewport={{ once: true, margin: '-8%' }}
+              animate={{ y: 0 }}
               transition={{ duration: 1.05, ease: EASE, delay: delay + i * stagger }}
             >
               {ln}
