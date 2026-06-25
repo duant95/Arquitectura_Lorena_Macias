@@ -119,25 +119,6 @@
   color: var(--sage);
 }
 
-/* manifiesto — serif fino, gran elegancia */
-.manifesto {
-  text-align: center;
-  max-width: 1120px;
-  margin: 0 auto;
-}
-.manifesto p.q {
-  font-family: var(--serif-accent);
-  font-weight: 500;
-  font-size: clamp(28px, 3.9vw, 56px);
-  line-height: 1.26;
-  letter-spacing: 0.004em;
-  color: var(--ink);
-  margin: 0;
-}
-.manifesto .hl {
-  font-style: italic;
-  color: var(--green-ink);
-}
 
 /* historia / sobre Lorena */
 .story {
@@ -565,7 +546,7 @@
 }
 .hm-hero__title {
   font-family: var(--serif);
-  font-size: clamp(52px, 9.4vw, 156px);
+  font-size: clamp(32px, 5.5vw, 94px);
   line-height: 0.96;
   letter-spacing: 0.012em;
   margin: 18px 0 0;
@@ -637,35 +618,6 @@
   }
 }
 
-/* ---------- MANIFIESTO ---------- */
-.hm-statement {
-  padding: clamp(110px, 17vw, 240px) 0;
-  background: var(--paper);
-}
-.hm-statement__eyebrow {
-  font-family: var(--sans);
-  font-size: 12px;
-  letter-spacing: 0.36em;
-  text-transform: uppercase;
-  color: var(--green-ink);
-  font-weight: 600;
-  margin: 0 0 30px;
-}
-.hm-statement__text {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(30px, 5.2vw, 82px);
-  line-height: 1.08;
-  letter-spacing: 0.008em;
-  color: var(--ink);
-  max-width: 17ch;
-  margin: 0;
-}
-.hm-statement__text em {
-  font-family: var(--serif-accent);
-  font-style: italic;
-  color: var(--green-ink);
-}
 
 /* ---------- PROYECTOS full-bleed ---------- */
 .hm-proj {
@@ -763,28 +715,34 @@
 /* ---------- CIFRAS ---------- */
 .hm-stats {
   background: var(--paper-2);
-  padding: clamp(80px, 11vw, 150px) 0;
+  padding: clamp(44px, 6vw, 80px) 0;
+  border-bottom: 1px solid rgba(110, 102, 90, 0.25);
 }
 .hm-stats__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 36px;
+  gap: 0;
   text-align: center;
+}
+.hm-stat {
+  padding: 0 clamp(14px, 2.4vw, 36px);
+}
+.hm-stat + .hm-stat {
+  border-left: 1px solid rgba(110, 102, 90, 0.2);
 }
 .hm-stat__n {
   font-family: var(--serif-accent);
   font-weight: 500;
-  font-size: clamp(50px, 6.4vw, 104px);
+  font-size: clamp(28px, 3.4vw, 56px);
   line-height: 1;
   color: var(--green-ink);
 }
 .hm-stat__l {
-  font-size: 14px;
+  font-size: 11px;
   color: var(--ink-soft);
-  margin-top: 14px;
-  letter-spacing: 0.02em;
-  max-width: 18ch;
-  margin-inline: auto;
+  margin-top: 10px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 
 /* ---------- SERVICIOS ---------- */
@@ -925,7 +883,10 @@
 @media (max-width: 900px) {
   .hm-stats__grid {
     grid-template-columns: 1fr 1fr;
-    gap: 44px 24px;
+    gap: 40px 0;
+  }
+  .hm-stat:nth-child(2n + 1) {
+    border-left: none;
   }
   .hm-srv {
     grid-template-columns: 44px 1fr;
@@ -949,8 +910,8 @@
 }
 @media (max-width: 560px) {
   .hm-stats__grid {
-    grid-template-columns: 1fr;
-    gap: 36px;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 0;
   }
   .hm-hero__foot {
     flex-direction: column;

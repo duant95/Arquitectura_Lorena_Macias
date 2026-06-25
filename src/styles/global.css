@@ -816,8 +816,11 @@ h3 em,
   inset: 0;
   z-index: 300;
   background: var(--paper);
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   transition:
     opacity 1s var(--ease),
     visibility 1s;
@@ -827,6 +830,8 @@ h3 em,
   visibility: hidden;
 }
 .intro__mark {
+  display: block;
+  margin: 0 auto;
   width: 118px;
   height: auto;
   opacity: 0;
@@ -869,30 +874,37 @@ h3 em,
   }
 }
 
-/* placeholder elegante para renders de la clienta */
+/* placeholder elegante y de marca para fotos pendientes:
+   degradado beige cálido + monograma como marca de agua + etiqueta sutil */
 .ph {
   position: relative;
-  background: repeating-linear-gradient(
-    135deg,
-    var(--paper-2),
-    var(--paper-2) 12px,
-    #e6dfd1 12px,
-    #e6dfd1 24px
-  );
+  background:
+    radial-gradient(130% 130% at 28% 22%, var(--sand) 0%, var(--paper-2) 52%, var(--clay) 100%);
   display: grid;
   place-items: center;
-  color: var(--ink-soft);
+  color: var(--stone);
+  overflow: hidden;
+}
+.ph::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/assets/mark-charcoal.png') no-repeat center / clamp(56px, 16%, 120px);
+  opacity: 0.09;
 }
 .ph::after {
   content: attr(data-ph);
+  position: relative;
+  z-index: 1;
   font-family: var(--sans);
-  font-size: 11px;
-  letter-spacing: 0.24em;
+  font-size: 10px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  background: var(--paper);
-  padding: 8px 15px;
-  border: 1px solid var(--taupe);
-  color: var(--ink-soft);
+  color: var(--stone);
+  padding: 7px 16px;
+  border: 1px solid rgba(134, 125, 110, 0.4);
+  border-radius: 40px;
+  background: rgba(247, 244, 237, 0.4);
 }
 
 /* ============ PAGE HERO (interiores) ============ */

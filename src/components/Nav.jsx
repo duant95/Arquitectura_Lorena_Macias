@@ -47,7 +47,7 @@ export default function Nav() {
               src="/assets/logo-charcoal.png"
               alt="Lorena Macías Arquitecta"
             />
-            <img className="logo-light" src="/assets/logo-sage.png" alt="" />
+            <img className="logo-light" src="/assets/logo-cream.png" alt="" />
           </Link>
           <nav>
             <ul className="nav__links">

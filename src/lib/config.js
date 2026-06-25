@@ -124,10 +124,10 @@ export const CONTENT_DEFAULTS = {
 
 // Cifras del inicio (editables).
 export const INICIO_STATS_DEFAULT = [
-  { n: '+200', l: 'proyectos realizados' },
-  { n: '25', l: 'años de trayectoria' },
-  { n: '30', l: 'niveles · obra premium' },
-  { n: '1ª', l: 'en diseño náutico en PY' },
+  { n: '+200', l: 'PROYECTOS REALIZADOS' },
+  { n: '25', l: 'AÑOS DE TRAYECTORIA' },
+  { n: '30', l: 'NIVELES · OBRA PREMIUM' },
+  { n: '1ª', l: 'EN DISEÑO NÁUTICO EN PY' },
 ];
 
 // Showcase del inicio: bloques a pantalla completa (imagen + proyecto), editables.
