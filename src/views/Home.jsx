@@ -65,15 +65,32 @@ export default function HomeView({ servicios = [], content = {} }) {
         </motion.div>
       </section>
 
-      {/* ===================== MANIFIESTO ===================== */}
-      <section className="hm-statement">
+      {/* ===================== CIFRAS ===================== */}
+      <section className="hm-stats">
         <div className="wrap">
-          <Reveal>
-            <p className="hm-statement__eyebrow">Filosofía</p>
-          </Reveal>
-          <h2 className="hm-statement__text">
-            <LineReveal lines={toLines(content.inicio_manifiesto)} stagger={0.1} />
-          </h2>
+          <div className="hm-stats__grid">
+            {stats.map((s, i) => (
+              <motion.div
+                className="hm-stat"
+                key={i}
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-8%' }}
+                transition={{ duration: 0.75, ease: EASE, delay: i * 0.12 }}
+              >
+                <motion.div
+                  className="hm-stat__n"
+                  initial={{ opacity: 0, scale: 0.82 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, ease: EASE, delay: i * 0.12 + 0.15 }}
+                >
+                  {s.n}
+                </motion.div>
+                <div className="hm-stat__l">{s.l}</div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -111,20 +128,6 @@ export default function HomeView({ servicios = [], content = {} }) {
               Ver todos los proyectos <span className="arr">→</span>
             </Link>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ===================== CIFRAS ===================== */}
-      <section className="hm-stats">
-        <div className="wrap">
-          <div className="hm-stats__grid">
-            {stats.map((s, i) => (
-              <Reveal className="hm-stat" key={i} delay={i * 0.09}>
-                <div className="hm-stat__n">{s.n}</div>
-                <div className="hm-stat__l">{s.l}</div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
