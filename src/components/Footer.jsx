@@ -12,7 +12,7 @@ export default function Footer() {
         <div className="footer__grid">
           <div>
             <div className="footer__logo">
-              <img src="/assets/logo-cream.png" alt="Lorena Macías Arquitecta" />
+              <img src="/assets/logo-sage.png" alt="Lorena Macías Arquitecta" />
             </div>
             <p style={{ maxWidth: 300, color: 'var(--taupe)', fontSize: 15, lineHeight: 1.7 }}>
               Estudio de arquitectura, interiorismo y project management. Proyectos de alta
