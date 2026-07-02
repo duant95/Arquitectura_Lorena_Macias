@@ -105,7 +105,6 @@ export default function ContenidoEditor({ inicial = {} }) {
   const [pilares, setPilares] = useState(() =>
     Array.isArray(inicial.pilares) ? inicial.pilares : []
   );
-  const [pasos, setPasos] = useState(() => (Array.isArray(inicial.pasos) ? inicial.pasos : []));
   const [formacion, setFormacion] = useState(() =>
     Array.isArray(inicial.formacion) ? inicial.formacion : []
   );
@@ -159,7 +158,6 @@ export default function ContenidoEditor({ inicial = {} }) {
         inicio_stats: JSON.stringify(stats),
         inicio_showcase: JSON.stringify(showcase),
         nosotros_pilares: JSON.stringify(pilares),
-        nosotros_pasos: JSON.stringify(pasos),
         nosotros_formacion: JSON.stringify(formacion),
         proyectos_etapas: JSON.stringify(etapas),
         servicios_pasos: JSON.stringify(serviciosPasos),
@@ -554,13 +552,6 @@ export default function ContenidoEditor({ inicial = {} }) {
             items={pilares}
             setItems={setPilares}
             addLabel="Agregar pilar"
-          />
-
-          <TituloDescList
-            titulo="El proceso (pasos)"
-            items={pasos}
-            setItems={setPasos}
-            addLabel="Agregar paso"
           />
 
           {/* Formación & capacidades */}

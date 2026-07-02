@@ -175,27 +175,6 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* PROCESO */}
-      <section className="section">
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div className="sec-head__l">
-              <span className="eyebrow">Cómo trabajamos</span>
-              <h2 className="h-xl">El proceso</h2>
-            </div>
-          </div>
-          <div className="steps reveal d1">
-            {(content.pasos || []).map((p, i) => (
-              <div className="step" key={i}>
-                <div className="n">{String(i + 1).padStart(2, '0')}</div>
-                <h4>{p.titulo}</h4>
-                <p>{p.descripcion}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="section cta-final" style={{ textAlign: 'center' }}>
         <Img src={content.nosotros_cta_imagen} alt="" sizes="100vw" />
