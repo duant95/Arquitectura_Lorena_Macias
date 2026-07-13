@@ -161,6 +161,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
     ubicacion: proyecto?.ubicacion ?? '',
     servicios: proyecto?.servicios ?? '',
     etapa: proyecto?.etapa ?? (proyecto?.anio ? inferEtapa(proyecto.anio) : 'propio'),
+    estado: proyecto?.estado === 'proceso' ? 'proceso' : 'finalizado',
     destacado: proyecto?.destacado ?? false,
     orden: proyecto?.orden ?? 99,
   });
@@ -341,21 +342,34 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
             />
           </div>
         </div>
-        <div className="ad-field">
-          <label>Etapa</label>
-          <select
-            className="ad-input"
-            value={form.etapa}
-            onChange={(e) => set('etapa', e.target.value)}
-          >
-            <option value="propio">Estudio propio (2019 – presente)</option>
-            <option value="gustafson">Colaboración · Gustafson y Asociados (2001 – 2019)</option>
-          </select>
-          <p className="ad-hint">
-            En la etapa Gustafson la obra figura como colaboración (la propiedad intelectual no es del
-            estudio). Si lo dejás vacío, se ubica según el año.
-          </p>
+        <div className="ad-row-2">
+          <div className="ad-field">
+            <label>Etapa</label>
+            <select
+              className="ad-input"
+              value={form.etapa}
+              onChange={(e) => set('etapa', e.target.value)}
+            >
+              <option value="propio">Estudio propio (2019 – presente)</option>
+              <option value="gustafson">Colaboración · Gustafson y Asociados (2001 – 2019)</option>
+            </select>
+          </div>
+          <div className="ad-field">
+            <label>Estado de la obra</label>
+            <select
+              className="ad-input"
+              value={form.estado}
+              onChange={(e) => set('estado', e.target.value)}
+            >
+              <option value="finalizado">Finalizado</option>
+              <option value="proceso">En proceso</option>
+            </select>
+          </div>
         </div>
+        <p className="ad-hint">
+          En la etapa Gustafson la obra figura como colaboración (la propiedad intelectual no es del
+          estudio). El estado se muestra como indicador sutil en la galería.
+        </p>
         <div className="ad-row-2">
           <div className="ad-field">
             <label>Orden (menor = primero)</label>
