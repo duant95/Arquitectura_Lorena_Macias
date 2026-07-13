@@ -65,13 +65,14 @@ const TEXT_KEYS = [
   // Sobre mí
   'nosotros_hero_titulo',
   'nosotros_hero_lead',
+  'nosotros_intro_imagen',
   'nosotros_intro_titulo',
   'nosotros_intro_lead',
   'nosotros_intro_texto',
   'nosotros_historia',
-  'nosotros_cita',
+  'nosotros_estudio_titulo',
+  'nosotros_estudio_texto',
   'nosotros_retrato_imagen',
-  'nosotros_proceso_imagen',
   'nosotros_cta_imagen',
   // Proyectos
   'proyectos_hero_imagen',
@@ -105,9 +106,10 @@ export default function ContenidoEditor({ inicial = {} }) {
   const [pilares, setPilares] = useState(() =>
     Array.isArray(inicial.pilares) ? inicial.pilares : []
   );
-  const [formacion, setFormacion] = useState(() =>
-    Array.isArray(inicial.formacion) ? inicial.formacion : []
+  const [collage, setCollage] = useState(() =>
+    Array.isArray(inicial.historia_imagenes) ? inicial.historia_imagenes : []
   );
+  const [prensa, setPrensa] = useState(() => (Array.isArray(inicial.prensa) ? inicial.prensa : []));
   const [etapas, setEtapas] = useState(() => (Array.isArray(inicial.etapas) ? inicial.etapas : []));
   const [serviciosPasos, setServiciosPasos] = useState(() =>
     Array.isArray(inicial.servicios_pasos) ? inicial.servicios_pasos : []
@@ -115,9 +117,10 @@ export default function ContenidoEditor({ inicial = {} }) {
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
-  // helpers formación / etapas
-  const setFor = (i, patch) =>
-    setFormacion((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  // helpers collage / prensa / etapas
+  const setColl = (i, patch) =>
+    setCollage((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  const setPr = (i, patch) => setPrensa((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
   const setEt = (i, patch) => setEtapas((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
 
   // --- helpers trayectoria ---
@@ -158,7 +161,8 @@ export default function ContenidoEditor({ inicial = {} }) {
         inicio_stats: JSON.stringify(stats),
         inicio_showcase: JSON.stringify(showcase),
         nosotros_pilares: JSON.stringify(pilares),
-        nosotros_formacion: JSON.stringify(formacion),
+        nosotros_historia_imagenes: JSON.stringify(collage),
+        nosotros_prensa: JSON.stringify(prensa),
         proyectos_etapas: JSON.stringify(etapas),
         servicios_pasos: JSON.stringify(serviciosPasos),
       };
@@ -398,6 +402,11 @@ export default function ContenidoEditor({ inicial = {} }) {
               />
             </div>
             <hr className="ad-sep" />
+            <ImageField
+              label="Intro · imagen de fondo (banda editorial)"
+              value={form.nosotros_intro_imagen}
+              onChange={(v) => set('nosotros_intro_imagen', v)}
+            />
             <div className="ad-field">
               <label>Intro · título</label>
               <input
@@ -442,23 +451,152 @@ export default function ContenidoEditor({ inicial = {} }) {
               onChange={(v) => set('nosotros_retrato_imagen', v)}
             />
             <ImageField
-              label="Imagen intermedia (proceso)"
-              value={form.nosotros_proceso_imagen}
-              onChange={(v) => set('nosotros_proceso_imagen', v)}
-            />
-            <ImageField
               label="Foto del cierre (CTA)"
               value={form.nosotros_cta_imagen}
               onChange={(v) => set('nosotros_cta_imagen', v)}
             />
+            <hr className="ad-sep" />
             <div className="ad-field">
-              <label>Frase destacada (cita)</label>
-              <textarea
-                className="ad-textarea"
-                value={form.nosotros_cita}
-                onChange={(e) => set('nosotros_cita', e.target.value)}
+              <label>El estudio · título</label>
+              <input
+                className="ad-input"
+                value={form.nosotros_estudio_titulo}
+                onChange={(e) => set('nosotros_estudio_titulo', e.target.value)}
               />
             </div>
+            <div className="ad-field">
+              <label>El estudio · texto (institucional)</label>
+              <textarea
+                className="ad-textarea"
+                rows={5}
+                value={form.nosotros_estudio_texto}
+                onChange={(e) => set('nosotros_estudio_texto', e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Mi historia — collage */}
+          <div className="ad-card">
+            <h2 className="ad-card__title">Mi historia · collage</h2>
+            <p className="ad-hint" style={{ marginBottom: 12 }}>
+              Aproximadamente 4 fotos (ej. 2 de edificios en altura + 2 del estudio propio).
+            </p>
+            {collage.map((im, i) => (
+              <div className="ad-etapa" key={i}>
+                <ImageField
+                  label={`Foto ${i + 1}`}
+                  value={im.imagen}
+                  onChange={(v) => setColl(i, { imagen: v })}
+                />
+                <div className="ad-field">
+                  <label>Texto alternativo</label>
+                  <input
+                    className="ad-input"
+                    value={im.alt || ''}
+                    onChange={(e) => setColl(i, { alt: e.target.value })}
+                  />
+                </div>
+                <div className="ad-etapa__actions">
+                  <button
+                    type="button"
+                    className="ad-btn ad-btn--danger"
+                    onClick={() => setCollage(collage.filter((_, idx) => idx !== i))}
+                  >
+                    <Trash2 size={14} /> Quitar foto
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="ad-btn ad-btn--ghost"
+              onClick={() => setCollage([...collage, { imagen: '', alt: '' }])}
+            >
+              <Plus size={15} /> Agregar foto
+            </button>
+          </div>
+
+          {/* Prensa */}
+          <div className="ad-card">
+            <h2 className="ad-card__title">Prensa</h2>
+            <p className="ad-hint" style={{ marginBottom: 12 }}>
+              Publicaciones y apariciones. Si no hay enlace (revista física, TV), dejá la URL vacía.
+            </p>
+            {prensa.map((p, i) => (
+              <div className="ad-etapa" key={i}>
+                <ImageField
+                  label={`Portada / imagen ${i + 1}`}
+                  value={p.imagen}
+                  onChange={(v) => setPr(i, { imagen: v })}
+                />
+                <div className="ad-row-2">
+                  <div className="ad-field">
+                    <label>Medio</label>
+                    <input
+                      className="ad-input"
+                      value={p.medio || ''}
+                      placeholder="Revista / Sitio / Canal"
+                      onChange={(e) => setPr(i, { medio: e.target.value })}
+                    />
+                  </div>
+                  <div className="ad-field">
+                    <label>Fecha (opcional)</label>
+                    <input
+                      className="ad-input"
+                      value={p.fecha || ''}
+                      placeholder="2024"
+                      onChange={(e) => setPr(i, { fecha: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div className="ad-field">
+                  <label>Título</label>
+                  <input
+                    className="ad-input"
+                    value={p.titulo || ''}
+                    onChange={(e) => setPr(i, { titulo: e.target.value })}
+                  />
+                </div>
+                <div className="ad-field">
+                  <label>Descripción</label>
+                  <textarea
+                    className="ad-textarea"
+                    value={p.descripcion || ''}
+                    onChange={(e) => setPr(i, { descripcion: e.target.value })}
+                  />
+                </div>
+                <div className="ad-field">
+                  <label>Enlace (opcional)</label>
+                  <input
+                    className="ad-input"
+                    value={p.url || ''}
+                    placeholder="https://…"
+                    onChange={(e) => setPr(i, { url: e.target.value })}
+                  />
+                </div>
+                <div className="ad-etapa__actions">
+                  <button
+                    type="button"
+                    className="ad-btn ad-btn--danger"
+                    onClick={() => setPrensa(prensa.filter((_, idx) => idx !== i))}
+                  >
+                    <Trash2 size={14} /> Eliminar publicación
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              className="ad-btn ad-btn--ghost"
+              onClick={() =>
+                setPrensa([
+                  ...prensa,
+                  { imagen: '', medio: '', titulo: '', descripcion: '', fecha: '', url: '' },
+                ])
+              }
+            >
+              <Plus size={15} /> Agregar publicación
+            </button>
           </div>
 
           {/* Línea de tiempo */}
@@ -554,52 +692,6 @@ export default function ContenidoEditor({ inicial = {} }) {
             addLabel="Agregar pilar"
           />
 
-          {/* Formación & capacidades */}
-          <div className="ad-card">
-            <h2 className="ad-card__title">Formación &amp; capacidades</h2>
-            <p className="ad-hint" style={{ marginBottom: 12 }}>
-              Tres columnas. Escribí un ítem por línea.
-            </p>
-            {formacion.map((col, i) => (
-              <div className="ad-etapa" key={i}>
-                <div className="ad-field">
-                  <label>Título de la columna</label>
-                  <input
-                    className="ad-input"
-                    value={col.titulo}
-                    onChange={(e) => setFor(i, { titulo: e.target.value })}
-                  />
-                </div>
-                <div className="ad-field">
-                  <label>Ítems (uno por línea)</label>
-                  <textarea
-                    className="ad-textarea"
-                    rows={6}
-                    value={(col.items || []).join('\n')}
-                    onChange={(e) =>
-                      setFor(i, { items: e.target.value.split('\n').filter((x) => x.trim() !== '') })
-                    }
-                  />
-                </div>
-                <div className="ad-etapa__actions">
-                  <button
-                    type="button"
-                    className="ad-btn ad-btn--danger"
-                    onClick={() => setFormacion(formacion.filter((_, idx) => idx !== i))}
-                  >
-                    <Trash2 size={14} /> Eliminar columna
-                  </button>
-                </div>
-              </div>
-            ))}
-            <button
-              type="button"
-              className="ad-btn ad-btn--ghost"
-              onClick={() => setFormacion([...formacion, { titulo: '', items: [] }])}
-            >
-              <Plus size={15} /> Agregar columna
-            </button>
-          </div>
         </>
       )}
 

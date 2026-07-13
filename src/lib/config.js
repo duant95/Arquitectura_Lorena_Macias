@@ -117,7 +117,12 @@ export const CONTENT_DEFAULTS = {
     'Acompañamiento integral, desde la primera idea hasta el último detalle de obra. Diseño a medida en cada etapa.',
   // Sobre mí
   nosotros_hero_titulo: 'Diseñar es<br /><em>escuchar</em>.',
+  nosotros_intro_imagen: '/assets/img/living.jpg',
   nosotros_intro_titulo: 'Una mirada que combina técnica, sensibilidad y trayectoria.',
+  // El estudio (institucional, voz "nosotros")
+  nosotros_estudio_titulo: 'El estudio',
+  nosotros_estudio_texto:
+    'Estudio de Arquitectura Lorena Macías es un estudio especializado en arquitectura, diseño de interiores y gerenciamiento de proyectos, con más de 25 años de experiencia. Desarrollamos proyectos residenciales, comerciales y corporativos, brindando un servicio integral que abarca desde el diseño y la documentación técnica hasta la coordinación, construcción, el seguimiento de obra, diseño interior y paisajismo. Nos enfocamos en crear espacios funcionales, estéticos y personalizados, ofreciendo atención cercana, calidad y compromiso en cada proyecto.',
   nosotros_intro_lead:
     'Mi trabajo es <em>funcional</em>, <em>sofisticado</em> y <em>práctico</em>. Cada proyecto es una conversación con el lugar, la luz y las personas que lo van a habitar.',
   nosotros_intro_texto:
@@ -176,13 +181,13 @@ export const NOSOTROS_PILARES_DEFAULT = [
       'Diseño, documento, dirijo y vendo: acompaño el proyecto completo, de la primera idea a la entrega, en una sola mano.',
   },
   {
-    titulo: 'Diseño náutico',
+    titulo: 'Interiorismo náutico',
     descripcion: 'Primera arquitecta en Paraguay en diseñar interiores de yates.',
   },
   {
-    titulo: 'Defensa de tu inversión',
+    titulo: 'Equipo y aliados de obra',
     descripcion:
-      'Como responsable técnica independiente, cuido el presupuesto, los plazos y la calidad, y defiendo tus intereses en cada decisión.',
+      'Un equipo propio de obra y una red de especialistas asociados que sumo a cada proyecto, según lo que necesita.',
   },
 ];
 
@@ -191,6 +196,26 @@ export const SERVICIOS_PASOS_DEFAULT = [
   { titulo: 'Diseñar', descripcion: 'Anteproyecto, materialidad y renders.' },
   { titulo: 'Construir', descripcion: 'Documentación y dirección de obra.' },
   { titulo: 'Habitar', descripcion: 'Un espacio listo para vivirse.' },
+];
+
+// Mi historia: collage de imágenes (2 edificios en altura + 2 estudio propio).
+export const NOSOTROS_HISTORIA_IMAGENES_DEFAULT = [
+  { imagen: '/assets/img/escalera.jpg', alt: 'Edificio en altura' },
+  { imagen: '/assets/img/exterior.jpg', alt: 'Barrio cerrado' },
+  { imagen: '/assets/img/living.jpg', alt: 'Interior de estudio propio' },
+  { imagen: '/assets/img/dormitorio.jpg', alt: 'Interiorismo náutico' },
+];
+
+// Prensa: publicaciones/apariciones (con o sin enlace).
+export const NOSOTROS_PRENSA_DEFAULT = [
+  {
+    imagen: '',
+    medio: 'Nombre del medio',
+    titulo: 'Título del artículo o entrevista',
+    descripcion: 'Breve descripción de la publicación.',
+    fecha: '',
+    url: '',
+  },
 ];
 
 // Formación & capacidades (columnas con listas).
@@ -332,9 +357,10 @@ export async function getContent() {
     stats: INICIO_STATS_DEFAULT,
     showcase: INICIO_SHOWCASE_DEFAULT,
     pilares: NOSOTROS_PILARES_DEFAULT,
-    formacion: NOSOTROS_FORMACION_DEFAULT,
     etapas: PROYECTOS_ETAPAS_DEFAULT,
     servicios_pasos: SERVICIOS_PASOS_DEFAULT,
+    historia_imagenes: NOSOTROS_HISTORIA_IMAGENES_DEFAULT,
+    prensa: NOSOTROS_PRENSA_DEFAULT,
   };
   // claves JSON (array) → propiedad del objeto
   const JSON_KEYS = {
@@ -342,9 +368,10 @@ export async function getContent() {
     inicio_stats: ['stats', INICIO_STATS_DEFAULT],
     inicio_showcase: ['showcase', INICIO_SHOWCASE_DEFAULT],
     nosotros_pilares: ['pilares', NOSOTROS_PILARES_DEFAULT],
-    nosotros_formacion: ['formacion', NOSOTROS_FORMACION_DEFAULT],
     proyectos_etapas: ['etapas', PROYECTOS_ETAPAS_DEFAULT],
     servicios_pasos: ['servicios_pasos', SERVICIOS_PASOS_DEFAULT],
+    nosotros_historia_imagenes: ['historia_imagenes', NOSOTROS_HISTORIA_IMAGENES_DEFAULT],
+    nosotros_prensa: ['prensa', NOSOTROS_PRENSA_DEFAULT],
   };
   if (supabaseEnabled && supabase) {
     const claves = [...Object.keys(CONTENT_DEFAULTS), ...Object.keys(JSON_KEYS)];
