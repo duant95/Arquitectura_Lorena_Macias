@@ -184,11 +184,11 @@
 }
 .ad-btn--danger {
   background: transparent;
-  color: #b4453a;
-  border-color: #e7c9c4;
+  color: #9a4034;
+  border-color: #d8cec0;
 }
 .ad-btn--danger:hover {
-  background: #fbeeec;
+  background: #f0ebe2;
 }
 .ad-btn:disabled {
   opacity: 0.55;

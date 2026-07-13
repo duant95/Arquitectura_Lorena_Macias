@@ -3,12 +3,7 @@
    Lujo cálido y natural · cremas, arenas y verde musgo
    (Sin verde menta — solo la familia musgo)
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
-@font-face {
-  font-family: 'Marcellus';
-  src: url('/assets/fonts/Marcellus-Regular.ttf') format('truetype');
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
 @font-face {
   font-family: 'Optima';
   src: url('/assets/fonts/Optima.ttc') format('truetype');
@@ -35,8 +30,8 @@
   --green-soft: #e8dcc6; /* beige tenue — texto sobre fondos verdes (antes menta) */
 
   /* ---- neutros cálidos ---- */
-  --camel: #9c8765; /* bronce/taupe sofisticado (antes #b08a5d, leía salmón) */
-  --sienna: #8a5d33;
+  --camel: #8c8474; /* NEUTRO taupe/greige — sin salmón (antes #9c8765 leía salmón) */
+  --sienna: #6f665a;
   --taupe: #a89f90;
   --stone: #867d6e;
   --footer: #2e2924; /* marrón muy oscuro — zonas oscuras (poco negro) */
@@ -51,11 +46,11 @@
   --charcoal-2: #3a342d;
   --light: #e6e1d6;
 
-  /* tipografía */
+  /* tipografía — serif fina y editorial (Cormorant), cuerpo Optima */
   --serif:
-    'Marcellus', Georgia, 'Times New Roman', serif; /* display de marca — solo títulos grandes */
+    'Cormorant Garamond', Georgia, 'Times New Roman', serif; /* display de marca — fina, alto contraste */
   --serif-accent:
-    'Cormorant Garamond', Georgia, serif; /* itálicas, citas y números — alta elegancia */
+    'Cormorant Garamond', Georgia, serif; /* itálicas, citas y números */
   --sans: 'Optima', 'Trebuchet MS', Candara, 'Segoe UI', sans-serif; /* cuerpo, etiquetas y UI */
   /* medidas */
   --nav-h: 88px;
@@ -76,7 +71,7 @@ body {
   font-family: var(--sans);
   color: var(--ink);
   background: var(--paper);
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.62;
   font-weight: 400;
 }
@@ -142,33 +137,33 @@ h3 em,
 }
 .display {
   font-family: var(--serif);
-  font-size: clamp(44px, 7vw, 112px);
-  line-height: 0.98;
-  letter-spacing: 0.01em;
+  font-size: clamp(38px, 6vw, 96px);
+  line-height: 1;
+  letter-spacing: 0.008em;
 }
 .h-xl {
   font-family: var(--serif);
-  font-size: clamp(34px, 4.7vw, 70px);
-  line-height: 1.05;
+  font-size: clamp(29px, 4vw, 60px);
+  line-height: 1.06;
 }
 .h-lg {
   font-family: var(--serif);
-  font-size: clamp(28px, 3.5vw, 48px);
+  font-size: clamp(24px, 3vw, 42px);
 }
 .h-md {
   font-family: var(--serif);
-  font-size: clamp(22px, 2.4vw, 33px);
+  font-size: clamp(20px, 2.1vw, 29px);
 }
 .lead {
-  font-size: clamp(19px, 1.7vw, 23px);
+  font-size: clamp(17px, 1.5vw, 21px);
   line-height: 1.66;
   color: var(--ink-soft);
 }
-/* lead editorial en serif fino — alterna con Marcellus para más elegancia */
+/* lead editorial en serif fino */
 .lead-serif {
   font-family: var(--serif-accent);
-  font-size: clamp(23px, 2.4vw, 34px);
-  line-height: 1.4;
+  font-size: clamp(20px, 2.1vw, 30px);
+  line-height: 1.42;
   color: var(--ink);
   font-weight: 500;
   letter-spacing: 0.004em;
@@ -936,8 +931,8 @@ h3 em,
   color: var(--green-ink);
 }
 .phero h1 {
-  font-size: clamp(40px, 6.2vw, 96px);
-  line-height: 1;
+  font-size: clamp(34px, 5.4vw, 82px);
+  line-height: 1.02;
   letter-spacing: 0.006em;
 }
 .phero h1 em {

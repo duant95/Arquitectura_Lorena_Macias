@@ -292,7 +292,7 @@
 }
 .prow__name {
   font-family: var(--serif);
-  font-size: clamp(28px, 3.2vw, 46px);
+  font-size: clamp(25px, 2.8vw, 40px);
   line-height: 1.05;
   color: var(--ink);
   margin: 0 0 18px;
@@ -382,13 +382,13 @@
 .pstage__period {
   font-family: var(--serif-accent);
   font-style: italic;
-  font-size: clamp(34px, 4.6vw, 70px);
+  font-size: clamp(29px, 4vw, 60px);
   line-height: 1;
   color: var(--camel);
 }
 .pstage__title {
   font-family: var(--serif);
-  font-size: clamp(28px, 3vw, 44px);
+  font-size: clamp(24px, 2.6vw, 38px);
   margin: 0 0 16px;
 }
 .pstage__blurb {
