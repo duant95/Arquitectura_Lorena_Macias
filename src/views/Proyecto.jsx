@@ -212,14 +212,43 @@ export default function ProyectoView({ project, next }) {
         </div>
       </section>
 
-      {/* GALERÍA */}
-      {project.gallery.length > 0 && (
-        <section className="section" style={{ paddingTop: 0 }}>
-          <div className="wrap">
-            <Galeria items={project.gallery} />
-          </div>
-        </section>
-      )}
+      {/* GALERÍA — por etapa de obra (solo las que tienen fotos) */}
+      {(() => {
+        const g = project.galleryByFase || { antes: [], durante: [], finalizado: project.gallery };
+        const FASE_LABELS = [
+          ['antes', 'Antes'],
+          ['durante', 'Durante'],
+          ['finalizado', 'Finalizado'],
+        ];
+        const presentes = FASE_LABELS.filter(([k]) => (g[k] || []).length > 0);
+        if (presentes.length === 0) return null;
+        // Con una sola etapa no mostramos encabezado (evita un "Finalizado" redundante).
+        if (presentes.length === 1) {
+          return (
+            <section className="section" style={{ paddingTop: 0 }}>
+              <div className="wrap">
+                <Galeria items={g[presentes[0][0]]} />
+              </div>
+            </section>
+          );
+        }
+        return (
+          <section className="section" style={{ paddingTop: 0 }}>
+            <div className="wrap">
+              {presentes.map(([key, label]) => (
+                <div className="pj-fase" key={key}>
+                  <div className="sec-head reveal">
+                    <div className="sec-head__l">
+                      <span className="eyebrow">{label}</span>
+                    </div>
+                  </div>
+                  <Galeria items={g[key]} />
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* PROCESO */}
       {procesoParrafos.length > 0 && (

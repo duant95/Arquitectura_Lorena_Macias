@@ -627,3 +627,20 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* selector de etapa de obra sobre cada foto de la galería */
+.ad-img__fase {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 3;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 3px 6px;
+  border: 1px solid rgba(46, 41, 36, 0.18);
+  border-radius: 5px;
+  background: rgba(247, 244, 237, 0.94);
+  color: #2b2722;
+  cursor: pointer;
+  max-width: calc(100% - 12px);
+}

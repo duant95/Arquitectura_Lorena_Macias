@@ -36,8 +36,10 @@ async function uploadFiles(files) {
 }
 
 // Lista de imágenes con subida, orden, borrado y (opcional) selección de portada
-function ImageList({ label, hint, items, onChange, cover, onCover }) {
+function ImageList({ label, hint, items, onChange, cover, onCover, withFase = false }) {
   const [busy, setBusy] = useState(false);
+  const setFase = (i, val) =>
+    onChange(items.map((it, idx) => (idx === i ? { ...it, fase: val } : it)));
 
   async function onUpload(e) {
     const files = e.target.files;
@@ -98,6 +100,18 @@ function ImageList({ label, hint, items, onChange, cover, onCover }) {
               )}
               {onCover && it.url === cover && !isVideo(it.url) && (
                 <span className="ad-img__cover">Portada</span>
+              )}
+              {withFase && (
+                <select
+                  className="ad-img__fase"
+                  value={it.fase || 'finalizado'}
+                  onChange={(e) => setFase(i, e.target.value)}
+                  title="Etapa de obra"
+                >
+                  <option value="antes">Antes</option>
+                  <option value="durante">Durante</option>
+                  <option value="finalizado">Finalizado</option>
+                </select>
               )}
               <div className="ad-img__bar">
                 {onCover && !isVideo(it.url) && (
@@ -395,11 +409,12 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
       <div className="ad-card">
         <ImageList
           label="Galería"
-          hint="Fotos de la obra terminada. Marcá una con ⭐ para usarla de portada."
+          hint="Marcá una con ⭐ para la portada. Clasificá cada foto por etapa (Antes / Durante / Finalizado): en la página de obra solo se muestran las etapas que tienen fotos."
           items={galeria}
           onChange={setGaleria}
           cover={portada}
           onCover={setPortada}
+          withFase
         />
       </div>
       <div className="ad-card">

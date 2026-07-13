@@ -294,3 +294,11 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+/* etapas de obra (Antes / Durante / Finalizado) en la página de obra */
+.pj-fase + .pj-fase {
+  margin-top: clamp(44px, 6vw, 84px);
+}
+.pj-fase .sec-head {
+  margin-bottom: clamp(20px, 2.4vw, 32px);
+}
