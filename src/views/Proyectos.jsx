@@ -1,46 +1,26 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 import { Parallax } from '../components/fx/Motion';
 
-const FILTERS = [
-  { f: 'all', label: 'Todos' },
-  { f: 'edificio', label: 'Edificios' },
-  { f: 'residencial', label: 'Residencias' },
-  { f: 'interior', label: 'Interiorismo' },
-  { f: 'nautico', label: 'Náutico' },
-  { f: 'paisaje', label: 'Paisajismo' },
-];
+// Patrón de proporciones para el collage (desordenado pero armónico).
+const RATIOS = ['r-45', 'r-34', 'r-11', 'r-43', 'r-34', 'r-45'];
 
 export default function ProyectosView({ projects = [], content = {} }) {
   const { open } = useAgenda();
+  useReveals();
   const etapas =
     Array.isArray(content.etapas) && content.etapas.length ? content.etapas : [];
-  const [stage, setStage] = useState(etapas[0]?.key || 'propio');
-  const [active, setActive] = useState('all');
-  useReveals();
-
-  const countByStage = Object.fromEntries(
-    etapas.map((e) => [e.key, projects.filter((p) => p.etapa === e.key).length])
-  );
-  const st = etapas.find((e) => e.key === stage) || etapas[0] || {};
-  const visibles = projects.filter(
-    (p) => p.etapa === stage && (active === 'all' || (p.cat || '').includes(active))
-  );
-
-  function pickStage(k) {
-    setStage(k);
-    setActive('all');
-  }
 
   return (
     <>
       {/* HERO */}
-      <section className={'phero' + (content.proyectos_hero_imagen ? ' phero--image' : ' phero--soft')}>
+      <section
+        className={'phero' + (content.proyectos_hero_imagen ? ' phero--image' : ' phero--soft')}
+      >
         {content.proyectos_hero_imagen && (
           <Parallax className="phero__bg" src={content.proyectos_hero_imagen} strength={8} priority />
         )}
@@ -57,99 +37,65 @@ export default function ProyectosView({ projects = [], content = {} }) {
         </div>
       </section>
 
-      {/* SELECTOR DE ETAPA */}
-      <div className="pstage-bar">
+      {/* COLECCIONES — una sola página, separadas por título */}
+      <section className="section pcolls" style={{ paddingTop: 'clamp(48px,6vw,84px)' }}>
         <div className="wrap">
-          <div className="pstage-tabs" role="tablist">
-            {etapas.map((s) => (
-              <button
-                key={s.key}
-                role="tab"
-                aria-selected={stage === s.key}
-                className={`pstage-tab${stage === s.key ? ' on' : ''}`}
-                onClick={() => pickStage(s.key)}
-              >
-                <span className="pstage-tab__label">{s.label}</span>
-                <span className="pstage-tab__meta">
-                  {s.period} · {countByStage[s.key]} proyectos
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ENCABEZADO DE LA ETAPA */}
-      <section className="section pstage" style={{ paddingTop: 'clamp(48px,6vw,88px)' }}>
-        <div className="wrap">
-          <div className="pstage__head" key={stage}>
-            <div className="pstage__period">{st.period}</div>
-            <div className="pstage__intro">
-              <h2 className="pstage__title">{st.label}</h2>
-              <p className="pstage__blurb">{st.blurb}</p>
-              {st.note && (
-                <p className="pstage__note">
-                  <span className="pstage__badge">Colaboración</span>
-                  {st.note}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className="filters pstage__filters">
-            {FILTERS.map((flt) => (
-              <button
-                key={flt.f}
-                className={`filter${active === flt.f ? ' on' : ''}`}
-                onClick={() => setActive(flt.f)}
-              >
-                {flt.label}
-              </button>
-            ))}
-          </div>
-
-          {visibles.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--ink-soft)' }}>
-              No hay proyectos en esta categoría todavía.
-            </div>
-          ) : (
-            <div className="plist" key={stage + active}>
-              {visibles.map((p, i) => (
-                <Link
-                  key={p.slug}
-                  className={`prow${i % 2 === 1 ? ' rev' : ''}`}
-                  href={`/proyecto/${p.slug}`}
-                >
-                  <div className="prow__img">
-                    <span className="prow__idx">{String(i + 1).padStart(2, '0')}</span>
-                    {p.cover ? (
-                      <Img src={p.cover} alt={p.name} sizes="(max-width: 880px) 100vw, 50vw" />
-                    ) : (
-                      <div
-                        className="ph"
-                        data-ph={p.ph}
-                        style={{ position: 'absolute', inset: 0 }}
-                      />
-                    )}
+          {etapas.map((et, ei) => {
+            const items = projects.filter((p) => p.etapa === et.key);
+            if (items.length === 0) return null;
+            return (
+              <div className="pcoll" key={et.key}>
+                <div className="pcoll__head reveal">
+                  <div>
+                    {et.period && <span className="pcoll__period">{et.period}</span>}
+                    <h2 className="pcoll__title">{et.label}</h2>
                   </div>
-                  <div className="prow__info">
-                    <div className="prow__cat">{p.catLabel}</div>
-                    <h3 className="prow__name">{p.name}</h3>
-                    {p.leadParagraph && (
-                      <p
-                        className="prow__desc"
-                        dangerouslySetInnerHTML={{ __html: p.leadParagraph }}
-                      />
-                    )}
-                    {p.meta?.length > 0 && <div className="prow__meta">{p.meta.join(' · ')}</div>}
-                    <span className="link-arrow">
-                      Ver proyecto <span className="arr">→</span>
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
+                  {et.blurb && <p className="pcoll__blurb">{et.blurb}</p>}
+                </div>
+                {et.note && (
+                  <p className="pcoll__note reveal">
+                    <span className="pcoll__badge">Colaboración</span>
+                    {et.note}
+                  </p>
+                )}
+
+                <div className="pmasonry reveal">
+                  {items.map((p, i) => (
+                    <Link
+                      className={`pm-item ${RATIOS[i % RATIOS.length]}`}
+                      href={`/proyecto/${p.slug}`}
+                      key={p.slug}
+                    >
+                      {p.cover ? (
+                        <Img
+                          src={p.cover}
+                          alt={p.name}
+                          sizes="(max-width:700px) 100vw, (max-width:1100px) 50vw, 33vw"
+                        />
+                      ) : (
+                        <div className="ph" data-ph={p.ph} style={{ position: 'absolute', inset: 0 }} />
+                      )}
+                      <div className="pm-item__ov">
+                        {p.catLabel && <span className="pm-item__cat">{p.catLabel}</span>}
+                        <h3 className="pm-item__name">{p.name}</h3>
+                        {p.leadParagraph && (
+                          <p
+                            className="pm-item__desc"
+                            dangerouslySetInnerHTML={{ __html: p.leadParagraph }}
+                          />
+                        )}
+                      </div>
+                      <span className={`pm-item__estado is-${p.estado}`}>
+                        {p.estado === 'proceso' ? 'En proceso' : 'Finalizado'}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+
+                {ei < etapas.length - 1 && <div className="pcoll__spacer" aria-hidden="true" />}
+              </div>
+            );
+          })}
         </div>
       </section>
 

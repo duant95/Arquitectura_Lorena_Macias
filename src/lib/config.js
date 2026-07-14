@@ -3,17 +3,28 @@ import { supabase, supabaseEnabled } from './supabase';
 // Servicios por defecto (se usan si no hay nada cargado en el panel).
 export const SERVICIOS_DEFAULT = [
   {
-    titulo: 'Proyecto arquitectónico & Project Management',
+    titulo: 'Proyecto arquitectónico',
     descripcion:
-      'Edificios, barrios cerrados y proyectos de gran envergadura. Llevamos tu proyecto del anteproyecto a la dirección de obra, con una mirada integral en cada etapa.',
+      'Del anteproyecto al proyecto ejecutivo y la dirección de obra. Edificios, barrios cerrados y residencias de alto estándar, resueltos con rigor técnico y sensibilidad de diseño.',
     incluye: [
-      'Anteproyecto & proyecto ejecutivo',
-      'Edificios & barrios cerrados',
+      'Anteproyecto & partido de diseño',
+      'Proyecto ejecutivo & documentación técnica',
       'Renders 3D',
-      'Dirección de obra',
-      'Project management',
+      'Dirección arquitectónica de obra',
     ],
     imagen: '/assets/img/exterior.jpg',
+  },
+  {
+    titulo: 'Project Management',
+    descripcion:
+      'Coordinación integral de proyectos de alta complejidad. Articulo equipos y proveedores, controlo plazos, costos y calidad, y defiendo tu inversión como responsable técnica independiente.',
+    incluye: [
+      'Coordinación de equipos y proveedores',
+      'Control de plazos y costos',
+      'Gestión de riesgos & change orders',
+      'Reportes ejecutivos & auditoría independiente',
+    ],
+    imagen: '/assets/img/proceso.jpg',
   },
   {
     titulo: 'Diseño de interiores',
@@ -106,7 +117,12 @@ export const CONTENT_DEFAULTS = {
     'Acompañamiento integral, desde la primera idea hasta el último detalle de obra. Diseño a medida en cada etapa.',
   // Sobre mí
   nosotros_hero_titulo: 'Diseñar es<br /><em>escuchar</em>.',
+  nosotros_intro_imagen: '/assets/img/living.jpg',
   nosotros_intro_titulo: 'Una mirada que combina técnica, sensibilidad y trayectoria.',
+  // El estudio (institucional, voz "nosotros")
+  nosotros_estudio_titulo: 'Un servicio <em>integral</em>, de la idea a la obra.',
+  nosotros_estudio_texto:
+    'Estudio de Arquitectura Lorena Macías es un estudio especializado en arquitectura, diseño de interiores y gerenciamiento de proyectos, con más de 25 años de experiencia. Desarrollamos proyectos residenciales, comerciales y corporativos, brindando un servicio integral que abarca desde el diseño y la documentación técnica hasta la coordinación, construcción, el seguimiento de obra, diseño interior y paisajismo. Nos enfocamos en crear espacios funcionales, estéticos y personalizados, ofreciendo atención cercana, calidad y compromiso en cada proyecto.',
   nosotros_intro_lead:
     'Mi trabajo es <em>funcional</em>, <em>sofisticado</em> y <em>práctico</em>. Cada proyecto es una conversación con el lugar, la luz y las personas que lo van a habitar.',
   nosotros_intro_texto:
@@ -114,7 +130,7 @@ export const CONTENT_DEFAULTS = {
   nosotros_hero_lead:
     'Soy Lorena Macías, arquitecta y project manager. Más de 25 años liderando proyectos de alta complejidad (edificios, barrios cerrados, residencias, interiorismo y diseño náutico), de principio a fin.',
   nosotros_historia:
-    'Soy arquitecta con más de 25 años de trayectoria ininterrumpida en Paraguay. Desde 2001 me dediqué al diseño, la documentación técnica y la dirección de obra de edificios residenciales de alto estándar, hasta llegar a ser Gerente de Proyectos en Gustafson y Asociados, donde lideré las obras de mayor envergadura del mercado premium de Asunción: edificios de 12 a 30 niveles, con departamentos de 350 a 550 m².\n\nDurante una década trabajé además en la comercialización de unidades premium. Esa doble mirada, técnica y de negocio, me permite acompañar cada proyecto entendiendo también su valor y su mercado, y cuidar tu inversión en cada etapa.\n\nEn 2019 fundé Lorena Macías Arquitectura. Hoy lidero proyectos de gran complejidad como Project Manager y Directora de Obras: de barrios cerrados y residencias premium al interiorismo náutico, siendo la primera arquitecta en Paraguay en diseñar interiores de yates, con proyectos en Paraguay, Brasil y Uruguay.',
+    'Soy arquitecta con más de 25 años de trayectoria ininterrumpida en Paraguay. Desde 2001 me dediqué al diseño, la documentación técnica y la dirección de obra de edificios residenciales de alto estándar, ejerciendo como Gerente de Proyectos. En esa etapa, en colaboración con el estudio Gustafson y Asociados, lideré algunas de las obras de mayor envergadura del mercado premium de Asunción: edificios de 12 a 30 niveles, con departamentos de 350 a 550 m².\n\nDurante una década trabajé además en la comercialización de unidades premium. Esa doble mirada, técnica y de negocio, me permite acompañar cada proyecto entendiendo también su valor y su mercado, y cuidar tu inversión en cada etapa.\n\nEn 2019 fundé mi propio estudio, Lorena Macías Arquitectura. Hoy lidero proyectos de gran complejidad como Project Manager y Directora de Obras: de barrios cerrados y residencias premium al interiorismo náutico, siendo la primera arquitecta en Paraguay en diseñar interiores de yates, con proyectos en Paraguay, Brasil y Uruguay.',
   nosotros_retrato_imagen: '',
   nosotros_proceso_imagen: '/assets/img/proceso.jpg',
   nosotros_cta_imagen: '/assets/img/living.jpg',
@@ -157,34 +173,22 @@ export const NOSOTROS_PILARES_DEFAULT = [
   {
     titulo: 'Project Management',
     descripcion:
-      'Coordino proyectos de alta complejidad con múltiples equipos, controlando plazos, costos y calidad.',
+      'Coordino proyectos de alta complejidad, articulando a arquitectos, calculistas, especialistas y proveedores hacia un mismo objetivo.',
   },
   {
     titulo: 'Visión integral',
-    descripcion: 'Diseño, documento, dirijo y vendo: cuido tu inversión en cada etapa del proyecto.',
+    descripcion:
+      'Diseño, documento, dirijo y vendo: acompaño el proyecto completo, de la primera idea a la entrega, en una sola mano.',
   },
   {
-    titulo: 'Diseño náutico',
+    titulo: 'Interiorismo náutico',
     descripcion: 'Primera arquitecta en Paraguay en diseñar interiores de yates.',
   },
   {
-    titulo: 'Equipo & tecnología',
-    descripcion: 'Equipo BIM propio (Revit · Navisworks) para proyectos de gran escala.',
+    titulo: 'Equipo y aliados de obra',
+    descripcion:
+      'Un equipo propio de obra y una red de especialistas asociados que sumo a cada proyecto, según lo que necesita.',
   },
-];
-
-// Pasos del proceso (Sobre mí y Servicios comparten el mismo formato).
-export const NOSOTROS_PASOS_DEFAULT = [
-  { titulo: 'Escuchar', descripcion: 'Entendemos tu idea, tu forma de habitar y tu presupuesto.' },
-  {
-    titulo: 'Diseñar',
-    descripcion: 'Anteproyecto, materialidad y renders para visualizar tu futuro espacio.',
-  },
-  {
-    titulo: 'Construir',
-    descripcion: 'Documentación ejecutiva y dirección de obra con estándares de calidad.',
-  },
-  { titulo: 'Habitar', descripcion: 'Entregamos un espacio listo para vivirse, hasta el último detalle.' },
 ];
 
 export const SERVICIOS_PASOS_DEFAULT = [
@@ -192,6 +196,26 @@ export const SERVICIOS_PASOS_DEFAULT = [
   { titulo: 'Diseñar', descripcion: 'Anteproyecto, materialidad y renders.' },
   { titulo: 'Construir', descripcion: 'Documentación y dirección de obra.' },
   { titulo: 'Habitar', descripcion: 'Un espacio listo para vivirse.' },
+];
+
+// Mi historia: collage de imágenes (2 edificios en altura + 2 estudio propio).
+export const NOSOTROS_HISTORIA_IMAGENES_DEFAULT = [
+  { imagen: '/assets/img/escalera.jpg', alt: 'Edificio en altura' },
+  { imagen: '/assets/img/exterior.jpg', alt: 'Barrio cerrado' },
+  { imagen: '/assets/img/living.jpg', alt: 'Interior de estudio propio' },
+  { imagen: '/assets/img/dormitorio.jpg', alt: 'Interiorismo náutico' },
+];
+
+// Prensa: publicaciones/apariciones (con o sin enlace).
+export const NOSOTROS_PRENSA_DEFAULT = [
+  {
+    imagen: '',
+    medio: 'Nombre del medio',
+    titulo: 'Título del artículo o entrevista',
+    descripcion: 'Breve descripción de la publicación.',
+    fecha: '',
+    url: '',
+  },
 ];
 
 // Formación & capacidades (columnas con listas).
@@ -213,8 +237,8 @@ export const NOSOTROS_FORMACION_DEFAULT = [
     items: [
       'Project Management & coordinación multidisciplinaria',
       'Dirección de obra & control de plazos y costos',
-      'Equipo BIM (Revit · Navisworks · BIM 360 / ACC)',
-      'SketchUp · Lumion',
+      'Gestión de presupuestos & documentación técnica',
+      'Herramientas: Revit, SketchUp, Lumion',
       'Arquitectura residencial premium · interiorismo · paisajismo',
       'Arquitectura fluvial & diseño náutico',
     ],
@@ -242,11 +266,11 @@ export const PROYECTOS_ETAPAS_DEFAULT = [
   },
   {
     key: 'gustafson',
-    label: 'Gustafson y Asociados',
+    label: 'Gerente de Proyectos',
     period: '2001 — 2019',
     blurb:
-      'Mi etapa como Gerente de Proyectos en Gustafson y Asociados, donde ayudé a definir el estándar residencial premium de altura de Asunción.',
-    note: 'Obras realizadas en colaboración. La propiedad intelectual corresponde al estudio.',
+      'Durante casi dos décadas lideré el diseño y la dirección de grandes proyectos residenciales de altura, ayudando a definir el estándar premium de Asunción. Una etapa desarrollada en colaboración con el estudio Gustafson y Asociados.',
+    note: 'Obras de esta etapa, desarrolladas en colaboración. La propiedad intelectual corresponde al estudio.',
   },
 ];
 
@@ -254,9 +278,9 @@ export const PROYECTOS_ETAPAS_DEFAULT = [
 export const TRAYECTORIA_DEFAULT = [
   {
     yr: '2001–2019',
-    titulo: 'Gustafson y Asociados · Gerente del Área de Proyectos',
+    titulo: 'Gerente de Proyectos',
     descripcion:
-      'Máxima responsable del área de diseño y proyecto ejecutivo (Gerente de Proyectos desde 2007). Dirigí equipos de arquitectos, calculistas y especialistas, y ayudé a definir el estándar del mercado residencial premium de altura de Asunción, en edificios de hasta 30 niveles con unidades de 350 a 550 m².',
+      'Etapa en la que fui responsable del área de diseño y proyecto ejecutivo (Gerente de Proyectos desde 2007), en colaboración con el estudio Gustafson y Asociados. Dirigí equipos de arquitectos, calculistas y especialistas, y ayudé a definir el estándar del mercado residencial premium de altura de Asunción, en edificios de hasta 30 niveles con unidades de 350 a 550 m².',
     proyectos: [
       {
         titulo: 'Edificio Altagracia · 30 niveles',
@@ -333,10 +357,10 @@ export async function getContent() {
     stats: INICIO_STATS_DEFAULT,
     showcase: INICIO_SHOWCASE_DEFAULT,
     pilares: NOSOTROS_PILARES_DEFAULT,
-    pasos: NOSOTROS_PASOS_DEFAULT,
-    formacion: NOSOTROS_FORMACION_DEFAULT,
     etapas: PROYECTOS_ETAPAS_DEFAULT,
     servicios_pasos: SERVICIOS_PASOS_DEFAULT,
+    historia_imagenes: NOSOTROS_HISTORIA_IMAGENES_DEFAULT,
+    prensa: NOSOTROS_PRENSA_DEFAULT,
   };
   // claves JSON (array) → propiedad del objeto
   const JSON_KEYS = {
@@ -344,10 +368,10 @@ export async function getContent() {
     inicio_stats: ['stats', INICIO_STATS_DEFAULT],
     inicio_showcase: ['showcase', INICIO_SHOWCASE_DEFAULT],
     nosotros_pilares: ['pilares', NOSOTROS_PILARES_DEFAULT],
-    nosotros_pasos: ['pasos', NOSOTROS_PASOS_DEFAULT],
-    nosotros_formacion: ['formacion', NOSOTROS_FORMACION_DEFAULT],
     proyectos_etapas: ['etapas', PROYECTOS_ETAPAS_DEFAULT],
     servicios_pasos: ['servicios_pasos', SERVICIOS_PASOS_DEFAULT],
+    nosotros_historia_imagenes: ['historia_imagenes', NOSOTROS_HISTORIA_IMAGENES_DEFAULT],
+    nosotros_prensa: ['prensa', NOSOTROS_PRENSA_DEFAULT],
   };
   if (supabaseEnabled && supabase) {
     const claves = [...Object.keys(CONTENT_DEFAULTS), ...Object.keys(JSON_KEYS)];

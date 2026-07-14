@@ -18,8 +18,9 @@ create table if not exists proyectos (
   ubicacion       text,
   servicios       text,
   etapa           text,                 -- etapa de carrera: 'propio' | 'gustafson'. Si es null, se infiere por el año.
+  estado          text,                 -- 'finalizado' | 'proceso' (null = finalizado)
   imagen_portada  text,
-  galeria         jsonb default '[]'::jsonb,  -- [{ "url": "...", "alt": "..." }]
+  galeria         jsonb default '[]'::jsonb,  -- [{ "url": "...", "alt": "...", "fase": "antes|durante|finalizado" }]
   planos          jsonb default '[]'::jsonb,  -- planos 2D: [{ "url": "...", "alt": "..." }]
   renders         jsonb default '[]'::jsonb,  -- renders 3D: [{ "url": "...", "alt": "..." }]
   paleta          jsonb default '[]'::jsonb,  -- [{ "name": "Madera", "hex": "#8a5d33" }]
@@ -37,6 +38,9 @@ alter table proyectos add column if not exists etapa text;
 -- corregir para que la división por etapa vuelva a inferirse por año:
 alter table proyectos alter column etapa drop default;
 update proyectos set etapa = null where etapa = 'propio';
+
+-- Estado de la obra (para el indicador Finalizado / En proceso):
+alter table proyectos add column if not exists estado text;
 
 -- ---------- MENSAJES (Contacto + Agenda) ----------
 create table if not exists mensajes (

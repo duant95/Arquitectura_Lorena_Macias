@@ -37,6 +37,24 @@ export function autoLayoutGallery(items) {
     });
 }
 
+// Agrupa la galería por etapa de obra (antes / durante / finalizado).
+// Las fotos sin etapa definida caen en "finalizado". Cada grupo se maqueta solo.
+export const FASES = ['antes', 'durante', 'finalizado'];
+export function groupGalleryByFase(items) {
+  const list = Array.isArray(items) ? items : [];
+  const groups = { antes: [], durante: [], finalizado: [] };
+  for (const it of list) {
+    if (!it || !(it.url || it.img)) continue;
+    const f = String(it.fase || 'finalizado').toLowerCase();
+    groups[FASES.includes(f) ? f : 'finalizado'].push(it);
+  }
+  return {
+    antes: autoLayoutGallery(groups.antes),
+    durante: autoLayoutGallery(groups.durante),
+    finalizado: autoLayoutGallery(groups.finalizado),
+  };
+}
+
 // Año para ordenar cronológicamente (recientes primero). Toma el mayor año del
 // texto `anio`; si el proyecto está "en presente/en obra", lo trata como vigente
 // (queda arriba de todo). Sin año → 0 (al final).
@@ -106,6 +124,7 @@ export function normalizeRow(row, index = 0) {
     location: row.ubicacion || '—',
     services: row.servicios || '—',
     etapa: inferEtapa(row.anio, row.etapa),
+    estado: row.estado === 'proceso' ? 'proceso' : 'finalizado',
     heroTitle: row.resumen || row.titulo,
     leadParagraph: paragraphs[0] || '',
     bodyParagraphs: paragraphs.slice(1),
@@ -116,6 +135,7 @@ export function normalizeRow(row, index = 0) {
       fg: paletteFg(p.hex || p.bg),
     })),
     gallery: autoLayoutGallery(row.galeria),
+    galleryByFase: groupGalleryByFase(row.galeria),
     planos: autoLayoutGallery(row.planos),
     renders: autoLayoutGallery(row.renders),
     destacado: !!row.destacado,
@@ -141,6 +161,7 @@ export function normalizeLocal(p) {
     location: p.location,
     services: p.services,
     etapa: inferEtapa(p.year, p.etapa),
+    estado: p.estado === 'proceso' ? 'proceso' : 'finalizado',
     heroTitle: p.heroTitle,
     leadParagraph: p.intro || '',
     bodyParagraphs: p.body ? [p.body] : [],
@@ -153,6 +174,17 @@ export function normalizeLocal(p) {
       span: g.span,
       ratio: g.ratio || null,
     })),
+    galleryByFase: {
+      antes: [],
+      durante: [],
+      finalizado: (p.gallery || []).map((g) => ({
+        img: g.img || null,
+        ph: g.img ? null : g.ph,
+        alt: g.alt || '',
+        span: g.span,
+        ratio: g.ratio || null,
+      })),
+    },
     planos: [],
     renders: [],
     destacado: true,

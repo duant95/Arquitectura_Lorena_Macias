@@ -12,6 +12,8 @@ export default function Nosotros({ content = {} }) {
   useReveals();
 
   const historia = splitParagraphs(content.nosotros_historia);
+  const collage = content.historia_imagenes || [];
+  const prensa = (content.prensa || []).filter((p) => p && (p.medio || p.titulo));
 
   return (
     <>
@@ -44,48 +46,46 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* INTRO + FIRMA */}
-      <section className="section">
-        <div className="wrap">
-          <div className="split split--narrow">
-            <div className="reveal">
-              <h2
-                className="h-lg"
-                style={{ marginBottom: 28, maxWidth: '16ch' }}
-                dangerouslySetInnerHTML={{ __html: content.nosotros_intro_titulo }}
-              />
-            </div>
-            <div className="reveal d1">
-              <p
-                className="lead-serif"
-                style={{ marginBottom: 26 }}
-                dangerouslySetInnerHTML={{ __html: content.nosotros_intro_lead }}
-              />
-              <p
-                style={{ color: 'var(--ink-soft)' }}
-                dangerouslySetInnerHTML={{ __html: content.nosotros_intro_texto }}
-              />
-              <p className="sign" style={{ marginTop: 24 }}>
-                Lorena Macías
-              </p>
-            </div>
-          </div>
+      {/* INTRO — banda editorial con imagen de fondo */}
+      <section className="about-band">
+        {content.nosotros_intro_imagen ? (
+          <Img src={content.nosotros_intro_imagen} alt="" sizes="100vw" priority />
+        ) : (
+          <div className="ph" style={{ position: 'absolute', inset: 0 }} data-ph="Imagen" />
+        )}
+        <div className="wrap about-band__in reveal">
+          <h2
+            className="about-band__title"
+            dangerouslySetInnerHTML={{ __html: content.nosotros_intro_titulo }}
+          />
+          <p
+            className="about-band__lead"
+            dangerouslySetInnerHTML={{ __html: content.nosotros_intro_lead }}
+          />
+          <p
+            className="about-band__text"
+            dangerouslySetInnerHTML={{ __html: content.nosotros_intro_texto }}
+          />
+          <p className="sign sign--light">Lorena Macías</p>
         </div>
       </section>
 
-      {/* MI HISTORIA (editable) */}
-      <section className="section" style={{ background: 'var(--paper-2)' }}>
+      {/* MI HISTORIA — collage + relato (sin encabezado) */}
+      <section className="section">
         <div className="wrap">
-          <div className="split split--narrow">
-            <div className="reveal">
-              <p className="eyebrow" style={{ marginBottom: 24 }}>
-                Mi historia
-              </p>
-              <h2 className="h-xl" style={{ maxWidth: '15ch' }}>
-                De los edificios en altura a un estudio de autor.
-              </h2>
+          <div className="historia">
+            <div className="historia__collage reveal">
+              {collage.slice(0, 4).map((im, i) => (
+                <div className={`historia__cell hc-${i}`} key={i}>
+                  {im.imagen ? (
+                    <Img src={im.imagen} alt={im.alt || ''} sizes="(max-width:900px) 50vw, 30vw" />
+                  ) : (
+                    <div className="ph" style={{ position: 'absolute', inset: 0 }} data-ph="Foto" />
+                  )}
+                </div>
+              ))}
             </div>
-            <div className="reveal d1 historia-prose">
+            <div className="historia__text reveal d1">
               {historia.map((p, i) => (
                 <p key={i} className={i === 0 ? 'lead-serif' : ''} style={{ marginBottom: 20 }}>
                   {p}
@@ -96,16 +96,8 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* IMAGEN ROMPE */}
-      <section
-        className="reveal-img"
-        style={{ position: 'relative', height: 'clamp(340px,54vh,640px)', overflow: 'hidden' }}
-      >
-        <Img src={content.nosotros_proceso_imagen} alt="Proceso de diseño" sizes="100vw" />
-      </section>
-
       {/* TRAYECTORIA */}
-      <section className="section">
+      <section className="section" style={{ background: 'var(--paper-2)' }}>
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="sec-head__l">
@@ -117,26 +109,87 @@ export default function Nosotros({ content = {} }) {
             </p>
           </div>
           <Trayectoria items={content.trayectoria || []} />
+          <div className="reveal" style={{ marginTop: 'clamp(30px,4vw,52px)' }}>
+            <Link className="link-arrow" href="/proyectos">
+              Ver proyectos más representativos <span className="arr">→</span>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* CITA */}
-      <section className="section quote-band">
-        <div className="wrap reveal">
-          <p className="q">“{content.nosotros_cita}”</p>
-          <p className="sign" style={{ marginTop: 36 }}>
-            Lorena Macías
-          </p>
+      {/* EL ESTUDIO — banda institucional centrada */}
+      <section className="section estudio-band">
+        <div className="wrap">
+          <div className="estudio reveal">
+            <p className="eyebrow" style={{ marginBottom: 22 }}>
+              El estudio
+            </p>
+            <h2
+              className="estudio__title"
+              dangerouslySetInnerHTML={{ __html: content.nosotros_estudio_titulo }}
+            />
+            <p className="estudio__text">{content.nosotros_estudio_texto}</p>
+            <div className="estudio__focos">
+              <span>Residencial</span>
+              <span>Comercial</span>
+              <span>Corporativo</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* VALORES */}
+      {/* PRENSA */}
+      {prensa.length > 0 && (
+        <section className="section prensa" style={{ background: 'var(--paper-2)' }}>
+          <div className="wrap">
+            <div className="sec-head reveal" style={{ marginBottom: 'clamp(36px,4.5vw,58px)' }}>
+              <div className="sec-head__l">
+                <span className="eyebrow">Prensa</span>
+                <h2 className="h-xl">En los medios</h2>
+              </div>
+            </div>
+            <div className="prensa__grid reveal d1">
+              {prensa.map((p, i) => (
+                <article className="prensa__card" key={i}>
+                  <div className="prensa__media">
+                    {p.imagen ? (
+                      <Img src={p.imagen} alt={p.medio || ''} sizes="(max-width:900px) 100vw, 25vw" />
+                    ) : (
+                      <div className="ph" style={{ position: 'absolute', inset: 0 }} data-ph={p.medio || 'Medio'} />
+                    )}
+                  </div>
+                  <div className="prensa__body">
+                    {p.medio && <span className="prensa__medio">{p.medio}</span>}
+                    {p.titulo && <h4 className="prensa__title">{p.titulo}</h4>}
+                    {p.descripcion && <p className="prensa__desc">{p.descripcion}</p>}
+                    <div className="prensa__foot">
+                      {p.fecha && <span className="prensa__fecha">{p.fecha}</span>}
+                      {p.url && (
+                        <a
+                          className="link-arrow"
+                          href={p.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Ver publicación <span className="arr">→</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ARQUITECTURA CON VISIÓN INTEGRAL (diferenciadores) */}
       <section className="section values-sec">
         <div className="wrap">
           <div className="sec-head reveal" style={{ marginBottom: 52 }}>
             <div className="sec-head__l">
-              <span className="eyebrow">Por qué elegirme</span>
-              <h2 className="h-xl">Lo que me distingue</h2>
+              <span className="eyebrow">Mi enfoque</span>
+              <h2 className="h-xl">Arquitectura con visión integral</h2>
             </div>
           </div>
           <div className="pillars reveal d1">
@@ -151,58 +204,13 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* FORMACIÓN Y CAPACIDADES */}
-      <section className="section" style={{ background: 'var(--paper-2)' }}>
-        <div className="wrap">
-          <div className="sec-head reveal" style={{ marginBottom: 'clamp(36px,4.5vw,58px)' }}>
-            <div className="sec-head__l">
-              <span className="eyebrow">Credenciales</span>
-              <h2 className="h-xl">Formación &amp; capacidades</h2>
-            </div>
-          </div>
-          <div className="creds reveal d1">
-            {(content.formacion || []).map((col, i) => (
-              <div className="cred" key={i}>
-                <h4>{col.titulo}</h4>
-                <ul>
-                  {(col.items || []).map((it, j) => (
-                    <li key={j}>{it}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PROCESO */}
-      <section className="section">
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div className="sec-head__l">
-              <span className="eyebrow">Cómo trabajamos</span>
-              <h2 className="h-xl">El proceso</h2>
-            </div>
-          </div>
-          <div className="steps reveal d1">
-            {(content.pasos || []).map((p, i) => (
-              <div className="step" key={i}>
-                <div className="n">{String(i + 1).padStart(2, '0')}</div>
-                <h4>{p.titulo}</h4>
-                <p>{p.descripcion}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="section cta-final" style={{ textAlign: 'center' }}>
         <Img src={content.nosotros_cta_imagen} alt="" sizes="100vw" />
         <div className="wrap">
           <h2
             className="display reveal"
-            style={{ color: 'var(--cream)', fontSize: 'clamp(34px,5vw,80px)', marginBottom: 32 }}
+            style={{ color: 'var(--cream)', fontSize: 'clamp(30px,4.4vw,70px)', marginBottom: 32 }}
           >
             ¿Empezamos tu <em>proyecto</em>?
           </h2>

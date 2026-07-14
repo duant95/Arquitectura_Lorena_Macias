@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star, Play } from 'lucide-react';
 import { isVideo, inferEtapa } from '@/lib/projectShape';
+import { optimizeForUpload } from '@/lib/imageResize';
 
 function slugify(s) {
   return (s || '')
@@ -19,7 +20,8 @@ function slugify(s) {
 async function uploadFiles(files) {
   const sb = createSupabaseBrowser();
   const urls = [];
-  for (const file of Array.from(files)) {
+  for (const original of Array.from(files)) {
+    const file = await optimizeForUpload(original);
     const ext = file.name.split('.').pop();
     const name = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const { error } = await sb.storage.from('proyectos').upload(name, file, { upsert: false });
@@ -36,8 +38,10 @@ async function uploadFiles(files) {
 }
 
 // Lista de imágenes con subida, orden, borrado y (opcional) selección de portada
-function ImageList({ label, hint, items, onChange, cover, onCover }) {
+function ImageList({ label, hint, items, onChange, cover, onCover, withFase = false }) {
   const [busy, setBusy] = useState(false);
+  const setFase = (i, val) =>
+    onChange(items.map((it, idx) => (idx === i ? { ...it, fase: val } : it)));
 
   async function onUpload(e) {
     const files = e.target.files;
@@ -98,6 +102,18 @@ function ImageList({ label, hint, items, onChange, cover, onCover }) {
               )}
               {onCover && it.url === cover && !isVideo(it.url) && (
                 <span className="ad-img__cover">Portada</span>
+              )}
+              {withFase && !isVideo(it.url) && (
+                <select
+                  className="ad-img__fase"
+                  value={it.fase || 'finalizado'}
+                  onChange={(e) => setFase(i, e.target.value)}
+                  title="Etapa de obra"
+                >
+                  <option value="antes">Antes</option>
+                  <option value="durante">Durante</option>
+                  <option value="finalizado">Finalizado</option>
+                </select>
               )}
               <div className="ad-img__bar">
                 {onCover && !isVideo(it.url) && (
@@ -161,6 +177,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
     ubicacion: proyecto?.ubicacion ?? '',
     servicios: proyecto?.servicios ?? '',
     etapa: proyecto?.etapa ?? (proyecto?.anio ? inferEtapa(proyecto.anio) : 'propio'),
+    estado: proyecto?.estado === 'proceso' ? 'proceso' : 'finalizado',
     destacado: proyecto?.destacado ?? false,
     orden: proyecto?.orden ?? 99,
   });
@@ -341,21 +358,34 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
             />
           </div>
         </div>
-        <div className="ad-field">
-          <label>Etapa</label>
-          <select
-            className="ad-input"
-            value={form.etapa}
-            onChange={(e) => set('etapa', e.target.value)}
-          >
-            <option value="propio">Estudio propio (2019 – presente)</option>
-            <option value="gustafson">Colaboración · Gustafson y Asociados (2001 – 2019)</option>
-          </select>
-          <p className="ad-hint">
-            En la etapa Gustafson la obra figura como colaboración (la propiedad intelectual no es del
-            estudio). Si lo dejás vacío, se ubica según el año.
-          </p>
+        <div className="ad-row-2">
+          <div className="ad-field">
+            <label>Etapa</label>
+            <select
+              className="ad-input"
+              value={form.etapa}
+              onChange={(e) => set('etapa', e.target.value)}
+            >
+              <option value="propio">Estudio propio (2019 – presente)</option>
+              <option value="gustafson">Colaboración · Gustafson y Asociados (2001 – 2019)</option>
+            </select>
+          </div>
+          <div className="ad-field">
+            <label>Estado de la obra</label>
+            <select
+              className="ad-input"
+              value={form.estado}
+              onChange={(e) => set('estado', e.target.value)}
+            >
+              <option value="finalizado">Finalizado</option>
+              <option value="proceso">En proceso</option>
+            </select>
+          </div>
         </div>
+        <p className="ad-hint">
+          En la etapa Gustafson la obra figura como colaboración (la propiedad intelectual no es del
+          estudio). El estado se muestra como indicador sutil en la galería.
+        </p>
         <div className="ad-row-2">
           <div className="ad-field">
             <label>Orden (menor = primero)</label>
@@ -381,11 +411,12 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
       <div className="ad-card">
         <ImageList
           label="Galería"
-          hint="Fotos de la obra terminada. Marcá una con ⭐ para usarla de portada."
+          hint="Marcá una con ⭐ para la portada. Clasificá cada foto por etapa (Antes / Durante / Finalizado): en la página de obra solo se muestran las etapas que tienen fotos."
           items={galeria}
           onChange={setGaleria}
           cover={portada}
           onCover={setPortada}
+          withFase
         />
       </div>
       <div className="ad-card">

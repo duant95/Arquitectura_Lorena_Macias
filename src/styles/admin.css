@@ -184,11 +184,11 @@
 }
 .ad-btn--danger {
   background: transparent;
-  color: #b4453a;
-  border-color: #e7c9c4;
+  color: #9a4034;
+  border-color: #d8cec0;
 }
 .ad-btn--danger:hover {
-  background: #fbeeec;
+  background: #f0ebe2;
 }
 .ad-btn:disabled {
   opacity: 0.55;
@@ -410,7 +410,7 @@
 .ad-img__cover {
   position: absolute;
   left: 4px;
-  bottom: 4px;
+  top: 4px;
   font-size: 10px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -626,4 +626,22 @@
   .ad-proy {
     grid-template-columns: 1fr;
   }
+}
+
+/* selector de etapa de obra sobre cada foto de la galería */
+.ad-img__fase {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  z-index: 2;
+  width: auto;
+  max-width: calc(100% - 12px);
+  font-family: inherit;
+  font-size: 11px;
+  padding: 3px 6px;
+  border: 1px solid rgba(46, 41, 36, 0.18);
+  border-radius: 5px;
+  background: rgba(247, 244, 237, 0.94);
+  color: #2b2722;
+  cursor: pointer;
 }

@@ -169,11 +169,12 @@ export default function Contacto() {
                   <div className="field">
                     <label>Tipo de proyecto</label>
                     <select name="tipo">
-                      <option>Vivienda nueva</option>
-                      <option>Reforma / ampliación</option>
-                      <option>Diseño de interiores</option>
-                      <option>Paisajismo</option>
                       <option>Proyecto arquitectónico</option>
+                      <option>Project Management</option>
+                      <option>Diseño de interiores</option>
+                      <option>Interiorismo náutico</option>
+                      <option>Reformas y obras</option>
+                      <option>Paisajismo</option>
                       <option>Otro</option>
                     </select>
                   </div>

@@ -32,7 +32,7 @@
   object-fit: cover;
 }
 .pj-hero__title {
-  font-size: clamp(42px, 7.2vw, 116px);
+  font-size: clamp(37px, 6.3vw, 102px);
   line-height: 0.95;
   color: var(--cream);
   margin: 0;
@@ -69,7 +69,7 @@
   margin-bottom: 20px;
 }
 .pj-hero h1 {
-  font-size: clamp(42px, 7.2vw, 116px);
+  font-size: clamp(37px, 6.3vw, 102px);
   line-height: 0.95;
   color: var(--cream);
 }
@@ -293,4 +293,12 @@
   right: clamp(12px, 3vw, 36px);
   top: 50%;
   transform: translateY(-50%);
+}
+
+/* etapas de obra (Antes / Durante / Finalizado) en la página de obra */
+.pj-fase + .pj-fase {
+  margin-top: clamp(44px, 6vw, 84px);
+}
+.pj-fase .sec-head {
+  margin-bottom: clamp(20px, 2.4vw, 32px);
 }
