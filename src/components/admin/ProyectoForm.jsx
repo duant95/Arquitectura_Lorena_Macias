@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star, Play } from 'lucide-react';
 import { isVideo, inferEtapa } from '@/lib/projectShape';
+import { optimizeForUpload } from '@/lib/imageResize';
 
 function slugify(s) {
   return (s || '')
@@ -19,7 +20,8 @@ function slugify(s) {
 async function uploadFiles(files) {
   const sb = createSupabaseBrowser();
   const urls = [];
-  for (const file of Array.from(files)) {
+  for (const original of Array.from(files)) {
+    const file = await optimizeForUpload(original);
     const ext = file.name.split('.').pop();
     const name = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const { error } = await sb.storage.from('proyectos').upload(name, file, { upsert: false });
