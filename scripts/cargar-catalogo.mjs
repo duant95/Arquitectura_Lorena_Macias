@@ -149,6 +149,36 @@ const PROJECTS = [
       'Primer interior de yate diseñado por una arquitecta en Paraguay: relevamiento del casco e interiorismo integral. Autoría propia 100%.',
     folderKeys: ['Victory Yachts 2026'],
   },
+  {
+    slug: 'casa-la-carolina',
+    titulo: 'Casa La Carolina del Río',
+    categoria_label: 'Residencia',
+    categorias: 'residencial',
+    etapa: 'propio',
+    estado: 'finalizado',
+    anio: 'Entregada 2026',
+    ubicacion: '',
+    superficie: '',
+    servicios: 'Diseño · Dirección de obra',
+    descripcion:
+      'Obra entregada a los clientes; período de garantía iniciado. Autoría propia 100%.',
+    folderKeys: ['Casa La Carolina'],
+  },
+  {
+    slug: 'casa-paloma',
+    titulo: 'Casa Paloma',
+    categoria_label: 'Residencia',
+    categorias: 'residencial',
+    etapa: 'propio',
+    estado: 'proceso',
+    anio: '',
+    ubicacion: 'Pirarenda',
+    superficie: '312 m² · lote 524 m²',
+    servicios: 'Diseño · Dirección',
+    descripcion:
+      '312 m² de construcción en un lote de 524 m², para la clienta Paloma Zavala. Autoría propia 100%.',
+    folderKeys: ['Casa Paloma Z'],
+  },
 ];
 
 const IMG_RE = /\.(jpe?g|png|webp|heic)$/i;
@@ -253,8 +283,13 @@ async function run() {
   const { data: existing } = await sb.from('proyectos').select('slug');
   console.log('Proyectos ya en la base:', (existing || []).map((r) => r.slug).join(', ') || '(ninguno)', '\n');
 
+  const ONLY = (process.env.ONLY || '').split(',').map((s) => s.trim()).filter(Boolean);
   let orden = 1;
   for (const p of PROJECTS) {
+    if (ONLY.length && !ONLY.includes(p.slug)) {
+      orden++;
+      continue;
+    }
     const folder = findFolder(p.folderKeys);
     let images = folder ? collectImages(folder) : [];
     const chosen = pick(images);
