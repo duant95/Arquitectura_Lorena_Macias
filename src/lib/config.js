@@ -120,7 +120,7 @@ export const CONTENT_DEFAULTS = {
   nosotros_intro_imagen: '/assets/img/living.jpg',
   nosotros_intro_titulo: 'Una mirada que combina técnica, sensibilidad y trayectoria.',
   // El estudio (institucional, voz "nosotros")
-  nosotros_estudio_titulo: 'El estudio',
+  nosotros_estudio_titulo: 'Un servicio <em>integral</em>, de la idea a la obra.',
   nosotros_estudio_texto:
     'Estudio de Arquitectura Lorena Macías es un estudio especializado en arquitectura, diseño de interiores y gerenciamiento de proyectos, con más de 25 años de experiencia. Desarrollamos proyectos residenciales, comerciales y corporativos, brindando un servicio integral que abarca desde el diseño y la documentación técnica hasta la coordinación, construcción, el seguimiento de obra, diseño interior y paisajismo. Nos enfocamos en crear espacios funcionales, estéticos y personalizados, ofreciendo atención cercana, calidad y compromiso en cada proyecto.',
   nosotros_intro_lead:

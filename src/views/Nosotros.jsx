@@ -117,20 +117,22 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* EL ESTUDIO — institucional */}
-      <section className="section">
+      {/* EL ESTUDIO — banda institucional centrada */}
+      <section className="section estudio-band">
         <div className="wrap">
-          <div className="split split--narrow">
-            <div className="reveal">
-              <span className="eyebrow" style={{ display: 'block', marginBottom: 20 }}>
-                El estudio
-              </span>
-              <h2 className="h-lg" style={{ maxWidth: '14ch' }}>
-                {content.nosotros_estudio_titulo}
-              </h2>
-            </div>
-            <div className="reveal d1">
-              <p style={{ color: 'var(--ink-soft)' }}>{content.nosotros_estudio_texto}</p>
+          <div className="estudio reveal">
+            <p className="eyebrow" style={{ marginBottom: 22 }}>
+              El estudio
+            </p>
+            <h2
+              className="estudio__title"
+              dangerouslySetInnerHTML={{ __html: content.nosotros_estudio_titulo }}
+            />
+            <p className="estudio__text">{content.nosotros_estudio_texto}</p>
+            <div className="estudio__focos">
+              <span>Residencial</span>
+              <span>Comercial</span>
+              <span>Corporativo</span>
             </div>
           </div>
         </div>
