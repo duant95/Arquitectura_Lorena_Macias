@@ -61,14 +61,16 @@ async function run() {
   }
 
   const entries = {
-    // Inicio
+    // Inicio (SOLO fotos reales de obra, nunca renders)
     inicio_hero_imagen: photo('casa-pirakutu', 0),
     inicio_cta_imagen: photo('barrio-pirarenda-amenities', 1),
     inicio_showcase: JSON.stringify([
       { imagen: photo('casa-pirakutu', 0), titulo: 'Casa Pirakutu', categoria: 'Residencia ribereña', slug: 'casa-pirakutu' },
       { imagen: photo('barrio-pirarenda-amenities', 0), titulo: 'Barrio Cerrado Pirarenda', categoria: 'Barrio cerrado · Amenities', slug: 'barrio-pirarenda-amenities' },
-      { imagen: photo('v426-victory-yachts', 0), titulo: 'Victory Athena V426', categoria: 'Interiorismo náutico', slug: 'v426-victory-yachts' },
+      { imagen: photo('casa-la-carolina', 0), titulo: 'Casa La Carolina del Río', categoria: 'Residencia', slug: 'casa-la-carolina' },
     ]),
+    // Proyectos (hero) — una obra reciente, no la GV 2020
+    proyectos_hero_imagen: photo('casa-la-carolina', 0),
     // Sobre mí
     nosotros_intro_imagen: photo('casa-gv', 0),
     nosotros_cta_imagen: photo('casa-storm', 0),
