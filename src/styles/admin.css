@@ -410,7 +410,7 @@
 .ad-img__cover {
   position: absolute;
   left: 4px;
-  bottom: 4px;
+  top: 4px;
   font-size: 10px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -631,9 +631,11 @@
 /* selector de etapa de obra sobre cada foto de la galería */
 .ad-img__fase {
   position: absolute;
-  top: 6px;
+  bottom: 6px;
   left: 6px;
-  z-index: 3;
+  z-index: 2;
+  width: auto;
+  max-width: calc(100% - 12px);
   font-family: inherit;
   font-size: 11px;
   padding: 3px 6px;
@@ -642,5 +644,4 @@
   background: rgba(247, 244, 237, 0.94);
   color: #2b2722;
   cursor: pointer;
-  max-width: calc(100% - 12px);
 }

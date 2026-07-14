@@ -101,7 +101,7 @@ function ImageList({ label, hint, items, onChange, cover, onCover, withFase = fa
               {onCover && it.url === cover && !isVideo(it.url) && (
                 <span className="ad-img__cover">Portada</span>
               )}
-              {withFase && (
+              {withFase && !isVideo(it.url) && (
                 <select
                   className="ad-img__fase"
                   value={it.fase || 'finalizado'}

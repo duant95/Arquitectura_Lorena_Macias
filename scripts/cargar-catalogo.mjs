@@ -152,7 +152,9 @@ const PROJECTS = [
 ];
 
 const IMG_RE = /\.(jpe?g|png|webp|heic)$/i;
-const CAPS = { finalizado: 8, durante: 5, antes: 4 };
+const CAPS = { finalizado: 14, durante: 6, antes: 5 };
+// panorámicas 360°, planos, cortes y relevamientos → al final (no son buenas fotos web)
+const BAD_RE = /paneo|360|plano|planta|corte|vista|topog|releva|croquis|dwg/i;
 
 // resuelve una carpeta bajo ~/Downloads/drive-download-* que matchee las keys (anidadas)
 function findFolder(keys) {
@@ -215,7 +217,7 @@ function collectImages(root) {
         continue;
       }
       if (st.isDirectory()) walk(full, [...rel, name]);
-      else if (IMG_RE.test(name)) out.push({ full, fase: faseOf(rel) });
+      else if (IMG_RE.test(name)) out.push({ full, fase: faseOf(rel), size: st.size });
     }
   })(root, []);
   return out;
@@ -227,7 +229,10 @@ function pick(images) {
   for (const im of images) byFase[im.fase].push(im);
   const chosen = [];
   for (const f of ['finalizado', 'durante', 'antes']) {
-    byFase[f].sort((a, b) => a.full.localeCompare(b.full));
+    // fotos reales primero (por tamaño = calidad); panorámicas/planos al final
+    byFase[f].sort(
+      (a, b) => (BAD_RE.test(a.full) ? 1 : 0) - (BAD_RE.test(b.full) ? 1 : 0) || b.size - a.size
+    );
     for (const im of byFase[f].slice(0, CAPS[f])) chosen.push(im);
   }
   return chosen;
