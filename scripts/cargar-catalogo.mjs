@@ -182,9 +182,32 @@ const PROJECTS = [
 ];
 
 const IMG_RE = /\.(jpe?g|png|webp|heic)$/i;
-const CAPS = { finalizado: 14, durante: 6, antes: 5 };
+// tope de FOTOS REALES por fase, y de renders
+const CAPS = { finalizado: 16, durante: 8, antes: 5 };
+const CAP_RENDERS = 10;
 // panorámicas 360°, planos, cortes y relevamientos → al final (no son buenas fotos web)
 const BAD_RE = /paneo|360|plano|planta|corte|vista|topog|releva|croquis|dwg/i;
+
+// --- Detección render vs. foto real (a discreción, combinando 3 señales) ---
+const CAM_RE = /^(img|dsc|dji|_mg|_dsc|pano|gopr)[-_ ]?\d|^p\d{7}/i; // nombres de cámara/celular
+const REALDIR_RE = /finaliz|terminad|fotos?\s*final|obra\s*terminad|exterior|drone|fachada|evento|piscina/;
+const RENDERDIR_RE = /render|anteproyecto|propuesta|\b3d\b|proyecto de dise|dis\.?\s?int/;
+function hasExif(full) {
+  try {
+    const o = execFileSync('sips', ['-g', 'make', full], { encoding: 'utf8' });
+    return /make:\s*\S/.test(o) && !/<nil>/.test(o);
+  } catch {
+    return false;
+  }
+}
+// true = render · false = foto real
+function isRender(full, rel) {
+  const base = path.basename(full).toLowerCase();
+  const p = rel.join(' ').toLowerCase();
+  if (CAM_RE.test(base) || REALDIR_RE.test(p)) return false; // señal fuerte de foto real
+  if (RENDERDIR_RE.test(p)) return true; // carpeta de render/proyecto
+  return !hasExif(full); // ambiguo: con EXIF de cámara = real; sin EXIF = render
+}
 
 // resuelve una carpeta bajo ~/Downloads/drive-download-* que matchee las keys (anidadas)
 function findFolder(keys) {
@@ -247,25 +270,28 @@ function collectImages(root) {
         continue;
       }
       if (st.isDirectory()) walk(full, [...rel, name]);
-      else if (IMG_RE.test(name)) out.push({ full, fase: faseOf(rel), size: st.size });
+      else if (IMG_RE.test(name))
+        out.push({ full, fase: faseOf(rel), size: st.size, render: isRender(full, rel) });
     }
   })(root, []);
   return out;
 }
 
-// selecciona con tope por fase, priorizando finalizado como portada
+const byQuality = (a, b) =>
+  (BAD_RE.test(a.full) ? 1 : 0) - (BAD_RE.test(b.full) ? 1 : 0) || b.size - a.size;
+
+// separa FOTOS REALES (galería, por fase) de RENDERS (sección aparte)
 function pick(images) {
+  const reales = images.filter((im) => !im.render);
+  const rends = images.filter((im) => im.render).sort(byQuality);
   const byFase = { antes: [], durante: [], finalizado: [] };
-  for (const im of images) byFase[im.fase].push(im);
-  const chosen = [];
+  for (const im of reales) byFase[im.fase].push(im);
+  const gallery = [];
   for (const f of ['finalizado', 'durante', 'antes']) {
-    // fotos reales primero (por tamaño = calidad); panorámicas/planos al final
-    byFase[f].sort(
-      (a, b) => (BAD_RE.test(a.full) ? 1 : 0) - (BAD_RE.test(b.full) ? 1 : 0) || b.size - a.size
-    );
-    for (const im of byFase[f].slice(0, CAPS[f])) chosen.push(im);
+    byFase[f].sort(byQuality);
+    for (const im of byFase[f].slice(0, CAPS[f])) gallery.push(im);
   }
-  return chosen;
+  return { gallery, renders: rends.slice(0, CAP_RENDERS) };
 }
 
 function optimizeToBuffer(src) {
@@ -291,13 +317,13 @@ async function run() {
       continue;
     }
     const folder = findFolder(p.folderKeys);
-    let images = folder ? collectImages(folder) : [];
-    const chosen = pick(images);
-    const counts = chosen.reduce((a, im) => ((a[im.fase] = (a[im.fase] || 0) + 1), a), {});
+    const images = folder ? collectImages(folder) : [];
+    const { gallery, renders } = pick(images);
+    const rc = gallery.reduce((a, im) => ((a[im.fase] = (a[im.fase] || 0) + 1), a), {});
     console.log(`• ${p.titulo}  [${p.etapa}/${p.estado}]`);
     console.log(`   carpeta: ${folder ? path.basename(folder) : '— (sin fotos, placeholder)'}`);
     console.log(
-      `   fotos: ${chosen.length}  (finalizado ${counts.finalizado || 0} · durante ${counts.durante || 0} · antes ${counts.antes || 0})`
+      `   fotos reales: ${gallery.length} (final ${rc.finalizado || 0} · dur ${rc.durante || 0} · antes ${rc.antes || 0}) · renders: ${renders.length}`
     );
 
     if (DRY) {
@@ -305,12 +331,8 @@ async function run() {
       continue;
     }
 
-    // subir imágenes
-    const galeria = [];
-    let i = 0;
-    for (const im of chosen) {
+    const subir = async (im, key) => {
       const { buf, tmp } = optimizeToBuffer(im.full);
-      const key = `catalogo/${p.slug}/${String(i).padStart(2, '0')}.jpg`;
       const { error } = await sb.storage.from('proyectos').upload(key, buf, {
         contentType: 'image/jpeg',
         upsert: true,
@@ -319,14 +341,25 @@ async function run() {
         execFileSync('rm', ['-f', tmp]);
       } catch {}
       if (error) {
-        console.log('   ⚠ error subiendo', key, error.message);
-        continue;
+        console.log('   ⚠', key, error.message);
+        return null;
       }
-      const { data } = sb.storage.from('proyectos').getPublicUrl(key);
-      galeria.push({ url: data.publicUrl, alt: p.titulo, fase: im.fase });
-      i++;
+      return sb.storage.from('proyectos').getPublicUrl(key).data.publicUrl;
+    };
+
+    const galeria = [];
+    for (let i = 0; i < gallery.length; i++) {
+      const url = await subir(gallery[i], `catalogo/${p.slug}/f${String(i).padStart(2, '0')}.jpg`);
+      if (url) galeria.push({ url, alt: p.titulo, fase: gallery[i].fase });
     }
-    const cover = (galeria.find((g) => g.fase === 'finalizado') || galeria[0])?.url || null;
+    const rendersArr = [];
+    for (let i = 0; i < renders.length; i++) {
+      const url = await subir(renders[i], `catalogo/${p.slug}/r${String(i).padStart(2, '0')}.jpg`);
+      if (url) rendersArr.push({ url, alt: p.titulo });
+    }
+    // portada: SIEMPRE una foto real de obra (nunca render); si no hay, cae a render
+    const cover =
+      (galeria.find((g) => g.fase === 'finalizado') || galeria[0] || rendersArr[0])?.url || null;
 
     const row = {
       slug: p.slug,
@@ -343,11 +376,14 @@ async function run() {
       estado: p.estado,
       imagen_portada: cover,
       galeria,
+      renders: rendersArr,
       destacado: false,
       orden: orden,
     };
     const { error } = await sb.from('proyectos').upsert(row, { onConflict: 'slug' });
-    console.log(error ? `   ⚠ error DB: ${error.message}` : `   ✓ cargado (${galeria.length} fotos)`);
+    console.log(
+      error ? `   ⚠ error DB: ${error.message}` : `   ✓ ${galeria.length} fotos + ${rendersArr.length} renders`
+    );
     orden++;
   }
 
