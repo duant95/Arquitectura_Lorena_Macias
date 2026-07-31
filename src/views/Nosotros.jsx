@@ -46,31 +46,7 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* INTRO — banda editorial con imagen de fondo */}
-      <section className="about-band">
-        {content.nosotros_intro_imagen ? (
-          <Img src={content.nosotros_intro_imagen} alt="" sizes="100vw" priority />
-        ) : (
-          <div className="ph" style={{ position: 'absolute', inset: 0 }} data-ph="Imagen" />
-        )}
-        <div className="wrap about-band__in reveal">
-          <h2
-            className="about-band__title"
-            dangerouslySetInnerHTML={{ __html: content.nosotros_intro_titulo }}
-          />
-          <p
-            className="about-band__lead"
-            dangerouslySetInnerHTML={{ __html: content.nosotros_intro_lead }}
-          />
-          <p
-            className="about-band__text"
-            dangerouslySetInnerHTML={{ __html: content.nosotros_intro_texto }}
-          />
-          <p className="sign sign--light">Lorena Macías</p>
-        </div>
-      </section>
-
-      {/* MI HISTORIA — collage + relato (sin encabezado) */}
+      {/* QUIÉN SOY — collage + relato */}
       <section className="section">
         <div className="wrap">
           <div className="historia">
@@ -182,27 +158,6 @@ export default function Nosotros({ content = {} }) {
           </div>
         </section>
       )}
-
-      {/* ARQUITECTURA CON VISIÓN INTEGRAL (diferenciadores) */}
-      <section className="section values-sec">
-        <div className="wrap">
-          <div className="sec-head reveal" style={{ marginBottom: 52 }}>
-            <div className="sec-head__l">
-              <span className="eyebrow">Mi enfoque</span>
-              <h2 className="h-xl">Arquitectura con visión integral</h2>
-            </div>
-          </div>
-          <div className="pillars reveal d1">
-            {(content.pilares || []).map((p, i) => (
-              <div className="pillar" key={i}>
-                <span className="n">{String(i + 1).padStart(2, '0')}</span>
-                <h4>{p.titulo}</h4>
-                <p>{p.descripcion}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA */}
       <section className="section cta-final" style={{ textAlign: 'center' }}>
