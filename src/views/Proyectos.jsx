@@ -6,8 +6,8 @@ import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 import { Parallax } from '../components/fx/Motion';
 
-// Patrón de proporciones para el collage (desordenado pero armónico).
-const RATIOS = ['r-45', 'r-34', 'r-11', 'r-43', 'r-34', 'r-45'];
+// Patrón de proporciones para el masonry (desordenado pero armónico y minimalista).
+const RATIOS = ['r-34', 'r-45', 'r-23', 'r-43', 'r-34', 'r-11', 'r-45', 'r-34', 'r-43'];
 
 export default function ProyectosView({ projects = [], content = {} }) {
   const { open } = useAgenda();

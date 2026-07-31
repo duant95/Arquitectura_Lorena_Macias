@@ -159,14 +159,14 @@ h3 em,
   line-height: 1.66;
   color: var(--ink-soft);
 }
-/* lead editorial en serif fino */
+/* lead editorial — misma familia que el cuerpo (una sola letra por párrafo) */
 .lead-serif {
-  font-family: var(--serif-accent);
-  font-size: clamp(20px, 2.1vw, 30px);
-  line-height: 1.42;
+  font-family: var(--sans);
+  font-size: clamp(18px, 1.8vw, 24px);
+  line-height: 1.56;
   color: var(--ink);
-  font-weight: 500;
-  letter-spacing: 0.004em;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 .lead-serif em {
   font-style: italic;

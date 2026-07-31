@@ -184,6 +184,35 @@
   }
 }
 
+/* ============ RECORRIDO POR ETAPA ============ */
+.pj-fase {
+  margin-bottom: clamp(52px, 7vw, 104px);
+}
+.pj-fase:last-child {
+  margin-bottom: 0;
+}
+.pj-fase__head {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(14px, 2vw, 30px);
+  margin-bottom: clamp(22px, 2.6vw, 40px);
+  padding-bottom: clamp(14px, 1.6vw, 22px);
+  border-bottom: 1px solid rgba(43, 39, 34, 0.13);
+}
+.pj-fase__n {
+  font-family: var(--serif-accent);
+  font-style: italic;
+  font-size: clamp(20px, 2vw, 30px);
+  color: var(--ink-soft);
+  line-height: 1;
+}
+.pj-fase__label {
+  font-family: var(--serif);
+  font-size: clamp(30px, 4.4vw, 60px);
+  line-height: 1;
+  letter-spacing: 0.008em;
+}
+
 /* ============ GALERÍA ORDENADA + LIGHTBOX ============ */
 .pj-gal {
   display: grid;

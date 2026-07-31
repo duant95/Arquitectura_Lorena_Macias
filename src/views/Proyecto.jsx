@@ -212,22 +212,29 @@ export default function ProyectoView({ project, next }) {
         </div>
       </section>
 
-      {/* GALERÍA — por etapa de obra (solo las que tienen fotos) */}
+      {/* RECORRIDO POR ETAPA — Resultado final → Proceso de obra → Antes */}
       {(() => {
         const g = project.galleryByFase || { antes: [], durante: [], finalizado: project.gallery };
-        const FASE_LABELS = [
-          ['antes', 'Antes'],
-          ['durante', 'Durante'],
-          ['finalizado', 'Finalizado'],
+        const FASES = [
+          ['finalizado', 'Resultado final'],
+          ['durante', 'Proceso de obra'],
+          ['antes', 'Antes de la intervención'],
         ];
-        const presentes = FASE_LABELS.filter(([k]) => (g[k] || []).length > 0);
+        const presentes = FASES.filter(([k]) => (g[k] || []).length > 0);
         if (presentes.length === 0) return null;
-        // Con una sola etapa no mostramos encabezado (evita un "Finalizado" redundante).
+        // Con una sola etapa mostramos igual el rótulo (sin numerar), para
+        // que quede en sintonía con los proyectos que sí tienen recorrido.
         if (presentes.length === 1) {
+          const [key, label] = presentes[0];
           return (
             <section className="section" style={{ paddingTop: 0 }}>
               <div className="wrap">
-                <Galeria items={g[presentes[0][0]]} />
+                <div className="pj-fase">
+                  <div className="pj-fase__head reveal">
+                    <h2 className="pj-fase__label">{label}</h2>
+                  </div>
+                  <Galeria items={g[key]} />
+                </div>
               </div>
             </section>
           );
@@ -235,12 +242,11 @@ export default function ProyectoView({ project, next }) {
         return (
           <section className="section" style={{ paddingTop: 0 }}>
             <div className="wrap">
-              {presentes.map(([key, label]) => (
+              {presentes.map(([key, label], i) => (
                 <div className="pj-fase" key={key}>
-                  <div className="sec-head reveal">
-                    <div className="sec-head__l">
-                      <span className="eyebrow">{label}</span>
-                    </div>
+                  <div className="pj-fase__head reveal">
+                    <span className="pj-fase__n">{String(i + 1).padStart(2, '0')}</span>
+                    <h2 className="pj-fase__label">{label}</h2>
                   </div>
                   <Galeria items={g[key]} />
                 </div>
