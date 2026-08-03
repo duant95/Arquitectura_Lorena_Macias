@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 import { Parallax } from '../components/fx/Motion';
@@ -64,9 +65,6 @@ export default function ServiciosView({ servicios = [], content = {} }) {
               <span className="eyebrow">Metodología</span>
               <h2 className="h-xl">Un proceso claro</h2>
             </div>
-            <p style={{ maxWidth: 360, color: 'var(--ink-soft)', margin: 0 }}>
-              Cuatro etapas para acompañarte con tranquilidad, de la idea a la entrega.
-            </p>
           </div>
           <div className="steps reveal d1">
             {(content.servicios_pasos || []).map((p, i) => (
@@ -81,14 +79,17 @@ export default function ServiciosView({ servicios = [], content = {} }) {
       </section>
 
       {/* CTA */}
-      <section className="section" style={{ textAlign: 'center' }}>
+      <section className="section cta-final" style={{ textAlign: 'center' }}>
+        {content.servicios_cta_imagen && (
+          <Img src={content.servicios_cta_imagen} alt="" sizes="100vw" />
+        )}
         <div className="wrap">
-          <p className="eyebrow reveal" style={{ marginBottom: 22 }}>
+          <p className="kicker reveal" style={{ marginBottom: 20, color: 'var(--sage)' }}>
             ¿Hablamos?
           </p>
           <h2
             className="h-xl reveal d1"
-            style={{ marginBottom: 18, maxWidth: '18ch', marginInline: 'auto' }}
+            style={{ marginBottom: 18, maxWidth: '18ch', marginInline: 'auto', color: 'var(--cream)' }}
           >
             Contanos qué necesitás y diseñamos juntos la mejor <em>solución</em>.
           </h2>
@@ -102,10 +103,10 @@ export default function ServiciosView({ servicios = [], content = {} }) {
               marginTop: 32,
             }}
           >
-            <button className="btn" onClick={open}>
+            <button className="btn btn--light" onClick={open}>
               Solicitar reunión <span className="arr">→</span>
             </button>
-            <Link className="btn btn--ghost" href="/contacto">
+            <Link className="btn btn--ghost-light" href="/contacto">
               Contacto
             </Link>
           </div>

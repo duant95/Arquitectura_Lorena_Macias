@@ -15,3 +15,19 @@ export async function uploadFile(input) {
   } = sb.storage.from('proyectos').getPublicUrl(name);
   return publicUrl;
 }
+
+// Sube un documento (PDF, etc.) tal cual, sin optimizar, y devuelve su URL.
+// Se abre en el navegador (no se descarga) al enlazarlo.
+export async function uploadDoc(input) {
+  const sb = createSupabaseBrowser();
+  const ext = (input.name.split('.').pop() || 'pdf').toLowerCase();
+  const name = `docs/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  const { error } = await sb.storage
+    .from('proyectos')
+    .upload(name, input, { upsert: false, contentType: input.type || 'application/pdf' });
+  if (error) throw error;
+  const {
+    data: { publicUrl },
+  } = sb.storage.from('proyectos').getPublicUrl(name);
+  return publicUrl;
+}

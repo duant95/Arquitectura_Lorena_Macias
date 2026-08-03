@@ -65,34 +65,17 @@ export default function HomeView({ servicios = [], content = {} }) {
         </motion.div>
       </section>
 
-      {/* ===================== CIFRAS ===================== */}
-      <section className="hm-stats">
-        <div className="wrap">
-          <div className="hm-stats__grid">
-            {stats.map((s, i) => (
-              <motion.div
-                className="hm-stat"
-                key={i}
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-8%' }}
-                transition={{ duration: 0.75, ease: EASE, delay: i * 0.12 }}
-              >
-                <motion.div
-                  className="hm-stat__n"
-                  initial={{ opacity: 0, scale: 0.82 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, ease: EASE, delay: i * 0.12 + 0.15 }}
-                >
-                  {s.n}
-                </motion.div>
-                <div className="hm-stat__l">{s.l}</div>
-              </motion.div>
-            ))}
+      {/* ===================== DIVISOR (imagen + título "Obras destacadas") ===================== */}
+      {content.inicio_divisor_imagen && (
+        <section className="hm-divisor">
+          <Parallax className="hm-divisor__media" src={content.inicio_divisor_imagen} strength={14} />
+          <div className="hm-divisor__in wrap">
+            <Reveal>
+              <p className="hm-divisor__title">Obras destacadas</p>
+            </Reveal>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ===================== PROYECTOS (full-bleed, showcase editable) ===================== */}
       <div className="hm-projects" data-screen-label="Proyectos">
@@ -106,7 +89,6 @@ export default function HomeView({ servicios = [], content = {} }) {
             />
             <div className="hm-proj__in wrap">
               <Reveal y={56}>
-                <span className="hm-proj__idx">{String(i + 1).padStart(2, '0')}</span>
                 {p.categoria && <p className="hm-proj__cat">{p.categoria}</p>}
                 <h3 className="hm-proj__name">{p.titulo}</h3>
                 <Link

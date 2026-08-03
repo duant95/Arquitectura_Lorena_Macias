@@ -1,13 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 import { Parallax } from '../components/fx/Motion';
-
-// Patrón de proporciones para el masonry (desordenado pero armónico y minimalista).
-const RATIOS = ['r-34', 'r-45', 'r-23', 'r-43', 'r-34', 'r-11', 'r-45', 'r-34', 'r-43'];
 
 export default function ProyectosView({ projects = [], content = {} }) {
   const { open } = useAgenda();
@@ -46,10 +42,8 @@ export default function ProyectosView({ projects = [], content = {} }) {
             return (
               <div className="pcoll" key={et.key}>
                 <div className="pcoll__head reveal">
-                  <div>
-                    {et.period && <span className="pcoll__period">{et.period}</span>}
-                    <h2 className="pcoll__title">{et.label}</h2>
-                  </div>
+                  {et.period && <span className="pcoll__period">{et.period}</span>}
+                  <h2 className="pcoll__title">{et.label}</h2>
                   {et.blurb && <p className="pcoll__blurb">{et.blurb}</p>}
                 </div>
                 {et.note && (
@@ -61,19 +55,11 @@ export default function ProyectosView({ projects = [], content = {} }) {
 
                 <div className="pmasonry reveal">
                   {items.map((p, i) => (
-                    <Link
-                      className={`pm-item ${RATIOS[i % RATIOS.length]}`}
-                      href={`/proyecto/${p.slug}`}
-                      key={p.slug}
-                    >
+                    <Link className="pm-item" href={`/proyecto/${p.slug}`} key={p.slug}>
                       {p.cover ? (
-                        <Img
-                          src={p.cover}
-                          alt={p.name}
-                          sizes="(max-width:700px) 100vw, (max-width:1100px) 50vw, 33vw"
-                        />
+                        <img src={p.cover} alt={p.name} />
                       ) : (
-                        <div className="ph" data-ph={p.ph} style={{ position: 'absolute', inset: 0 }} />
+                        <div className="ph pm-item__ph" data-ph={p.ph} />
                       )}
                       <div className="pm-item__ov">
                         {p.catLabel && <span className="pm-item__cat">{p.catLabel}</span>}

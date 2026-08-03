@@ -69,6 +69,7 @@ export const SITE_DEFAULTS = {
   contacto_whatsapp_msg: 'Hola Lorena, me gustaría una consulta sobre un proyecto.',
   contacto_instagram: 'lorenamacias_arq',
   contacto_ciudad: 'Asunción, Paraguay',
+  contacto_hero_imagen: '',
 };
 
 // Lee toda la config de contacto/marca (Supabase sobre los valores por defecto).
@@ -101,6 +102,7 @@ export const CONTENT_DEFAULTS = {
     'Proyectos de arquitectura e interiorismo con identidad y propósito. Del edificio al detalle.',
   inicio_manifiesto:
     'Una arquitectura que escucha el lugar, abraza la <em>luz</em> y se construye para vivirse.',
+  inicio_divisor_imagen: '',
   inicio_cta_imagen: '/assets/img/terraza.jpg',
   inicio_cta_titulo: 'Demos vida a tu <em>proyecto</em>.',
   inicio_cta_descripcion:
@@ -115,11 +117,13 @@ export const CONTENT_DEFAULTS = {
   servicios_hero_titulo: 'Servicios',
   servicios_hero_lead:
     'Acompañamiento integral, desde la primera idea hasta el último detalle de obra. Diseño a medida en cada etapa.',
+  servicios_cta_imagen: '',
   // Sobre mí
   nosotros_hero_titulo: 'Diseñar es<br /><em>escuchar</em>.',
   nosotros_intro_imagen: '/assets/img/living.jpg',
   nosotros_intro_titulo: 'Una mirada que combina técnica, sensibilidad y trayectoria.',
   // El estudio (institucional, voz "nosotros")
+  nosotros_estudio_imagen: '',
   nosotros_estudio_titulo: 'Un servicio <em>integral</em>, de la idea a la obra.',
   nosotros_estudio_texto:
     'Estudio de Arquitectura Lorena Macías es un estudio especializado en arquitectura, diseño de interiores y gerenciamiento de proyectos, con más de 25 años de experiencia. Desarrollamos proyectos residenciales, comerciales y corporativos, brindando un servicio integral que abarca desde el diseño y la documentación técnica hasta la coordinación, construcción, el seguimiento de obra, diseño interior y paisajismo. Nos enfocamos en crear espacios funcionales, estéticos y personalizados, ofreciendo atención cercana, calidad y compromiso en cada proyecto.',
@@ -361,6 +365,8 @@ export async function getContent() {
     servicios_pasos: SERVICIOS_PASOS_DEFAULT,
     historia_imagenes: NOSOTROS_HISTORIA_IMAGENES_DEFAULT,
     prensa: NOSOTROS_PRENSA_DEFAULT,
+    carrusel: [],
+    estudio_imagenes: [],
   };
   // claves JSON (array) → propiedad del objeto
   const JSON_KEYS = {
@@ -372,6 +378,8 @@ export async function getContent() {
     servicios_pasos: ['servicios_pasos', SERVICIOS_PASOS_DEFAULT],
     nosotros_historia_imagenes: ['historia_imagenes', NOSOTROS_HISTORIA_IMAGENES_DEFAULT],
     nosotros_prensa: ['prensa', NOSOTROS_PRENSA_DEFAULT],
+    nosotros_carrusel: ['carrusel', []],
+    nosotros_estudio_imagenes: ['estudio_imagenes', []],
   };
   if (supabaseEnabled && supabase) {
     const claves = [...Object.keys(CONTENT_DEFAULTS), ...Object.keys(JSON_KEYS)];

@@ -3,7 +3,7 @@
    Lujo cálido y natural · cremas, arenas y verde musgo
    (Sin verde menta — solo la familia musgo)
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@300;400;500;600&display=swap');
 @font-face {
   font-family: 'Optima';
   src: url('/assets/fonts/Optima.ttc') format('truetype');
@@ -12,46 +12,46 @@
 }
 
 :root {
-  /* ---- fondos cálidos (luminosos) — paleta beige sofisticada ---- */
-  --paper: #f5f1e8; /* crema principal */
-  --paper-2: #ece5d8; /* arena suave (secciones alternas) */
-  --sand: #e3d9c6; /* beige cálido (bandas) */
-  --clay: #dccdb4; /* beige profundo (acento puntual) */
-  --cream: #f6f2e9; /* texto claro sobre footer/imágenes */
-  --green-wash: #ece4d4; /* banda elegante — beige cálido */
+  /* ---- fondos cálidos arena con cuerpo (claros pero presentes) ---- */
+  --paper: #f3ede0; /* arena cálida principal */
+  --paper-2: #ebe3d2; /* arena media (secciones alternas) */
+  --sand: #e4dac3; /* beige cálido (bandas) */
+  --clay: #dccbac; /* beige profundo (acento puntual) */
+  --cream: #f6f1e7; /* texto claro sobre imágenes */
+  --green-wash: #ebe3d2; /* banda cálida (sin verde) */
 
-  /* ---- verde musgo (intacto, como estaba en el diseño) ---- */
-  --green: #7d9472; /* musgo medio (bandas, botones grandes) */
-  --green-ink: #5f7556; /* musgo legible (eyebrow, links, texto chico) */
-  --green-deep: #506248; /* hover */
+  /* ---- acento cálido dorado/taupe (reemplaza el verde) ---- */
+  --green: #a8956f; /* taupe dorado (bandas, botones grandes) */
+  --green-ink: #9a855c; /* dorado apagado (eyebrow, links, texto chico) */
+  --green-deep: #85713f; /* hover */
 
-  /* ---- BEIGE en lugar del antiguo verde menta ---- */
-  --sage: #e4d5b8; /* beige claro — acentos sobre fondos oscuros (antes menta) */
-  --green-soft: #e8dcc6; /* beige tenue — texto sobre fondos verdes (antes menta) */
+  /* ---- beige de acento ---- */
+  --sage: #e7d9be;
+  --green-soft: #f1e8d5;
 
   /* ---- neutros cálidos ---- */
-  --camel: #8c8474; /* NEUTRO taupe/greige — sin salmón (antes #9c8765 leía salmón) */
-  --sienna: #6f665a;
+  --camel: #a2957f;
+  --sienna: #7a6f60;
   --taupe: #a89f90;
-  --stone: #867d6e;
-  --footer: #2e2924; /* marrón muy oscuro — zonas oscuras (poco negro) */
-  --ink: #2b2722; /* texto: negro cálido suave (no negro puro) */
-  --ink-soft: #6e665a; /* texto secundario */
+  --stone: #8f8676;
+  --footer: #f1ebdf; /* footer claro y minimalista */
+  --ink: #4c433a; /* texto principal: taupe cálido oscuro, suave (sin negro/gris) */
+  --ink-soft: #837868; /* texto secundario, más suave */
 
   /* compatibilidad (tokens antiguos remapeados) */
-  --olive: #5f7556;
-  --olive-deep: #506248;
-  --sage-soft: #e8dcc6;
-  --charcoal: #2e2924;
-  --charcoal-2: #3a342d;
-  --light: #e6e1d6;
+  --olive: #9a855c;
+  --olive-deep: #85713f;
+  --sage-soft: #f1e8d5;
+  --charcoal: #4c433a;
+  --charcoal-2: #5d5348;
+  --light: #ece6da;
 
-  /* tipografía — serif fina y editorial (Cormorant), cuerpo Optima */
+  /* tipografía — Prata (títulos, fina y elegante) + Inter (cuerpo) */
   --serif:
-    'Cormorant Garamond', Georgia, 'Times New Roman', serif; /* display de marca — fina, alto contraste */
+    'Prata', Georgia, 'Times New Roman', serif; /* display de marca */
   --serif-accent:
-    'Cormorant Garamond', Georgia, serif; /* itálicas, citas y números */
-  --sans: 'Optima', 'Trebuchet MS', Candara, 'Segoe UI', sans-serif; /* cuerpo, etiquetas y UI */
+    'Prata', Georgia, serif; /* citas y números */
+  --sans: 'Inter', system-ui, 'Segoe UI', sans-serif; /* cuerpo, etiquetas y UI */
   /* medidas */
   --nav-h: 88px;
   --gut: clamp(22px, 5.5vw, 96px);
@@ -108,9 +108,29 @@ h3 em,
 .h-xl em,
 .phero h1 em {
   font-family: var(--serif-accent);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: 0.005em;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--green-ink);
+}
+/* Prata no tiene itálica real: el énfasis de títulos va en redonda (sin itálica sintética) */
+h1 em,
+h2 em,
+h3 em,
+h4 em,
+.display em,
+.h-xl em,
+.h-lg em,
+.h-md em,
+.phero h1 em,
+.phero--image h1 em,
+.hero__title em,
+.hm-hero__title em,
+.hm-services__title em,
+.hm-cta__title em,
+.about-band__lead em,
+.estudio__title em,
+.pj-hero__title em {
+  font-style: normal !important;
 }
 .accent {
   font-family: var(--serif-accent);
@@ -121,6 +141,15 @@ h3 em,
 }
 
 /* ---- tipografía utilitaria ---- */
+/* Nivel 1 del sistema: título principal en mayúscula, minimalista (Inter). */
+.kicker {
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--green-ink);
+  font-weight: 500;
+}
 .eyebrow {
   font-family: var(--sans);
   font-size: 12px;
@@ -137,18 +166,18 @@ h3 em,
 }
 .display {
   font-family: var(--serif);
-  font-size: clamp(38px, 6vw, 96px);
+  font-size: clamp(34px, 5.1vw, 81px);
   line-height: 1;
   letter-spacing: 0.008em;
 }
 .h-xl {
   font-family: var(--serif);
-  font-size: clamp(29px, 4vw, 60px);
+  font-size: clamp(26px, 3.4vw, 50px);
   line-height: 1.06;
 }
 .h-lg {
   font-family: var(--serif);
-  font-size: clamp(24px, 3vw, 42px);
+  font-size: clamp(22px, 2.5vw, 35px);
 }
 .h-md {
   font-family: var(--serif);
@@ -190,11 +219,11 @@ h3 em,
   padding-right: var(--gut);
 }
 .section {
-  padding: clamp(80px, 12vw, 176px) 0;
+  padding: clamp(44px, 5.5vw, 84px) 0;
 }
 /* la primera sección tras un hero interior se acerca al hero (menos vacío) */
 .phero + .section {
-  padding-top: clamp(40px, 5.5vw, 76px);
+  padding-top: clamp(34px, 4.5vw, 60px);
 }
 .rule {
   height: 1px;
@@ -368,7 +397,7 @@ h3 em,
 }
 .mmenu a {
   font-family: var(--serif);
-  font-size: clamp(30px, 8vw, 50px);
+  font-size: clamp(27px, 6.8vw, 42px);
   padding: 12px 0;
   color: var(--ink);
   opacity: 0;
@@ -491,81 +520,106 @@ h3 em,
   transform: translateX(6px);
 }
 
-/* ============ FOOTER (única zona en gris) ============ */
+/* ============ FOOTER (claro y minimalista) ============ */
 .footer {
-  background: var(--footer);
-  color: var(--light);
-  padding: clamp(70px, 9vw, 120px) 0 42px;
+  background: #e9dfca;
+  color: var(--ink);
+  padding: clamp(56px, 6vw, 88px) 0 30px;
+  border-top: 1px solid rgba(76, 67, 58, 0.1);
 }
-.footer a {
-  color: var(--light);
+.footer__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+.footer__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  flex-wrap: wrap;
+}
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.footer__mark {
+  height: 40px;
+  width: auto;
+  opacity: 0.92;
+}
+.footer__word {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.footer__word small {
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+.footer__contact {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 34px);
+  flex-wrap: wrap;
+  font-family: var(--sans);
+  font-size: 14px;
+}
+.footer__contact a,
+.footer__contact span {
+  color: var(--ink-soft);
   transition: color 0.3s;
 }
-.footer a:hover {
-  color: var(--sage);
-}
-.footer__grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-  gap: 52px;
-}
-.footer__logo img {
-  height: 74px;
-  margin-bottom: 24px;
-}
-.footer h5 {
-  font-family: var(--sans);
-  font-size: 12px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--sage);
-  margin: 0 0 22px;
-  font-weight: 600;
-}
-.footer ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.footer li {
-  margin-bottom: 13px;
-  font-size: 15px;
-}
-.footer__bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: clamp(54px, 7vw, 88px);
-  padding-top: 30px;
-  border-top: 1px solid rgba(246, 242, 233, 0.14);
-  font-size: 13px;
-  color: var(--taupe);
-  letter-spacing: 0.03em;
+.footer__contact a:hover {
+  color: var(--green-ink);
 }
 .footer__social {
   display: flex;
-  gap: 14px;
+  gap: 12px;
 }
 .footer__social a {
   width: 40px;
   height: 40px;
-  border: 1px solid rgba(246, 242, 233, 0.22);
+  border: 1px solid rgba(76, 67, 58, 0.28);
   border-radius: 50%;
   display: grid;
   place-items: center;
+  color: var(--ink);
   transition: 0.35s var(--ease);
 }
 .footer__social a:hover {
   background: var(--green);
   border-color: var(--green);
+  color: var(--cream);
   transform: translateY(-3px);
 }
 .footer__social svg {
   width: 17px;
   height: 17px;
   fill: currentColor;
+}
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: clamp(26px, 3.4vw, 42px);
+  padding-top: 20px;
+  border-top: 1px solid rgba(76, 67, 58, 0.1);
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--taupe);
+  letter-spacing: 0.02em;
 }
 
 /* ============ WHATSAPP FLOTANTE ============ */
@@ -841,7 +895,7 @@ h3 em,
   display: block;
   font-family: var(--serif);
   color: var(--ink);
-  font-size: clamp(26px, 4vw, 42px);
+  font-size: clamp(23px, 3.4vw, 35px);
   letter-spacing: 0.24em;
   transform: translateY(110%);
   animation: introName 1s var(--ease) 0.9s forwards;
@@ -931,9 +985,10 @@ h3 em,
   color: var(--green-ink);
 }
 .phero h1 {
-  font-size: clamp(34px, 5.4vw, 82px);
+  font-size: clamp(31px, 4.6vw, 69px);
   line-height: 1.02;
   letter-spacing: 0.006em;
+  max-width: 15ch;
 }
 .phero h1 em {
   font-style: italic;
@@ -947,20 +1002,23 @@ h3 em,
   margin-top: 30px;
 }
 
-/* hero interior con imagen de fondo (editable) */
+/* hero interior: imagen full-bleed + texto SOBRE la imagen, abajo-izquierda */
 .phero--image {
-  background: var(--footer);
-  color: var(--cream);
-  min-height: clamp(420px, 64vh, 660px);
+  position: relative;
   display: flex;
   align-items: flex-end;
-  padding-top: calc(var(--nav-h) + clamp(48px, 7vw, 96px));
-  padding-bottom: clamp(44px, 6vw, 80px);
+  min-height: clamp(460px, 70vh, 720px);
+  background: var(--footer);
+  color: var(--cream);
+  padding-top: calc(var(--nav-h) + clamp(40px, 6vw, 80px));
+  padding-bottom: clamp(44px, 6vw, 84px);
+  overflow: hidden;
 }
 .phero__bg {
   position: absolute;
-  inset: -8% 0;
+  inset: 0;
   z-index: 0;
+  overflow: hidden;
 }
 .phero__bg img {
   width: 100%;
@@ -974,13 +1032,16 @@ h3 em,
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(46, 41, 36, 0.42),
-    rgba(46, 41, 36, 0.12) 42%,
-    rgba(46, 41, 36, 0.78)
+    rgba(30, 24, 18, 0.3) 0%,
+    rgba(30, 24, 18, 0.04) 38%,
+    rgba(30, 24, 18, 0.72) 100%
   );
 }
 .phero--image .phero__in {
-  position: relative;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(38px, 6vh, 82px);
   z-index: 2;
 }
 .phero--image .crumb,
@@ -989,12 +1050,18 @@ h3 em,
 }
 .phero--image h1 {
   color: var(--cream);
+  max-width: 15ch;
+  font-size: clamp(26px, 3.6vw, 48px);
+  line-height: 1.04;
 }
 .phero--image h1 em {
   color: var(--sage);
 }
 .phero--image .phero__lead {
-  color: rgba(246, 242, 233, 0.86);
+  color: rgba(246, 242, 233, 0.9);
+  max-width: 460px;
+  font-size: clamp(15px, 1.3vw, 18px);
+  margin-top: 16px;
 }
 
 /* entrada elegante y escalonada del hero interior (igual de cuidada que el hero del inicio) */
@@ -1079,9 +1146,9 @@ html.intro-playing .hero__meta {
 }
 .tl__row {
   display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 46px;
-  padding: 42px 0;
+  grid-template-columns: 150px 1fr;
+  gap: 40px;
+  padding: 30px 0;
   border-top: 1px solid var(--taupe);
 }
 .tl__yr {
@@ -1096,7 +1163,7 @@ html.intro-playing .hero__meta {
 .tl__row p {
   color: var(--ink-soft);
   margin: 0;
-  max-width: 580px;
+  max-width: 760px;
 }
 .tl__row:last-child {
   border-bottom: 1px solid var(--taupe);
@@ -1191,7 +1258,7 @@ html.intro-playing .hero__meta {
 .step .n {
   font-family: var(--serif-accent);
   font-weight: 500;
-  font-size: clamp(46px, 4.4vw, 74px);
+  font-size: clamp(41px, 3.7vw, 62px);
   color: var(--green);
   line-height: 1;
   margin-bottom: 20px;

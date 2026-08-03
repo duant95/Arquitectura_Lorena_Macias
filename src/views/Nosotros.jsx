@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Img from '../components/Img';
 import Trayectoria from '../components/Trayectoria';
+import CarruselLinea from '../components/CarruselLinea';
 import { useAgenda } from '../context/AgendaContext';
 import useReveals from '../hooks/useReveals';
 import { splitParagraphs } from '../lib/projectShape';
@@ -12,8 +13,9 @@ export default function Nosotros({ content = {} }) {
   useReveals();
 
   const historia = splitParagraphs(content.nosotros_historia);
-  const collage = content.historia_imagenes || [];
+  const carrusel = content.carrusel || [];
   const prensa = (content.prensa || []).filter((p) => p && (p.medio || p.titulo));
+  const estudioImgs = content.estudio_imagenes || [];
 
   return (
     <>
@@ -23,83 +25,33 @@ export default function Nosotros({ content = {} }) {
           <div className="crumb">
             <Link href="/">Inicio</Link> / Sobre mí
           </div>
-          <div className="about-hero">
+          <div className={'about-hero' + (content.nosotros_retrato_imagen ? '' : ' about-hero--solo')}>
             <div className="reveal">
-              <p className="eyebrow" style={{ marginBottom: 24 }}>
-                Sobre mí
-              </p>
               <h1 dangerouslySetInnerHTML={{ __html: content.nosotros_hero_titulo }} />
               <p className="phero__lead">{content.nosotros_hero_lead}</p>
+              <div className="about-stats">
+                {(content.stats || []).map((s, i) => (
+                  <div className="about-stat" key={i}>
+                    <span className="about-stat__n">{s.n}</span>
+                    <span className="about-stat__l">{s.l}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="imgblock about-portrait reveal-img reveal d1">
-              {content.nosotros_retrato_imagen ? (
+            {content.nosotros_retrato_imagen && (
+              <div className="imgblock about-portrait reveal-img reveal d1">
                 <Img src={content.nosotros_retrato_imagen} alt="Lorena Macías" sizes="40vw" />
-              ) : (
-                <div
-                  className="ph"
-                  style={{ position: 'absolute', inset: 0 }}
-                  data-ph="Retrato de Lorena"
-                ></div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* QUIÉN SOY — collage + relato */}
-      <section className="section">
-        <div className="wrap">
-          <div className="historia">
-            <div className="historia__collage reveal">
-              {collage.slice(0, 4).map((im, i) => (
-                <div className={`historia__cell hc-${i}`} key={i}>
-                  {im.imagen ? (
-                    <Img src={im.imagen} alt={im.alt || ''} sizes="(max-width:900px) 50vw, 30vw" />
-                  ) : (
-                    <div className="ph" style={{ position: 'absolute', inset: 0 }} data-ph="Foto" />
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="historia__text reveal d1">
-              {historia.map((p, i) => (
-                <p key={i} className={i === 0 ? 'lead-serif' : ''} style={{ marginBottom: 20 }}>
-                  {p}
-                </p>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TRAYECTORIA */}
-      <section className="section" style={{ background: 'var(--paper-2)' }}>
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <div className="sec-head__l">
-              <span className="eyebrow">Trayectoria</span>
-              <h2 className="h-xl">De 2001 a hoy</h2>
-            </div>
-            <p style={{ maxWidth: 360, color: 'var(--ink-soft)', margin: 0 }}>
-              Las etapas de mi camino, con sus proyectos. Tocá cada período para ver las obras.
-            </p>
-          </div>
-          <Trayectoria items={content.trayectoria || []} />
-          <div className="reveal" style={{ marginTop: 'clamp(30px,4vw,52px)' }}>
-            <Link className="link-arrow" href="/proyectos">
-              Ver proyectos más representativos <span className="arr">→</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* EL ESTUDIO — banda institucional centrada */}
+      {/* EL ESTUDIO — texto a la izquierda + 2 imágenes */}
       <section className="section estudio-band">
-        <div className="wrap">
+        <div className="wrap estudio-grid">
           <div className="estudio reveal">
-            <p className="eyebrow" style={{ marginBottom: 22 }}>
-              El estudio
-            </p>
+            <p className="kicker">El estudio</p>
             <h2
               className="estudio__title"
               dangerouslySetInnerHTML={{ __html: content.nosotros_estudio_titulo }}
@@ -111,49 +63,82 @@ export default function Nosotros({ content = {} }) {
               <span>Corporativo</span>
             </div>
           </div>
+          {estudioImgs.length > 0 && (
+            <div className="estudio-imgs reveal d1">
+              {estudioImgs.slice(0, 2).map((src, i) => (
+                <div className="estudio-img" key={i}>
+                  <Img src={src} alt="" sizes="(max-width:900px) 50vw, 30vw" />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* PRENSA */}
-      {prensa.length > 0 && (
-        <section className="section prensa" style={{ background: 'var(--paper-2)' }}>
+      {/* MI RECORRIDO — párrafo 1 → línea de tiempo → párrafo 2 (remate) */}
+      <section className="section">
+        <div className="wrap">
+          <div className="quiensoy reveal">
+            <p className="kicker">Mi recorrido</p>
+            <h2 className="h-xl quiensoy__title">Arquitectura que acompaña</h2>
+            {historia[0] && <p className="quiensoy__p1">{historia[0]}</p>}
+          </div>
+        </div>
+        {carrusel.length > 0 && (
+          <div className="carr-wrap reveal d1">
+            <CarruselLinea imagenes={carrusel} />
+          </div>
+        )}
+        {historia[1] && (
           <div className="wrap">
-            <div className="sec-head reveal" style={{ marginBottom: 'clamp(36px,4.5vw,58px)' }}>
-              <div className="sec-head__l">
-                <span className="eyebrow">Prensa</span>
-                <h2 className="h-xl">En los medios</h2>
-              </div>
+            <p className="quiensoy__remate reveal">{historia[1]}</p>
+          </div>
+        )}
+      </section>
+
+      {/* TRAYECTORIA — con subtítulo */}
+      <section className="section" style={{ background: 'var(--paper-2)' }}>
+        <div className="wrap">
+          <div className="reveal" style={{ marginBottom: 'clamp(24px,3vw,42px)' }}>
+            <p className="kicker">Trayectoria</p>
+            <h2 className="h-xl" style={{ marginTop: 12 }}>
+              Dos etapas, una misma manera de trabajar.
+            </h2>
+          </div>
+          <Trayectoria items={content.trayectoria || []} />
+        </div>
+      </section>
+
+      {/* PRENSA / RECONOCIMIENTOS */}
+      {prensa.length > 0 && (
+        <section className="section prensa">
+          <div className="wrap">
+            <div className="reveal" style={{ marginBottom: 'clamp(28px,4vw,52px)' }}>
+              <p className="kicker">Reconocimientos</p>
+              <h2 className="h-xl" style={{ marginTop: 12 }}>
+                Prensa y notas
+              </h2>
             </div>
-            <div className="prensa__grid reveal d1">
-              {prensa.map((p, i) => (
-                <article className="prensa__card" key={i}>
-                  <div className="prensa__media">
-                    {p.imagen ? (
-                      <Img src={p.imagen} alt={p.medio || ''} sizes="(max-width:900px) 100vw, 25vw" />
-                    ) : (
-                      <div className="ph" style={{ position: 'absolute', inset: 0 }} data-ph={p.medio || 'Medio'} />
-                    )}
+            <div className="prensa__row reveal d1">
+              {prensa.map((p, i) => {
+                const href = p.pdf || p.url;
+                const cls = 'prensa__item' + (href ? ' is-link' : '');
+                const inner = (
+                  <>
+                    <span className="prensa__medio">{p.medio}</span>
+                    {p.fecha && <span className="prensa__det">{p.fecha}</span>}
+                  </>
+                );
+                return href ? (
+                  <a className={cls} key={i} href={href} target="_blank" rel="noopener noreferrer">
+                    {inner}
+                  </a>
+                ) : (
+                  <div className={cls} key={i}>
+                    {inner}
                   </div>
-                  <div className="prensa__body">
-                    {p.medio && <span className="prensa__medio">{p.medio}</span>}
-                    {p.titulo && <h4 className="prensa__title">{p.titulo}</h4>}
-                    {p.descripcion && <p className="prensa__desc">{p.descripcion}</p>}
-                    <div className="prensa__foot">
-                      {p.fecha && <span className="prensa__fecha">{p.fecha}</span>}
-                      {p.url && (
-                        <a
-                          className="link-arrow"
-                          href={p.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Ver publicación <span className="arr">→</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
@@ -165,7 +150,7 @@ export default function Nosotros({ content = {} }) {
         <div className="wrap">
           <h2
             className="display reveal"
-            style={{ color: 'var(--cream)', fontSize: 'clamp(30px,4.4vw,70px)', marginBottom: 32 }}
+            style={{ color: 'var(--cream)', fontSize: 'clamp(28px,4vw,58px)', marginBottom: 30 }}
           >
             ¿Empezamos tu <em>proyecto</em>?
           </h2>

@@ -186,34 +186,65 @@ export default function ProyectoView({ project, next }) {
               <b>{project.services}</b>
             </div>
           </div>
-          <div className="split split--narrow" style={{ marginTop: 'clamp(50px,6vw,84px)' }}>
-            <div className="reveal">
-              <h2
-                className="h-lg"
-                style={{ maxWidth: '14ch' }}
-                dangerouslySetInnerHTML={{ __html: project.heroTitle }}
-              />
-            </div>
-            <div className="reveal d1">
-              {project.leadParagraph && (
-                <p
-                  className="lead-serif"
-                  style={{ marginBottom: '24px' }}
-                  dangerouslySetInnerHTML={{ __html: project.leadParagraph }}
-                />
-              )}
-              {project.bodyParagraphs.map((p, i) => (
-                <p key={i} style={{ color: 'var(--ink-soft)' }}>
-                  {p}
-                </p>
-              ))}
-            </div>
-          </div>
+          {(() => {
+            const hasTitle = project.heroTitle && project.heroTitle !== project.name;
+            const desc = (
+              <div className="reveal d1">
+                {project.leadParagraph && (
+                  <p
+                    className="lead-serif"
+                    style={{ marginBottom: '24px' }}
+                    dangerouslySetInnerHTML={{ __html: project.leadParagraph }}
+                  />
+                )}
+                {project.bodyParagraphs.map((p, i) => (
+                  <p key={i} style={{ color: 'var(--ink-soft)' }}>
+                    {p}
+                  </p>
+                ))}
+              </div>
+            );
+            return hasTitle ? (
+              <div className="split split--narrow" style={{ marginTop: 'clamp(40px,5vw,72px)' }}>
+                <div className="reveal">
+                  <h2
+                    className="h-lg"
+                    style={{ maxWidth: '14ch' }}
+                    dangerouslySetInnerHTML={{ __html: project.heroTitle }}
+                  />
+                </div>
+                {desc}
+              </div>
+            ) : (
+              <div style={{ marginTop: 'clamp(28px,3.5vw,48px)', maxWidth: 760 }}>{desc}</div>
+            );
+          })()}
         </div>
       </section>
 
       {/* RECORRIDO POR ETAPA — Resultado final → Proceso de obra → Antes */}
       {(() => {
+        // Si el proyecto está dividido en secciones/áreas con nombre, se muestran esas.
+        const secciones = project.gallerySections;
+        if (secciones && secciones.length) {
+          return (
+            <section className="section" style={{ paddingTop: 0 }}>
+              <div className="wrap">
+                {secciones.map((sec, i) => (
+                  <div className="pj-fase" key={sec.nombre}>
+                    <div className="pj-fase__head reveal">
+                      {secciones.length > 1 && (
+                        <span className="pj-fase__n">{String(i + 1).padStart(2, '0')}</span>
+                      )}
+                      <h2 className="pj-fase__label">{sec.nombre}</h2>
+                    </div>
+                    <Galeria items={sec.items} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          );
+        }
         const g = project.galleryByFase || { antes: [], durante: [], finalizado: project.gallery };
         const FASES = [
           ['finalizado', 'Resultado final'],

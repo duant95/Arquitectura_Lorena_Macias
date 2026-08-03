@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import { useSiteConfig } from '../context/ConfigContext';
 import useReveals from '../hooks/useReveals';
+import { Parallax } from '../components/fx/Motion';
 
 export default function Contacto() {
   const { open } = useAgenda();
-  const { contacto_tel, contacto_email, contacto_ciudad, waUrl, igUrl, mailto } = useSiteConfig();
+  const { contacto_tel, contacto_email, contacto_ciudad, contacto_hero_imagen, waUrl, igUrl, mailto } =
+    useSiteConfig();
   useReveals();
 
   const [sent, setSent] = useState(false);
@@ -49,7 +51,10 @@ export default function Contacto() {
 
   return (
     <>
-      <section className="phero phero--soft">
+      <section className={'phero' + (contacto_hero_imagen ? ' phero--image' : ' phero--soft')}>
+        {contacto_hero_imagen && (
+          <Parallax className="phero__bg" src={contacto_hero_imagen} strength={8} priority />
+        )}
         <div className="phero__in">
           <div className="crumb">
             <Link href="/">Inicio</Link> / Contacto
