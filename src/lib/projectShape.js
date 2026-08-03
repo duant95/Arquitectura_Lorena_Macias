@@ -55,6 +55,29 @@ export function groupGalleryByFase(items) {
   };
 }
 
+// Agrupa la galería por SECCIÓN/ÁREA con nombre (ej. "Recepción", "Conferencias").
+// Devuelve un array ordenado [{ nombre, items }] respetando el orden de aparición.
+// Si ninguna foto tiene sección definida, devuelve null (la vista usa las etapas).
+export function groupGalleryBySections(items) {
+  const list = Array.isArray(items) ? items : [];
+  const hasSection = list.some(
+    (it) => it && (it.url || it.img) && it.seccion && String(it.seccion).trim()
+  );
+  if (!hasSection) return null;
+  const order = [];
+  const map = {};
+  for (const it of list) {
+    if (!it || !(it.url || it.img)) continue;
+    const nombre = (it.seccion && String(it.seccion).trim()) || 'General';
+    if (!map[nombre]) {
+      map[nombre] = [];
+      order.push(nombre);
+    }
+    map[nombre].push(it);
+  }
+  return order.map((nombre) => ({ nombre, items: autoLayoutGallery(map[nombre]) }));
+}
+
 // Año para ordenar cronológicamente (recientes primero). Toma el mayor año del
 // texto `anio`; si el proyecto está "en presente/en obra", lo trata como vigente
 // (queda arriba de todo). Sin año → 0 (al final).
@@ -136,6 +159,7 @@ export function normalizeRow(row, index = 0) {
     })),
     gallery: autoLayoutGallery(row.galeria),
     galleryByFase: groupGalleryByFase(row.galeria),
+    gallerySections: groupGalleryBySections(row.galeria),
     planos: autoLayoutGallery(row.planos),
     renders: autoLayoutGallery(row.renders),
     destacado: !!row.destacado,
@@ -185,6 +209,7 @@ export function normalizeLocal(p) {
         ratio: g.ratio || null,
       })),
     },
+    gallerySections: null,
     planos: [],
     renders: [],
     destacado: true,

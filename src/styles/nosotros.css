@@ -2,10 +2,22 @@
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
   gap: clamp(34px, 5vw, 76px);
-  align-items: start;
+  align-items: stretch;
+}
+.about-hero--solo {
+  grid-template-columns: 1fr;
+  max-width: 760px;
 }
 .about-portrait {
-  aspect-ratio: 4/5;
+  height: 100%;
+  min-height: 360px;
+}
+@media (max-width: 980px) {
+  .about-portrait {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4/5;
+  }
 }
 .sign {
   font-family: var(--serif-accent);
@@ -24,7 +36,7 @@
   font-family: var(--serif-accent);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(26px, 3.2vw, 44px);
+  font-size: clamp(23px, 2.7vw, 37px);
   line-height: 1.3;
   max-width: 24ch;
   margin: 0 auto;
@@ -132,7 +144,7 @@
 .about-band__title {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(28px, 3.6vw, 52px);
+  font-size: clamp(25px, 3.1vw, 44px);
   line-height: 1.12;
   max-width: 18ch;
   margin: 0 0 28px;
@@ -163,7 +175,7 @@
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: clamp(30px, 5vw, 80px);
-  align-items: center;
+  align-items: start;
 }
 .historia__collage {
   display: grid;
@@ -184,13 +196,7 @@
 .historia__cell:hover img {
   transform: scale(1.05);
 }
-/* leve variación de alturas para el ritmo editorial (collage) */
-.historia__cell.hc-0 {
-  margin-top: clamp(18px, 3vw, 44px);
-}
-.historia__cell.hc-3 {
-  margin-top: clamp(18px, 3vw, 44px);
-}
+/* collage con distancias consistentes (sin desfasajes) */
 .historia__text p {
   color: var(--ink-soft);
 }
@@ -206,105 +212,135 @@
 }
 
 /* --- PRENSA --- */
-.prensa__grid {
+/* fila minimalista de reconocimientos, con separadores finos */
+.prensa__row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(20px, 2.2vw, 34px);
+  gap: 1px;
+  background: rgba(76, 67, 58, 0.14);
+  border-top: 1px solid rgba(76, 67, 58, 0.14);
+  border-bottom: 1px solid rgba(76, 67, 58, 0.14);
 }
-.prensa__card {
+.prensa__item {
   display: flex;
   flex-direction: column;
-  background: var(--paper);
-  border: 1px solid rgba(168, 159, 144, 0.35);
-  border-radius: 2px;
-  overflow: hidden;
-  transition:
-    transform 0.4s var(--ease),
-    box-shadow 0.4s var(--ease);
-}
-.prensa__card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 44px rgba(46, 41, 36, 0.12);
-}
-.prensa__media {
-  position: relative;
-  aspect-ratio: 4/3;
-  overflow: hidden;
+  gap: 8px;
+  padding: clamp(20px, 2.4vw, 32px) clamp(18px, 2vw, 28px);
   background: var(--paper-2);
+  transition: background 0.35s var(--ease);
 }
-.prensa__media img {
-  transition: transform 0.9s var(--ease);
-}
-.prensa__card:hover .prensa__media img {
-  transform: scale(1.05);
-}
-.prensa__body {
-  padding: 22px 22px 24px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.prensa__item.is-link:hover {
+  background: var(--paper);
 }
 .prensa__medio {
+  font-family: var(--serif);
+  font-size: clamp(18px, 1.5vw, 24px);
+  color: var(--ink);
+  line-height: 1.1;
+}
+.prensa__item.is-link .prensa__medio::after {
+  content: '↗';
+  font-family: var(--sans);
+  font-size: 0.55em;
+  vertical-align: super;
+  margin-left: 5px;
+  color: var(--green-ink);
+}
+.prensa__det {
   font-family: var(--sans);
   font-size: 11px;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--green-ink);
-  font-weight: 600;
-  margin-bottom: 12px;
 }
-.prensa__title {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-size: clamp(19px, 1.5vw, 23px);
-  line-height: 1.16;
-  margin: 0 0 12px;
-}
-.prensa__desc {
-  color: var(--ink-soft);
-  font-size: 15px;
-  margin: 0 0 18px;
-}
-.prensa__foot {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.prensa__fecha {
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--stone);
-}
-.prensa__foot .link-arrow {
-  font-size: 11.5px;
-}
-@media (max-width: 1024px) {
-  .prensa__grid {
+@media (max-width: 900px) {
+  .prensa__row {
     grid-template-columns: 1fr 1fr;
   }
 }
-@media (max-width: 560px) {
-  .prensa__grid {
+@media (max-width: 520px) {
+  .prensa__row {
     grid-template-columns: 1fr;
   }
 }
 
-/* --- EL ESTUDIO (banda institucional centrada) --- */
+/* --- EL ESTUDIO (banda institucional, con imagen de fondo) --- */
 .estudio-band {
   background: var(--sand);
 }
+.estudio-band--img {
+  position: relative;
+  overflow: hidden;
+  background: var(--footer);
+  color: var(--cream);
+  padding-top: clamp(64px, 9vw, 128px);
+  padding-bottom: clamp(64px, 9vw, 128px);
+}
+.estudio-band--img > img {
+  z-index: 0;
+}
+.estudio-band--img > .wrap {
+  position: relative;
+  z-index: 2;
+}
+.estudio-band--img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(42, 34, 26, 0.64), rgba(42, 34, 26, 0.74));
+}
+.estudio-band--img .kicker,
+.estudio-band--img .estudio__title em {
+  color: var(--sage);
+}
+.estudio-band--img .estudio__title {
+  color: var(--cream);
+}
+.estudio-band--img .estudio__text {
+  color: rgba(248, 244, 236, 0.9);
+}
+.estudio-band--img .estudio__focos span {
+  color: var(--sage);
+  border-color: rgba(248, 244, 236, 0.32);
+}
+.estudio-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(34px, 5vw, 74px);
+  align-items: center;
+}
+.estudio-imgs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(12px, 1.4vw, 20px);
+}
+.estudio-img {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--paper-2);
+}
+.estudio-img:first-child {
+  margin-top: clamp(20px, 3.5vw, 52px);
+}
 .estudio {
-  max-width: 760px;
-  margin: 0 auto;
-  text-align: center;
+  max-width: 560px;
+  text-align: left;
+}
+@media (max-width: 900px) {
+  .estudio-grid {
+    grid-template-columns: 1fr;
+  }
+  .estudio {
+    max-width: none;
+  }
 }
 .estudio__title {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(26px, 3.2vw, 46px);
+  font-size: clamp(23px, 2.7vw, 39px);
   line-height: 1.1;
   letter-spacing: 0.006em;
   margin: 16px 0 26px;
@@ -315,20 +351,20 @@
   color: var(--green-ink);
 }
 .estudio__text {
-  font-family: var(--serif-accent);
-  font-weight: 500;
-  font-size: clamp(18px, 1.9vw, 25px);
-  line-height: 1.5;
-  color: var(--ink);
-  margin: 0 auto;
-  max-width: 60ch;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.7;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 52ch;
 }
 .estudio__focos {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: clamp(30px, 3.5vw, 46px);
+  margin-top: clamp(28px, 3.2vw, 42px);
 }
 .estudio__focos span {
   font-family: var(--sans);
@@ -340,4 +376,130 @@
   border: 1px solid rgba(95, 117, 86, 0.35);
   padding: 8px 18px;
   border-radius: 40px;
+}
+
+/* ---- Cifras bajo la intro de Sobre mí ---- */
+.about-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: clamp(20px, 3vw, 48px);
+  flex-wrap: wrap;
+  margin-top: clamp(54px, 6.8vw, 90px);
+  padding-top: clamp(22px, 2.8vw, 34px);
+  padding-left: clamp(8px, 2.5vw, 40px);
+  border-top: 1px solid rgba(76, 67, 58, 0.16);
+}
+.about-stat {
+  display: flex;
+  flex-direction: column;
+}
+.about-stat__n {
+  font-family: var(--serif);
+  font-size: clamp(20px, 2.2vw, 30px);
+  color: var(--ink);
+  line-height: 1;
+}
+.about-stat__l {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green-ink);
+  margin-top: 8px;
+}
+
+/* --- MI RECORRIDO (relato unificado) --- */
+.quiensoy {
+  max-width: none;
+}
+.quiensoy__title {
+  margin: 12px 0 clamp(18px, 2.2vw, 30px);
+}
+.quiensoy__p1 {
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin: 0;
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.75;
+}
+/* remate final: tipografía secundaria (serif), centrado y del mismo tamaño que el párrafo 1 */
+.quiensoy__remate {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 820px;
+  margin: clamp(34px, 4.5vw, 60px) auto 0;
+  text-align: center;
+  letter-spacing: 0.004em;
+}
+.quiensoy__remate em {
+  color: var(--green-ink);
+}
+
+/* --- CARRUSEL LÍNEA DE TIEMPO (fotos de obra) --- */
+.carr-wrap {
+  margin-top: clamp(34px, 4.5vw, 64px);
+}
+.carr {
+  position: relative;
+}
+.carr::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(76, 67, 58, 0.18);
+  z-index: 0;
+}
+.carr__track {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 0 var(--gut);
+  scrollbar-width: none;
+  cursor: ew-resize;
+}
+.carr__track::-webkit-scrollbar {
+  display: none;
+}
+.carr__cell {
+  flex: 0 0 auto;
+  width: clamp(168px, 20vw, 238px);
+  aspect-ratio: 3/4;
+  margin: 0;
+  overflow: hidden;
+  background: var(--paper-2);
+  border-radius: 2px;
+}
+.carr__cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.9s var(--ease);
+}
+.carr__cell:hover img {
+  transform: scale(1.04);
+}
+.carr__fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(40px, 7vw, 96px);
+  z-index: 2;
+  pointer-events: none;
+}
+.carr__fade--l {
+  left: 0;
+  background: linear-gradient(90deg, var(--paper), transparent);
+}
+.carr__fade--r {
+  right: 0;
+  background: linear-gradient(270deg, var(--paper), transparent);
 }

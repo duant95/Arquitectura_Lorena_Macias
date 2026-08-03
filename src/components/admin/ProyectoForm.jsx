@@ -38,10 +38,21 @@ async function uploadFiles(files) {
 }
 
 // Lista de imágenes con subida, orden, borrado y (opcional) selección de portada
-function ImageList({ label, hint, items, onChange, cover, onCover, withFase = false }) {
+function ImageList({
+  label,
+  hint,
+  items,
+  onChange,
+  cover,
+  onCover,
+  withFase = false,
+  withSeccion = false,
+}) {
   const [busy, setBusy] = useState(false);
   const setFase = (i, val) =>
     onChange(items.map((it, idx) => (idx === i ? { ...it, fase: val } : it)));
+  const setSeccion = (i, val) =>
+    onChange(items.map((it, idx) => (idx === i ? { ...it, seccion: val } : it)));
 
   async function onUpload(e) {
     const files = e.target.files;
@@ -90,67 +101,87 @@ function ImageList({ label, hint, items, onChange, cover, onCover, withFase = fa
         <div className="ad-imgs">
           {items.map((it, i) => (
             <div className="ad-img" key={i}>
-              {isVideo(it.url) ? (
-                <video src={it.url} muted playsInline preload="metadata" />
-              ) : (
-                <img src={it.url} alt="" />
-              )}
-              {isVideo(it.url) && (
-                <span className="ad-img__play">
-                  <Play size={14} />
-                </span>
-              )}
-              {onCover && it.url === cover && !isVideo(it.url) && (
-                <span className="ad-img__cover">Portada</span>
-              )}
-              {withFase && !isVideo(it.url) && (
-                <select
-                  className="ad-img__fase"
-                  value={it.fase || 'finalizado'}
-                  onChange={(e) => setFase(i, e.target.value)}
-                  title="Etapa de obra"
-                >
-                  <option value="antes">Antes</option>
-                  <option value="durante">Durante</option>
-                  <option value="finalizado">Finalizado</option>
-                </select>
-              )}
-              <div className="ad-img__bar">
-                {onCover && !isVideo(it.url) && (
+              <div
+                className="ad-img__thumb"
+                onClick={() => !isVideo(it.url) && window.open(it.url, '_blank', 'noopener')}
+                title={isVideo(it.url) ? '' : 'Clic para ver la imagen completa'}
+              >
+                {isVideo(it.url) ? (
+                  <video src={it.url} muted playsInline preload="metadata" />
+                ) : (
+                  <img src={it.url} alt="" />
+                )}
+                {isVideo(it.url) && (
+                  <span className="ad-img__play">
+                    <Play size={14} />
+                  </span>
+                )}
+                {onCover && it.url === cover && !isVideo(it.url) && (
+                  <span className="ad-img__cover">Portada</span>
+                )}
+                <div className="ad-img__bar" onClick={(e) => e.stopPropagation()}>
+                  {onCover && !isVideo(it.url) && (
+                    <button
+                      type="button"
+                      className="ad-img__btn"
+                      onClick={() => onCover(it.url)}
+                      title="Usar como portada"
+                    >
+                      <Star size={14} className={it.url === cover ? 'is-cover' : ''} />
+                    </button>
+                  )}
                   <button
                     type="button"
                     className="ad-img__btn"
-                    onClick={() => onCover(it.url)}
-                    title="Usar como portada"
+                    onClick={() => move(i, 'up')}
+                    title="Subir"
                   >
-                    <Star size={13} className={it.url === cover ? 'is-cover' : ''} />
+                    <ChevronUp size={14} />
                   </button>
-                )}
-                <button
-                  type="button"
-                  className="ad-img__btn"
-                  onClick={() => move(i, 'up')}
-                  title="Subir"
-                >
-                  <ChevronUp size={13} />
-                </button>
-                <button
-                  type="button"
-                  className="ad-img__btn"
-                  onClick={() => move(i, 'down')}
-                  title="Bajar"
-                >
-                  <ChevronDown size={13} />
-                </button>
-                <button
-                  type="button"
-                  className="ad-img__btn"
-                  onClick={() => remove(i)}
-                  title="Quitar"
-                >
-                  <X size={13} />
-                </button>
+                  <button
+                    type="button"
+                    className="ad-img__btn"
+                    onClick={() => move(i, 'down')}
+                    title="Bajar"
+                  >
+                    <ChevronDown size={14} />
+                  </button>
+                  <button
+                    type="button"
+                    className="ad-img__btn"
+                    onClick={() => remove(i)}
+                    title="Quitar"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
               </div>
+              {(withFase || withSeccion) && !isVideo(it.url) && (
+                <div className="ad-img__meta">
+                  {withFase && (
+                    <select
+                      className="ad-img__fase"
+                      value={it.fase || 'finalizado'}
+                      onChange={(e) => setFase(i, e.target.value)}
+                      title="Etapa de obra"
+                    >
+                      <option value="antes">Antes</option>
+                      <option value="durante">Durante</option>
+                      <option value="finalizado">Finalizado</option>
+                    </select>
+                  )}
+                  {withSeccion && (
+                    <input
+                      className="ad-img__seccion"
+                      type="text"
+                      value={it.seccion || ''}
+                      onChange={(e) => setSeccion(i, e.target.value)}
+                      placeholder="Sección (opcional)"
+                      title="Sección / área (ej. Recepción)"
+                    />
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -411,12 +442,13 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
       <div className="ad-card">
         <ImageList
           label="Galería"
-          hint="Marcá una con ⭐ para la portada. Clasificá cada foto por etapa (Antes / Durante / Finalizado): en la página de obra solo se muestran las etapas que tienen fotos."
+          hint="Marcá una con ⭐ para la portada. Podés clasificar cada foto por etapa (Antes / Durante / Finalizado) o, si el proyecto tiene áreas, escribir el nombre de la sección (ej. Recepción, Conferencias). Si usás secciones, la obra se agrupa por esas; si no, por etapas."
           items={galeria}
           onChange={setGaleria}
           cover={portada}
           onCover={setPortada}
           withFase
+          withSeccion
         />
       </div>
       <div className="ad-card">

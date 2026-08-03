@@ -3,8 +3,50 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, FileText, ChevronUp, ChevronDown } from 'lucide-react';
 import ImageField from './ImageField';
+import { uploadDoc } from '../../lib/upload';
+
+// Campo de subida de PDF (se abre en el navegador, no se descarga).
+function PdfField({ value, onChange }) {
+  const [busy, setBusy] = useState(false);
+  async function onFile(e) {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setBusy(true);
+    try {
+      const url = await uploadDoc(f);
+      onChange(url);
+      toast.success('PDF subido');
+    } catch {
+      toast.error('No se pudo subir el PDF');
+    } finally {
+      setBusy(false);
+      e.target.value = '';
+    }
+  }
+  return (
+    <div className="ad-field">
+      <label>PDF (opcional) — se abre en el navegador</label>
+      {value ? (
+        <div className="ad-pdfrow">
+          <a href={value} target="_blank" rel="noopener noreferrer">
+            <FileText size={14} /> Ver PDF actual
+          </a>
+          <button type="button" className="ad-btn ad-btn--danger" onClick={() => onChange('')}>
+            Quitar
+          </button>
+        </div>
+      ) : (
+        <label className="ad-upload">
+          <FileText size={18} />
+          {busy ? 'Subiendo…' : 'Subir PDF'}
+          <input type="file" accept="application/pdf,.pdf" hidden onChange={onFile} disabled={busy} />
+        </label>
+      )}
+    </div>
+  );
+}
 
 // Editor de lista de {titulo, descripcion} (pilares, pasos, servicios…).
 function TituloDescList({ titulo, hint, items, setItems, addLabel = 'Agregar' }) {
@@ -107,7 +149,10 @@ export default function ContenidoEditor({ inicial = {} }) {
     Array.isArray(inicial.pilares) ? inicial.pilares : []
   );
   const [collage, setCollage] = useState(() =>
-    Array.isArray(inicial.historia_imagenes) ? inicial.historia_imagenes : []
+    (Array.isArray(inicial.carrusel) ? inicial.carrusel : []).map((x) => ({
+      imagen: x.imagen || x.src || x.url || '',
+      alt: x.alt || '',
+    }))
   );
   const [prensa, setPrensa] = useState(() => (Array.isArray(inicial.prensa) ? inicial.prensa : []));
   const [etapas, setEtapas] = useState(() => (Array.isArray(inicial.etapas) ? inicial.etapas : []));
@@ -120,6 +165,14 @@ export default function ContenidoEditor({ inicial = {} }) {
   // helpers collage / prensa / etapas
   const setColl = (i, patch) =>
     setCollage((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  const moveColl = (i, dir) =>
+    setCollage((s) => {
+      const j = dir === 'up' ? i - 1 : i + 1;
+      if (j < 0 || j >= s.length) return s;
+      const n = [...s];
+      [n[i], n[j]] = [n[j], n[i]];
+      return n;
+    });
   const setPr = (i, patch) => setPrensa((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
   const setEt = (i, patch) => setEtapas((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
 
@@ -161,7 +214,7 @@ export default function ContenidoEditor({ inicial = {} }) {
         inicio_stats: JSON.stringify(stats),
         inicio_showcase: JSON.stringify(showcase),
         nosotros_pilares: JSON.stringify(pilares),
-        nosotros_historia_imagenes: JSON.stringify(collage),
+        nosotros_carrusel: JSON.stringify(collage.filter((x) => x.imagen)),
         nosotros_prensa: JSON.stringify(prensa),
         proyectos_etapas: JSON.stringify(etapas),
         servicios_pasos: JSON.stringify(serviciosPasos),
@@ -475,11 +528,12 @@ export default function ContenidoEditor({ inicial = {} }) {
             </div>
           </div>
 
-          {/* Mi historia — collage */}
+          {/* Carrusel línea de tiempo (Sobre mí) */}
           <div className="ad-card">
-            <h2 className="ad-card__title">Mi historia · collage</h2>
+            <h2 className="ad-card__title">Carrusel · línea de tiempo (Sobre mí)</h2>
             <p className="ad-hint" style={{ marginBottom: 12 }}>
-              Aproximadamente 4 fotos (ej. 2 de edificios en altura + 2 del estudio propio).
+              Fotos de obra que se muestran en fila en la sección “Mi recorrido”. Se ven en el orden
+              de esta lista; usá las flechas para ordenarlas.
             </p>
             {collage.map((im, i) => (
               <div className="ad-etapa" key={i}>
@@ -489,7 +543,7 @@ export default function ContenidoEditor({ inicial = {} }) {
                   onChange={(v) => setColl(i, { imagen: v })}
                 />
                 <div className="ad-field">
-                  <label>Texto alternativo</label>
+                  <label>Texto alternativo (opcional)</label>
                   <input
                     className="ad-input"
                     value={im.alt || ''}
@@ -497,6 +551,24 @@ export default function ContenidoEditor({ inicial = {} }) {
                   />
                 </div>
                 <div className="ad-etapa__actions">
+                  <button
+                    type="button"
+                    className="ad-btn ad-btn--ghost"
+                    onClick={() => moveColl(i, 'up')}
+                    disabled={i === 0}
+                    title="Subir"
+                  >
+                    <ChevronUp size={14} />
+                  </button>
+                  <button
+                    type="button"
+                    className="ad-btn ad-btn--ghost"
+                    onClick={() => moveColl(i, 'down')}
+                    disabled={i === collage.length - 1}
+                    title="Bajar"
+                  >
+                    <ChevronDown size={14} />
+                  </button>
                   <button
                     type="button"
                     className="ad-btn ad-btn--danger"
@@ -540,11 +612,11 @@ export default function ContenidoEditor({ inicial = {} }) {
                     />
                   </div>
                   <div className="ad-field">
-                    <label>Fecha (opcional)</label>
+                    <label>Detalle (opcional)</label>
                     <input
                       className="ad-input"
                       value={p.fecha || ''}
-                      placeholder="2024"
+                      placeholder="Brasil · 2026 / ediciones #4 y #23"
                       onChange={(e) => setPr(i, { fecha: e.target.value })}
                     />
                   </div>
@@ -574,6 +646,7 @@ export default function ContenidoEditor({ inicial = {} }) {
                     onChange={(e) => setPr(i, { url: e.target.value })}
                   />
                 </div>
+                <PdfField value={p.pdf} onChange={(v) => setPr(i, { pdf: v })} />
                 <div className="ad-etapa__actions">
                   <button
                     type="button"
@@ -591,7 +664,7 @@ export default function ContenidoEditor({ inicial = {} }) {
               onClick={() =>
                 setPrensa([
                   ...prensa,
-                  { imagen: '', medio: '', titulo: '', descripcion: '', fecha: '', url: '' },
+                  { imagen: '', medio: '', titulo: '', descripcion: '', fecha: '', url: '', pdf: '' },
                 ])
               }
             >

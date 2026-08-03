@@ -1,9 +1,9 @@
 .svc-item {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(34px, 5.5vw, 88px);
+  gap: clamp(34px, 5.5vw, 80px);
   align-items: center;
-  padding: clamp(54px, 7vw, 100px) 0;
+  padding: clamp(38px, 4.5vw, 68px) 0;
   border-bottom: 1px solid var(--taupe);
 }
 .svc-item.rev {
@@ -41,13 +41,13 @@
   font-family: var(--serif-accent);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(34px, 3.4vw, 54px);
+  font-size: clamp(31px, 2.9vw, 45px);
   color: var(--camel);
   line-height: 1;
   margin-bottom: 20px;
 }
 .svc-item h3 {
-  font-size: clamp(28px, 3vw, 44px);
+  font-size: clamp(25px, 2.5vw, 37px);
   margin-bottom: 22px;
 }
 .svc-item p {
