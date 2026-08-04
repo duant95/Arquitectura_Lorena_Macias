@@ -752,7 +752,7 @@
 /* ---------- SERVICIOS ---------- */
 .hm-services {
   padding: clamp(44px, 5.5vw, 84px) 0;
-  background: var(--paper);
+  background: var(--sand);
 }
 .hm-services__head {
   display: flex;

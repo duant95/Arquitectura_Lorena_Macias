@@ -8,11 +8,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="wrap footer__top">
         <div className="footer__brand">
-          <img className="footer__mark" src="/assets/mark-charcoal.png" alt="" />
-          <span className="footer__word">
-            Lorena Macías
-            <small>Arquitecta</small>
-          </span>
+          <img className="footer__logo" src="/assets/logo-h-charcoal.png" alt="Lorena Macias Arquitecta" />
         </div>
 
         <div className="footer__right">

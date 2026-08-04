@@ -41,13 +41,9 @@ export default function Nav() {
     <>
       <header className={'nav' + (solid ? ' solid' : '')}>
         <div className="nav__in">
-          <Link className="nav__logo" href="/" aria-label="Lorena Macías inicio">
-            <img
-              className="logo-dark"
-              src="/assets/logo-charcoal.png"
-              alt="Lorena Macías Arquitecta"
-            />
-            <img className="logo-light" src="/assets/logo-cream.png" alt="" />
+          <Link className="nav__logo" href="/" aria-label="Lorena Macias Arquitecta — inicio">
+            <img className="logo-light" src="/assets/logo-cream.png" alt="Lorena Macias Arquitecta" />
+            <img className="logo-dark" src="/assets/logo-charcoal.png" alt="Lorena Macias Arquitecta" />
           </Link>
           <nav>
             <ul className="nav__links">

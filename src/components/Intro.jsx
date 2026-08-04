@@ -40,13 +40,7 @@ export default function Intro() {
 
   return (
     <div id="intro" className={hide ? 'hide' : ''}>
-      <div style={{ textAlign: 'center' }}>
-        <img className="intro__mark" src="/assets/mark-charcoal.png" alt="" />
-        <div className="intro__name">
-          <span>LORENA MACÍAS</span>
-        </div>
-        <div className="intro__sub">Arquitecta</div>
-      </div>
+      <img className="intro__logo" src="/assets/logo-charcoal.png" alt="Lorena Macias Arquitecta" />
     </div>
   );
 }
