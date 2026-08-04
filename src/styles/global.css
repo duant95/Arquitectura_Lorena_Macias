@@ -3,55 +3,70 @@
    Lujo cálido y natural · cremas, arenas y verde musgo
    (Sin verde menta — solo la familia musgo)
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Prata&family=Inter:wght@300;400;500;600&display=swap');
+@font-face {
+  font-family: 'Marcellus';
+  src: url('/assets/fonts/Marcellus-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
 @font-face {
   font-family: 'Optima';
   src: url('/assets/fonts/Optima.ttc') format('truetype');
   font-weight: 400 700;
   font-display: swap;
 }
+/* Solo los dígitos usan Optima aunque el resto del título sea Marcellus.
+   unicode-range limita esta cara a 0-9 y al signo +; el resto cae a Marcellus. */
+@font-face {
+  font-family: 'DigitsOptima';
+  src: url('/assets/fonts/Optima.ttc') format('truetype');
+  unicode-range: U+0030-0039, U+002B;
+  font-weight: 400 700;
+  font-display: swap;
+}
 
 :root {
-  /* ---- fondos cálidos arena con cuerpo (claros pero presentes) ---- */
-  --paper: #f3ede0; /* arena cálida principal */
-  --paper-2: #ebe3d2; /* arena media (secciones alternas) */
-  --sand: #e4dac3; /* beige cálido (bandas) */
-  --clay: #dccbac; /* beige profundo (acento puntual) */
-  --cream: #f6f1e7; /* texto claro sobre imágenes */
-  --green-wash: #ebe3d2; /* banda cálida (sin verde) */
+  /* ---- greige cálido y sofisticado (Opción A · tipo AURA) ---- */
+  --paper: #efe8db; /* greige principal */
+  --paper-2: #e6ddcc; /* greige medio (secciones alternas) */
+  --sand: #ddd2be; /* greige profundo (bandas) */
+  --clay: #d3c5ad; /* acento puntual */
+  --cream: #f2ede2; /* texto claro sobre imágenes */
+  --green-wash: #e6ddcc; /* banda neutra */
 
-  /* ---- acento cálido dorado/taupe (reemplaza el verde) ---- */
-  --green: #a8956f; /* taupe dorado (bandas, botones grandes) */
-  --green-ink: #9a855c; /* dorado apagado (eyebrow, links, texto chico) */
-  --green-deep: #85713f; /* hover */
+  /* ---- acento verde salvia (Opción C, sobre base greige) ---- */
+  --green: #7c8770; /* verde salvia (bandas, botones grandes) */
+  --green-ink: #6f7d5d; /* verde salvia legible (eyebrow, links, texto chico) */
+  --green-deep: #5e6b4d; /* hover */
 
-  /* ---- beige de acento ---- */
-  --sage: #e7d9be;
-  --green-soft: #f1e8d5;
+  /* ---- neutros de acento ---- */
+  --sage: #d8cdb8;
+  --green-soft: #ece3d3;
 
   /* ---- neutros cálidos ---- */
   --camel: #a2957f;
   --sienna: #7a6f60;
-  --taupe: #a89f90;
+  --taupe: #b8ad99;
   --stone: #8f8676;
-  --footer: #f1ebdf; /* footer claro y minimalista */
-  --ink: #4c433a; /* texto principal: taupe cálido oscuro, suave (sin negro/gris) */
-  --ink-soft: #837868; /* texto secundario, más suave */
+  --footer: #e7dfd0; /* footer greige, distinguible */
+  --ink: #2f2a23; /* texto principal: carbón cálido (sofisticado, tipo AURA) */
+  --ink-soft: #736a5b; /* texto secundario, taupe */
 
   /* compatibilidad (tokens antiguos remapeados) */
-  --olive: #9a855c;
-  --olive-deep: #85713f;
-  --sage-soft: #f1e8d5;
-  --charcoal: #4c433a;
-  --charcoal-2: #5d5348;
-  --light: #ece6da;
+  --olive: #6f7d5d;
+  --olive-deep: #5e6b4d;
+  --sage-soft: #ece3d3;
+  --charcoal: #2f2a23;
+  --charcoal-2: #45403a;
+  --light: #e7dfd0;
 
-  /* tipografía — Prata (títulos, fina y elegante) + Inter (cuerpo) */
+  /* tipografía — Marcellus (títulos) + Optima (cuerpo)
+     DigitsOptima va primero: cubre solo dígitos, así los números salen en Optima. */
   --serif:
-    'Prata', Georgia, 'Times New Roman', serif; /* display de marca */
+    'DigitsOptima', 'Marcellus', Georgia, 'Times New Roman', serif; /* display de marca */
   --serif-accent:
-    'Prata', Georgia, serif; /* citas y números */
-  --sans: 'Inter', system-ui, 'Segoe UI', sans-serif; /* cuerpo, etiquetas y UI */
+    'DigitsOptima', 'Marcellus', Georgia, serif; /* citas y números */
+  --sans: 'Optima', 'Trebuchet MS', Candara, 'Segoe UI', sans-serif; /* cuerpo, etiquetas y UI */
   /* medidas */
   --nav-h: 88px;
   --gut: clamp(22px, 5.5vw, 96px);
@@ -257,21 +272,23 @@ h4 em,
   margin: 0 auto;
   padding: 0 var(--gut);
 }
+/* Logo oficial de la marca (imagen real, versión clara/oscura con cross-fade) */
 .nav__logo {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  height: 48px;
   position: relative;
+  display: block;
+  height: 58px;
+  flex: 0 0 auto;
 }
 .nav__logo img {
-  height: 46px;
+  height: 58px;
   width: auto;
+  display: block;
   transition: opacity 0.4s;
 }
-.nav__logo .logo-light {
+.nav__logo .logo-dark {
   position: absolute;
   left: 0;
+  top: 0;
 }
 .nav__links {
   display: flex;
@@ -522,7 +539,7 @@ h4 em,
 
 /* ============ FOOTER (claro y minimalista) ============ */
 .footer {
-  background: #e9dfca;
+  background: #e3d9c5;
   color: var(--ink);
   padding: clamp(56px, 6vw, 88px) 0 30px;
   border-top: 1px solid rgba(76, 67, 58, 0.1);
@@ -545,26 +562,10 @@ h4 em,
   align-items: center;
   gap: 15px;
 }
-.footer__mark {
-  height: 40px;
+.footer__logo {
+  height: 46px;
   width: auto;
   opacity: 0.92;
-}
-.footer__word {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--serif);
-  font-size: 20px;
-  line-height: 1.05;
-  color: var(--ink);
-}
-.footer__word small {
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin-top: 4px;
 }
 .footer__contact {
   display: flex;
@@ -878,38 +879,14 @@ h4 em,
   opacity: 0;
   visibility: hidden;
 }
-.intro__mark {
+.intro__logo {
   display: block;
   margin: 0 auto;
-  width: 118px;
+  width: clamp(210px, 30vw, 320px);
   height: auto;
   opacity: 0;
-  transform: translateY(10px) scale(0.9);
-  animation: introMark 1.3s var(--ease) 0.2s forwards;
-}
-.intro__name {
-  overflow: hidden;
-  margin-top: 28px;
-}
-.intro__name span {
-  display: block;
-  font-family: var(--serif);
-  color: var(--ink);
-  font-size: clamp(23px, 3.4vw, 35px);
-  letter-spacing: 0.24em;
-  transform: translateY(110%);
-  animation: introName 1s var(--ease) 0.9s forwards;
-}
-.intro__sub {
-  font-family: var(--sans);
-  font-size: 12px;
-  letter-spacing: 0.52em;
-  text-transform: uppercase;
-  color: var(--green-ink);
-  margin-top: 15px;
-  opacity: 0;
-  animation: fade 0.8s ease 1.5s forwards;
-  text-indent: 0.52em;
+  transform: translateY(12px) scale(0.94);
+  animation: introMark 1.4s var(--ease) 0.2s forwards;
 }
 @keyframes introMark {
   to {
@@ -1322,6 +1299,11 @@ html.intro-playing .hero__meta {
 .cta-final .wrap {
   position: relative;
   z-index: 2;
+}
+/* En el CTA el título va entero en blanco (el em no se pierde sobre la imagen) */
+.cta-final h2 em {
+  color: inherit;
+  font-style: normal;
 }
 
 /* ============ RESPONSIVE ============ */
