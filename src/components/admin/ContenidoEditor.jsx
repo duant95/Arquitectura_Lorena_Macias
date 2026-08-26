@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Plus, Trash2, FileText, ChevronUp, ChevronDown } from 'lucide-react';
+import { Plus, Trash2, FileText, ChevronUp, ChevronDown, Film } from 'lucide-react';
 import ImageField from './ImageField';
+import RichTextField from './RichTextField';
 import { uploadDoc } from '../../lib/upload';
 
 // Campo de subida de PDF (se abre en el navegador, no se descarga).
@@ -44,6 +45,46 @@ function PdfField({ value, onChange }) {
           <input type="file" accept="application/pdf,.pdf" hidden onChange={onFile} disabled={busy} />
         </label>
       )}
+    </div>
+  );
+}
+
+// Campo para subir un video. Se sube tal cual a Storage.
+function VideoField({ value, onChange, label = 'Video (mp4, opcional)', hint }) {
+  const [busy, setBusy] = useState(false);
+  async function onFile(e) {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setBusy(true);
+    try {
+      const url = await uploadDoc(f);
+      onChange(url);
+      toast.success('Video subido');
+    } catch {
+      toast.error('No se pudo subir el video');
+    } finally {
+      setBusy(false);
+      e.target.value = '';
+    }
+  }
+  return (
+    <div className="ad-field">
+      <label>{label}</label>
+      {value ? (
+        <div className="ad-pdfrow">
+          <video src={value} controls style={{ width: 220, maxHeight: 140, borderRadius: 6 }} />
+          <button type="button" className="ad-btn ad-btn--danger" onClick={() => onChange('')}>
+            Quitar
+          </button>
+        </div>
+      ) : (
+        <label className="ad-upload">
+          <Film size={18} />
+          {busy ? 'Subiendo…' : 'Subir video'}
+          <input type="file" accept="video/*" hidden onChange={onFile} disabled={busy} />
+        </label>
+      )}
+      {hint && <p className="ad-hint">{hint}</p>}
     </div>
   );
 }
@@ -101,6 +142,7 @@ const TEXT_KEYS = [
   'inicio_hero_titulo',
   'inicio_hero_descripcion',
   'inicio_manifiesto',
+  'inicio_hero_video',
   'inicio_cta_imagen',
   'inicio_cta_titulo',
   'inicio_cta_descripcion',
@@ -126,10 +168,11 @@ const TEXT_KEYS = [
   'servicios_hero_lead',
 ];
 
-const EM_HINT = 'Podés usar <em>palabra</em> para resaltar en itálica.';
+const EM_HINT =
+  'Seleccioná una palabra y usá los botones de arriba para Resaltar, Negrita o cambiar el tamaño.';
 const LINE_HINT = 'Cada salto de línea es una línea del título. ' + EM_HINT;
 
-export default function ContenidoEditor({ inicial = {} }) {
+export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
   const router = useRouter();
   const [tab, setTab] = useState('inicio');
   const [saving, setSaving] = useState(false);
@@ -174,6 +217,34 @@ export default function ContenidoEditor({ inicial = {} }) {
       return n;
     });
   const setPr = (i, patch) => setPrensa((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  // imágenes múltiples por publicación (galería que se ve al desplegar)
+  const prImgs = (p) => (Array.isArray(p.imagenes) ? p.imagenes : []);
+  const addPrImg = (i) =>
+    setPrensa((s) => s.map((x, idx) => (idx === i ? { ...x, imagenes: [...prImgs(x), { url: '' }] } : x)));
+  const setPrImg = (i, k, v) =>
+    setPrensa((s) =>
+      s.map((x, idx) =>
+        idx === i ? { ...x, imagenes: prImgs(x).map((im, kk) => (kk === k ? { url: v } : im)) } : x
+      )
+    );
+  const delPrImg = (i, k) =>
+    setPrensa((s) =>
+      s.map((x, idx) => (idx === i ? { ...x, imagenes: prImgs(x).filter((_, kk) => kk !== k) } : x))
+    );
+  // enlaces múltiples por publicación (nota, redes, etc.)
+  const prLinks = (p) => (Array.isArray(p.enlaces) ? p.enlaces : []);
+  const addPrLink = (i) =>
+    setPrensa((s) => s.map((x, idx) => (idx === i ? { ...x, enlaces: [...prLinks(x), { label: '', url: '' }] } : x)));
+  const setPrLink = (i, k, patch) =>
+    setPrensa((s) =>
+      s.map((x, idx) =>
+        idx === i ? { ...x, enlaces: prLinks(x).map((e, kk) => (kk === k ? { ...e, ...patch } : e)) } : x
+      )
+    );
+  const delPrLink = (i, k) =>
+    setPrensa((s) =>
+      s.map((x, idx) => (idx === i ? { ...x, enlaces: prLinks(x).filter((_, kk) => kk !== k) } : x))
+    );
   const setEt = (i, patch) => setEtapas((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
 
   // --- helpers trayectoria ---
@@ -268,6 +339,12 @@ export default function ContenidoEditor({ inicial = {} }) {
               value={form.inicio_hero_imagen}
               onChange={(v) => set('inicio_hero_imagen', v)}
             />
+            <VideoField
+              label="Video del hero (opcional — reemplaza la foto)"
+              hint="Si subís un video, el inicio se muestra como fondo de video (silenciado, en loop). La foto de arriba queda como portada mientras carga. Ideal un mp4 liviano y horizontal."
+              value={form.inicio_hero_video}
+              onChange={(v) => set('inicio_hero_video', v)}
+            />
             <div className="ad-field">
               <label>Bajada del hero (eyebrow)</label>
               <input
@@ -276,33 +353,27 @@ export default function ContenidoEditor({ inicial = {} }) {
                 onChange={(e) => set('inicio_hero_eyebrow', e.target.value)}
               />
             </div>
-            <div className="ad-field">
-              <label>Título del hero</label>
-              <textarea
-                className="ad-textarea"
-                rows={2}
-                value={form.inicio_hero_titulo}
-                onChange={(e) => set('inicio_hero_titulo', e.target.value)}
-              />
-              <p className="ad-hint">{LINE_HINT}</p>
-            </div>
-            <div className="ad-field">
-              <label>Descripción del hero</label>
-              <textarea
-                className="ad-textarea"
-                value={form.inicio_hero_descripcion}
-                onChange={(e) => set('inicio_hero_descripcion', e.target.value)}
-              />
-            </div>
-            <div className="ad-field">
-              <label>Frase / manifiesto</label>
-              <textarea
-                className="ad-textarea"
-                value={form.inicio_manifiesto}
-                onChange={(e) => set('inicio_manifiesto', e.target.value)}
-              />
-              <p className="ad-hint">{EM_HINT}</p>
-            </div>
+            <RichTextField
+              label="Título del hero"
+              rows={2}
+              value={form.inicio_hero_titulo}
+              onChange={(v) => set('inicio_hero_titulo', v)}
+              hint={LINE_HINT}
+            />
+            <RichTextField
+              label="Descripción del hero"
+              rows={3}
+              value={form.inicio_hero_descripcion}
+              onChange={(v) => set('inicio_hero_descripcion', v)}
+              hint={EM_HINT}
+            />
+            <RichTextField
+              label="Frase / manifiesto"
+              rows={3}
+              value={form.inicio_manifiesto}
+              onChange={(v) => set('inicio_manifiesto', v)}
+              hint={EM_HINT}
+            />
           </div>
 
           {/* Showcase de proyectos del inicio */}
@@ -314,6 +385,38 @@ export default function ContenidoEditor({ inicial = {} }) {
             </p>
             {showcase.map((s, i) => (
               <div className="ad-etapa" key={i}>
+                <div className="ad-field">
+                  <label>Proyecto</label>
+                  <select
+                    className="ad-input"
+                    value={s.slug || ''}
+                    onChange={(e) => {
+                      const p = proyectos.find((x) => x.slug === e.target.value);
+                      setShow(
+                        i,
+                        p
+                          ? {
+                              slug: p.slug,
+                              titulo: p.name,
+                              categoria: p.catLabel,
+                              imagen: s.imagen || p.cover,
+                            }
+                          : { slug: '' }
+                      );
+                    }}
+                  >
+                    <option value="">— Elegí un proyecto de la lista —</option>
+                    {proyectos.map((p) => (
+                      <option key={p.slug} value={p.slug}>
+                        {p.name}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="ad-hint">
+                    Se completan solos el título, la categoría y la foto. Podés ajustarlos abajo si
+                    querés.
+                  </p>
+                </div>
                 <ImageField
                   label={`Foto del bloque ${i + 1}`}
                   value={s.imagen}
@@ -338,19 +441,6 @@ export default function ContenidoEditor({ inicial = {} }) {
                     />
                   </div>
                 </div>
-                <div className="ad-field">
-                  <label>Enlace al proyecto (slug)</label>
-                  <input
-                    className="ad-input"
-                    value={s.slug}
-                    placeholder="barrio-pirarenda-viviendas"
-                    onChange={(e) => setShow(i, { slug: e.target.value })}
-                  />
-                  <p className="ad-hint">
-                    El slug que aparece en la URL del proyecto (/proyecto/<b>slug</b>). Si lo dejás
-                    vacío, enlaza a la lista de proyectos.
-                  </p>
-                </div>
                 <div className="ad-etapa__actions">
                   <button
                     type="button"
@@ -367,24 +457,52 @@ export default function ContenidoEditor({ inicial = {} }) {
             </button>
           </div>
 
-          {/* Cifras */}
+          {/* Cierre / CTA */}
+          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <h2 className="ad-card__title">Cierre (llamado a la acción)</h2>
+            <ImageField
+              label="Foto del cierre (CTA)"
+              value={form.inicio_cta_imagen}
+              onChange={(v) => set('inicio_cta_imagen', v)}
+            />
+            <RichTextField
+              label="Título del cierre"
+              value={form.inicio_cta_titulo}
+              onChange={(v) => set('inicio_cta_titulo', v)}
+              hint={EM_HINT}
+            />
+            <RichTextField
+              label="Texto del cierre"
+              rows={3}
+              value={form.inicio_cta_descripcion}
+              onChange={(v) => set('inicio_cta_descripcion', v)}
+              hint={EM_HINT}
+            />
+          </div>
+        </>
+      )}
+
+      {/* ===================== SOBRE MÍ ===================== */}
+      {tab === 'nosotros' && (
+        <>
+          {/* Cifras (se muestran en el hero de Sobre mí) */}
           <div className="ad-card">
             <h2 className="ad-card__title">Cifras</h2>
             <p className="ad-hint" style={{ marginBottom: 14 }}>
-              Los números destacados del inicio (ej. +200 · proyectos realizados).
+              Los números destacados que se ven en Sobre mí (ej. 25+ · años de trayectoria).
             </p>
             {stats.map((s, i) => (
               <div className="ad-proy" key={i}>
                 <input
                   className="ad-input"
                   value={s.n}
-                  placeholder="+200"
+                  placeholder="25+"
                   onChange={(e) => setStat(i, { n: e.target.value })}
                 />
                 <input
                   className="ad-input"
                   value={s.l}
-                  placeholder="proyectos realizados"
+                  placeholder="años de trayectoria"
                   onChange={(e) => setStat(i, { l: e.target.value })}
                 />
                 <button
@@ -402,58 +520,20 @@ export default function ContenidoEditor({ inicial = {} }) {
             </button>
           </div>
 
-          {/* Cierre / CTA */}
           <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <h2 className="ad-card__title">Cierre (llamado a la acción)</h2>
-            <ImageField
-              label="Foto del cierre (CTA)"
-              value={form.inicio_cta_imagen}
-              onChange={(v) => set('inicio_cta_imagen', v)}
+            <RichTextField
+              label="Título del hero"
+              value={form.nosotros_hero_titulo}
+              onChange={(v) => set('nosotros_hero_titulo', v)}
+              hint={'Usá <br /> para cortar la línea. ' + EM_HINT.toLowerCase()}
             />
-            <div className="ad-field">
-              <label>Título del cierre</label>
-              <input
-                className="ad-input"
-                value={form.inicio_cta_titulo}
-                onChange={(e) => set('inicio_cta_titulo', e.target.value)}
-              />
-              <p className="ad-hint">{EM_HINT}</p>
-            </div>
-            <div className="ad-field">
-              <label>Texto del cierre</label>
-              <textarea
-                className="ad-textarea"
-                value={form.inicio_cta_descripcion}
-                onChange={(e) => set('inicio_cta_descripcion', e.target.value)}
-              />
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* ===================== SOBRE MÍ ===================== */}
-      {tab === 'nosotros' && (
-        <>
-          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div className="ad-field">
-              <label>Título del hero</label>
-              <input
-                className="ad-input"
-                value={form.nosotros_hero_titulo}
-                onChange={(e) => set('nosotros_hero_titulo', e.target.value)}
-              />
-              <p className="ad-hint">
-                Usá &lt;br /&gt; para cortar la línea y {EM_HINT.toLowerCase()}
-              </p>
-            </div>
-            <div className="ad-field">
-              <label>Texto del hero</label>
-              <textarea
-                className="ad-textarea"
-                value={form.nosotros_hero_lead}
-                onChange={(e) => set('nosotros_hero_lead', e.target.value)}
-              />
-            </div>
+            <RichTextField
+              label="Texto del hero"
+              rows={3}
+              value={form.nosotros_hero_lead}
+              onChange={(v) => set('nosotros_hero_lead', v)}
+              hint={EM_HINT}
+            />
             <hr className="ad-sep" />
             <ImageField
               label="Intro · imagen de fondo (banda editorial)"
@@ -486,18 +566,13 @@ export default function ContenidoEditor({ inicial = {} }) {
               />
             </div>
             <hr className="ad-sep" />
-            <div className="ad-field">
-              <label>Mi historia</label>
-              <textarea
-                className="ad-textarea"
-                rows={8}
-                value={form.nosotros_historia}
-                onChange={(e) => set('nosotros_historia', e.target.value)}
-              />
-              <p className="ad-hint">
-                Cada línea en blanco separa un párrafo. El primero se resalta.
-              </p>
-            </div>
+            <RichTextField
+              label="Mi historia"
+              rows={8}
+              value={form.nosotros_historia}
+              onChange={(v) => set('nosotros_historia', v)}
+              hint={'Cada línea en blanco separa un párrafo. El primero se resalta. ' + EM_HINT}
+            />
             <ImageField
               label="Retrato de Lorena"
               value={form.nosotros_retrato_imagen}
@@ -509,23 +584,19 @@ export default function ContenidoEditor({ inicial = {} }) {
               onChange={(v) => set('nosotros_cta_imagen', v)}
             />
             <hr className="ad-sep" />
-            <div className="ad-field">
-              <label>El estudio · título</label>
-              <input
-                className="ad-input"
-                value={form.nosotros_estudio_titulo}
-                onChange={(e) => set('nosotros_estudio_titulo', e.target.value)}
-              />
-            </div>
-            <div className="ad-field">
-              <label>El estudio · texto (institucional)</label>
-              <textarea
-                className="ad-textarea"
-                rows={5}
-                value={form.nosotros_estudio_texto}
-                onChange={(e) => set('nosotros_estudio_texto', e.target.value)}
-              />
-            </div>
+            <RichTextField
+              label="El estudio · título"
+              value={form.nosotros_estudio_titulo}
+              onChange={(v) => set('nosotros_estudio_titulo', v)}
+              hint={EM_HINT}
+            />
+            <RichTextField
+              label="El estudio · texto (institucional)"
+              rows={5}
+              value={form.nosotros_estudio_texto}
+              onChange={(v) => set('nosotros_estudio_texto', v)}
+              hint={EM_HINT}
+            />
           </div>
 
           {/* Carrusel línea de tiempo (Sobre mí) */}
@@ -592,15 +663,11 @@ export default function ContenidoEditor({ inicial = {} }) {
           <div className="ad-card">
             <h2 className="ad-card__title">Prensa</h2>
             <p className="ad-hint" style={{ marginBottom: 12 }}>
-              Publicaciones y apariciones. Si no hay enlace (revista física, TV), dejá la URL vacía.
+              Publicaciones y apariciones. En el sitio se ven como una lista limpia; al hacer click,
+              cada una se despliega y muestra el PDF, el enlace y las imágenes que cargues.
             </p>
             {prensa.map((p, i) => (
               <div className="ad-etapa" key={i}>
-                <ImageField
-                  label={`Portada / imagen ${i + 1}`}
-                  value={p.imagen}
-                  onChange={(v) => setPr(i, { imagen: v })}
-                />
                 <div className="ad-row-2">
                   <div className="ad-field">
                     <label>Medio</label>
@@ -638,15 +705,67 @@ export default function ContenidoEditor({ inicial = {} }) {
                   />
                 </div>
                 <div className="ad-field">
-                  <label>Enlace (opcional)</label>
-                  <input
-                    className="ad-input"
-                    value={p.url || ''}
-                    placeholder="https://…"
-                    onChange={(e) => setPr(i, { url: e.target.value })}
-                  />
+                  <label>Enlaces (nota, Instagram, reel, etc.)</label>
+                  <p className="ad-hint" style={{ marginTop: -4, marginBottom: 8 }}>
+                    Poné todos los enlaces de esta misma nota. El nombre es cómo se ve el botón (ej.
+                    "Ver nota", "Instagram", "Reel").
+                  </p>
+                  {prLinks(p).map((e, k) => (
+                    <div className="ad-row-2" key={k} style={{ alignItems: 'end', marginBottom: 8 }}>
+                      <input
+                        className="ad-input"
+                        value={e.label || ''}
+                        placeholder="Nombre del botón (ej. Ver nota)"
+                        onChange={(ev) => setPrLink(i, k, { label: ev.target.value })}
+                      />
+                      <div style={{ display: 'flex', gap: 8 }}>
+                        <input
+                          className="ad-input"
+                          value={e.url || ''}
+                          placeholder="https://…"
+                          onChange={(ev) => setPrLink(i, k, { url: ev.target.value })}
+                        />
+                        <button
+                          type="button"
+                          className="ad-btn ad-btn--danger"
+                          onClick={() => delPrLink(i, k)}
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <button type="button" className="ad-btn ad-btn--ghost" onClick={() => addPrLink(i)}>
+                    <Plus size={14} /> Agregar enlace
+                  </button>
                 </div>
                 <PdfField value={p.pdf} onChange={(v) => setPr(i, { pdf: v })} />
+                <div className="ad-field">
+                  <label>Imágenes (portada de revista, fotos)</label>
+                  <p className="ad-hint" style={{ marginTop: -4, marginBottom: 8 }}>
+                    En el sitio la publicación se ve limpia; estas imágenes aparecen al hacer click
+                    para desplegarla.
+                  </p>
+                  {prImgs(p).map((im, k) => (
+                    <div className="ad-prensa-img" key={k}>
+                      <ImageField
+                        label={`Imagen ${k + 1}`}
+                        value={im.url || ''}
+                        onChange={(v) => setPrImg(i, k, v)}
+                      />
+                      <button
+                        type="button"
+                        className="ad-btn ad-btn--danger"
+                        onClick={() => delPrImg(i, k)}
+                      >
+                        <Trash2 size={14} /> Quitar
+                      </button>
+                    </div>
+                  ))}
+                  <button type="button" className="ad-btn ad-btn--ghost" onClick={() => addPrImg(i)}>
+                    <Plus size={14} /> Agregar imagen
+                  </button>
+                </div>
                 <div className="ad-etapa__actions">
                   <button
                     type="button"
@@ -664,7 +783,7 @@ export default function ContenidoEditor({ inicial = {} }) {
               onClick={() =>
                 setPrensa([
                   ...prensa,
-                  { imagen: '', medio: '', titulo: '', descripcion: '', fecha: '', url: '', pdf: '' },
+                  { medio: '', titulo: '', descripcion: '', fecha: '', url: '', pdf: '', imagenes: [] },
                 ])
               }
             >
@@ -778,24 +897,20 @@ export default function ContenidoEditor({ inicial = {} }) {
               value={form.proyectos_hero_imagen}
               onChange={(v) => set('proyectos_hero_imagen', v)}
             />
-            <div className="ad-field">
-              <label>Título del hero</label>
-              <textarea
-                className="ad-textarea"
-                rows={2}
-                value={form.proyectos_hero_titulo}
-                onChange={(e) => set('proyectos_hero_titulo', e.target.value)}
-              />
-              <p className="ad-hint">{LINE_HINT}</p>
-            </div>
-            <div className="ad-field">
-              <label>Bajada del hero</label>
-              <textarea
-                className="ad-textarea"
-                value={form.proyectos_hero_lead}
-                onChange={(e) => set('proyectos_hero_lead', e.target.value)}
-              />
-            </div>
+            <RichTextField
+              label="Título del hero"
+              rows={2}
+              value={form.proyectos_hero_titulo}
+              onChange={(v) => set('proyectos_hero_titulo', v)}
+              hint={LINE_HINT}
+            />
+            <RichTextField
+              label="Bajada del hero"
+              rows={3}
+              value={form.proyectos_hero_lead}
+              onChange={(v) => set('proyectos_hero_lead', v)}
+              hint={EM_HINT}
+            />
           </div>
 
           <div className="ad-card">
@@ -867,24 +982,20 @@ export default function ContenidoEditor({ inicial = {} }) {
               value={form.servicios_hero_imagen}
               onChange={(v) => set('servicios_hero_imagen', v)}
             />
-            <div className="ad-field">
-              <label>Título del hero</label>
-              <textarea
-                className="ad-textarea"
-                rows={2}
-                value={form.servicios_hero_titulo}
-                onChange={(e) => set('servicios_hero_titulo', e.target.value)}
-              />
-              <p className="ad-hint">{LINE_HINT}</p>
-            </div>
-            <div className="ad-field">
-              <label>Bajada del hero</label>
-              <textarea
-                className="ad-textarea"
-                value={form.servicios_hero_lead}
-                onChange={(e) => set('servicios_hero_lead', e.target.value)}
-              />
-            </div>
+            <RichTextField
+              label="Título del hero"
+              rows={2}
+              value={form.servicios_hero_titulo}
+              onChange={(v) => set('servicios_hero_titulo', v)}
+              hint={LINE_HINT}
+            />
+            <RichTextField
+              label="Bajada del hero"
+              rows={3}
+              value={form.servicios_hero_lead}
+              onChange={(v) => set('servicios_hero_lead', v)}
+              hint={EM_HINT}
+            />
           </div>
 
           <TituloDescList

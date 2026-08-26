@@ -4,13 +4,16 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useAgenda } from '../context/AgendaContext';
 import { useSiteConfig } from '../context/ConfigContext';
+import { useT, useHref } from '../context/LocaleContext';
 import useReveals from '../hooks/useReveals';
 import { Parallax } from '../components/fx/Motion';
 
 export default function Contacto() {
   const { open } = useAgenda();
-  const { contacto_tel, contacto_email, contacto_ciudad, contacto_hero_imagen, waUrl, igUrl, mailto } =
+  const { contacto_email, contacto_ciudad, contacto_hero_imagen, tels, waUrl, igUrl, mailto } =
     useSiteConfig();
+  const t = useT();
+  const href = useHref();
   useReveals();
 
   const [sent, setSent] = useState(false);
@@ -38,12 +41,12 @@ export default function Contacto() {
       });
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
-        setError(d.error || 'No se pudo enviar. Probá de nuevo.');
+        setError(d.error || t('ct.errEnviar'));
         return;
       }
       setSent(true);
     } catch {
-      setError('Error de conexión. Probá de nuevo.');
+      setError(t('ct.errConexion'));
     } finally {
       setSending(false);
     }
@@ -57,17 +60,10 @@ export default function Contacto() {
         )}
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> / Contacto
+            <Link href={href('/')}>{t('nav.inicio')}</Link> / {t('nav.contacto')}
           </div>
-          <h1>
-            Conversemos
-            <br />
-            tu <em>proyecto</em>.
-          </h1>
-          <p className="phero__lead">
-            Estamos para escucharte. Escribinos por WhatsApp, completá el formulario o agendá una
-            reunión sin compromiso.
-          </p>
+          <h1 dangerouslySetInnerHTML={{ __html: t('ct.heroTitulo') }} />
+          <p className="phero__lead">{t('ct.heroLead')}</p>
         </div>
       </section>
 
@@ -77,7 +73,7 @@ export default function Contacto() {
             {/* INFO */}
             <div className="ct-info reveal">
               <p className="eyebrow" style={{ marginBottom: '20px' }}>
-                Datos de contacto
+                {t('ct.datosContacto')}
               </p>
               <h2 className="h-lg">
                 Lorena Macías
@@ -91,12 +87,18 @@ export default function Contacto() {
                   </svg>
                 </div>
                 <div>
-                  <span className="micro">WhatsApp / Teléfono</span>
-                  <b>
-                    <a href={waUrl} target="_blank" rel="noopener noreferrer">
-                      {contacto_tel}
-                    </a>
-                  </b>
+                  <span className="micro">{t('ct.wa')}</span>
+                  {tels.map((tel, i) => (
+                    <b key={i} style={i > 0 ? { display: 'block', marginTop: 2 } : undefined}>
+                      {i === 0 ? (
+                        <a href={waUrl} target="_blank" rel="noopener noreferrer">
+                          {tel}
+                        </a>
+                      ) : (
+                        <a href={`tel:${tel.replace(/[^\d+]/g, '')}`}>{tel}</a>
+                      )}
+                    </b>
+                  ))}
                 </div>
               </div>
               <div className="ct-row">
@@ -106,7 +108,7 @@ export default function Contacto() {
                   </svg>
                 </div>
                 <div>
-                  <span className="micro">Email</span>
+                  <span className="micro">{t('ct.email')}</span>
                   <b>
                     <a href={mailto}>{contacto_email}</a>
                   </b>
@@ -119,10 +121,10 @@ export default function Contacto() {
                   </svg>
                 </div>
                 <div>
-                  <span className="micro">Estudio</span>
+                  <span className="micro">{t('ct.estudio')}</span>
                   <b>{contacto_ciudad}</b>
                   <div style={{ color: 'var(--ink-soft)', fontSize: '15px', marginTop: '4px' }}>
-                    Mercados: Paraguay · Brasil · Uruguay
+                    {t('ct.mercados')}
                   </div>
                 </div>
               </div>
@@ -145,7 +147,7 @@ export default function Contacto() {
               </div>
               <div style={{ marginTop: '34px' }}>
                 <button className="btn" onClick={open}>
-                  Solicitar una reunión <span className="arr">→</span>
+                  {t('cta.solicitarUna')} <span className="arr">→</span>
                 </button>
               </div>
             </div>
@@ -153,43 +155,39 @@ export default function Contacto() {
             {/* FORM */}
             <div className="ct-form reveal d1">
               <p className="eyebrow" style={{ marginBottom: '18px' }}>
-                Escribinos
+                {t('ct.escribinos')}
               </p>
               {!sent && (
                 <form id="ctForm" onSubmit={handleSubmit}>
                   <div className="field">
-                    <label>Nombre y apellido</label>
-                    <input required name="nombre" placeholder="Tu nombre" />
+                    <label>{t('ct.formNombre')}</label>
+                    <input required name="nombre" placeholder={t('ct.formNombrePh')} />
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                     <div className="field">
-                      <label>WhatsApp</label>
+                      <label>{t('ct.formWhatsapp')}</label>
                       <input required name="tel" placeholder="+595..." />
                     </div>
                     <div className="field">
-                      <label>Email</label>
+                      <label>{t('ct.formEmail')}</label>
                       <input type="email" name="email" placeholder="tu@email.com" />
                     </div>
                   </div>
                   <div className="field">
-                    <label>Tipo de proyecto</label>
+                    <label>{t('ct.formTipo')}</label>
                     <select name="tipo">
-                      <option>Proyecto arquitectónico</option>
-                      <option>Project Management</option>
-                      <option>Diseño de interiores</option>
-                      <option>Interiorismo náutico</option>
-                      <option>Reformas y obras</option>
-                      <option>Paisajismo</option>
-                      <option>Otro</option>
+                      <option>{t('ct.tipoArq')}</option>
+                      <option>{t('ct.tipoPm')}</option>
+                      <option>{t('ct.tipoInteriores')}</option>
+                      <option>{t('ct.tipoNautico')}</option>
+                      <option>{t('ct.tipoReformas')}</option>
+                      <option>{t('ct.tipoPaisajismo')}</option>
+                      <option>{t('ct.tipoOtro')}</option>
                     </select>
                   </div>
                   <div className="field">
-                    <label>Tu mensaje</label>
-                    <textarea
-                      name="msg"
-                      rows="4"
-                      placeholder="Contanos sobre tu proyecto, ubicación, metros y estilo deseado…"
-                    ></textarea>
+                    <label>{t('ct.formMensaje')}</label>
+                    <textarea name="msg" rows="4" placeholder={t('ct.formMensajePh')}></textarea>
                   </div>
                   <input
                     type="text"
@@ -210,7 +208,7 @@ export default function Contacto() {
                     disabled={sending}
                     style={{ width: '100%', justifyContent: 'center' }}
                   >
-                    {sending ? 'Enviando…' : 'Enviar mensaje'} <span className="arr">→</span>
+                    {sending ? t('ct.enviando') : t('ct.enviar')} <span className="arr">→</span>
                   </button>
                   <p
                     style={{
@@ -220,7 +218,7 @@ export default function Contacto() {
                       margin: '14px 0 0',
                     }}
                   >
-                    Respondemos por WhatsApp en menos de 24 h.
+                    {t('ct.disponible24')}
                   </p>
                 </form>
               )}
@@ -233,11 +231,9 @@ export default function Contacto() {
                     marginBottom: '10px',
                   }}
                 >
-                  ¡Gracias!
+                  {t('ct.gracias')}
                 </div>
-                <p style={{ color: 'var(--ink-soft)' }}>
-                  Recibimos tu mensaje. Te escribimos muy pronto.
-                </p>
+                <p style={{ color: 'var(--ink-soft)' }}>{t('ct.graciasTexto')}</p>
               </div>
             </div>
           </div>

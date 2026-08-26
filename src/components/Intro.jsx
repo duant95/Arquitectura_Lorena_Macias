@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSiteConfig } from '../context/ConfigContext';
 
 /**
  * Intro animada con el logo. Solo se muestra una vez por sesión
  * (igual que el diseño original, usando sessionStorage).
  */
 export default function Intro() {
+  const { logo_oscuro } = useSiteConfig();
   const [show, setShow] = useState(false);
   const [hide, setHide] = useState(false);
 
@@ -40,7 +42,11 @@ export default function Intro() {
 
   return (
     <div id="intro" className={hide ? 'hide' : ''}>
-      <img className="intro__logo" src="/assets/logo-charcoal.png" alt="Lorena Macias Arquitecta" />
+      <img
+        className="intro__logo"
+        src={logo_oscuro || '/assets/logo-charcoal.png'}
+        alt="Lorena Macias Arquitecta"
+      />
     </div>
   );
 }

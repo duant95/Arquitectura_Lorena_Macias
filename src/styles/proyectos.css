@@ -516,16 +516,28 @@
   border-radius: 40px;
 }
 
-/* --- masonry (CSS columns) --- */
+/* --- masonry (columnas balanceadas: empieza y termina parejo) --- */
 .pmasonry {
-  column-count: 3;
-  column-gap: clamp(14px, 1.5vw, 24px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.5vw, 24px);
+  align-items: start;
+}
+.pmasonry[data-cols='2'] {
+  grid-template-columns: repeat(2, 1fr);
+}
+.pmasonry[data-cols='1'] {
+  grid-template-columns: 1fr;
+}
+.pm-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.5vw, 24px);
+  min-width: 0;
 }
 .pm-item {
   display: block;
   position: relative;
-  break-inside: avoid;
-  margin-bottom: clamp(14px, 1.5vw, 24px);
   overflow: hidden;
   background: var(--paper-2);
   border-radius: 1px;
@@ -618,15 +630,7 @@
 .pm-item__estado.is-proceso::before {
   background: #c9a24b;
 }
-@media (max-width: 1000px) {
-  .pmasonry {
-    column-count: 2;
-  }
-}
 @media (max-width: 600px) {
-  .pmasonry {
-    column-count: 1;
-  }
   .pm-item__ov {
     opacity: 1;
     background: linear-gradient(180deg, rgba(40, 34, 28, 0) 45%, rgba(40, 34, 28, 0.8) 100%);

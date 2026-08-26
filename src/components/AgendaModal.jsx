@@ -3,12 +3,18 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAgenda } from '../context/AgendaContext';
 import { useSiteConfig } from '../context/ConfigContext';
-
-const SLOTS = ['Mañana', 'Tarde', 'Indistinto'];
+import { useT } from '../context/LocaleContext';
 
 export default function AgendaModal() {
   const { isOpen, close } = useAgenda();
-  const { contacto_tel } = useSiteConfig();
+  const { contacto_tel, logo_claro } = useSiteConfig();
+  const t = useT();
+  // Los valores enviados quedan en español (para el mail), la etiqueta se traduce.
+  const SLOTS = [
+    { value: 'Mañana', label: t('modal.slotManana') },
+    { value: 'Tarde', label: t('modal.slotTarde') },
+    { value: 'Indistinto', label: t('modal.slotIndistinto') },
+  ];
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
@@ -52,12 +58,12 @@ export default function AgendaModal() {
       });
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
-        setError(d.error || 'No se pudo enviar. Probá de nuevo.');
+        setError(d.error || t('ct.errEnviar'));
         return;
       }
       setSent(true);
     } catch {
-      setError('Error de conexión. Probá de nuevo.');
+      setError(t('ct.errConexion'));
     } finally {
       setSending(false);
     }
@@ -67,19 +73,19 @@ export default function AgendaModal() {
     <div className={'modal' + (isOpen ? ' open' : '')}>
       <div className="modal__bg" onClick={handleClose}></div>
       <div className="modal__card">
-        <button className="modal__close" aria-label="Cerrar" onClick={handleClose}>
+        <button className="modal__close" aria-label={t('nav.cerrar')} onClick={handleClose}>
           ×
         </button>
         <aside className="modal__aside modal__aside--center">
           <div>
-            <img src="/assets/logo-cream.png" alt="" />
-            <h3 className="h-md" style={{ color: 'var(--cream)', marginBottom: 14 }}>
-              Conversemos sobre
-              <br />
-              tu proyecto
-            </h3>
+            <img src={logo_claro || '/assets/logo-cream.png'} alt="" />
+            <h3
+              className="h-md"
+              style={{ color: 'var(--cream)', marginBottom: 14 }}
+              dangerouslySetInnerHTML={{ __html: t('modal.asideTitle') }}
+            />
             <p style={{ color: 'var(--sage-soft)', fontSize: 15, lineHeight: 1.6 }}>
-              Sin compromiso: una primera charla para entender tu visión y cómo podemos ayudarte.
+              {t('modal.asideText')}
             </p>
           </div>
           <div style={{ fontSize: 13, color: 'var(--sage-soft)', letterSpacing: '.04em' }}>
@@ -88,54 +94,50 @@ export default function AgendaModal() {
         </aside>
         <div className="modal__body">
           <p className="eyebrow" style={{ marginBottom: 14 }}>
-            Solicitar una reunión
+            {t('cta.solicitarUna')}
           </p>
           {!sent ? (
             <form onSubmit={handleSubmit}>
               <div className="field">
-                <label>Nombre y apellido</label>
-                <input required name="nombre" placeholder="Tu nombre" />
+                <label>{t('ct.formNombre')}</label>
+                <input required name="nombre" placeholder={t('ct.formNombrePh')} />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                 <div className="field">
-                  <label>WhatsApp</label>
+                  <label>{t('ct.formWhatsapp')}</label>
                   <input required name="tel" placeholder="+595..." />
                 </div>
                 <div className="field">
-                  <label>Tipo de proyecto</label>
+                  <label>{t('ct.formTipo')}</label>
                   <select name="tipo">
-                    <option>Proyecto arquitectónico</option>
-                    <option>Edificio / Barrio cerrado</option>
-                    <option>Diseño de interiores residencial</option>
-                    <option>Diseño de interiores comercial</option>
-                    <option>Interiorismo náutico</option>
-                    <option>Reforma / obra</option>
-                    <option>Paisajismo</option>
-                    <option>Otro</option>
+                    <option>{t('modal.tipoArq')}</option>
+                    <option>{t('modal.tipoEdificio')}</option>
+                    <option>{t('modal.tipoIntResid')}</option>
+                    <option>{t('modal.tipoIntComerc')}</option>
+                    <option>{t('modal.tipoNautico')}</option>
+                    <option>{t('modal.tipoReforma')}</option>
+                    <option>{t('ct.tipoPaisajismo')}</option>
+                    <option>{t('ct.tipoOtro')}</option>
                   </select>
                 </div>
               </div>
               <div className="field">
-                <label>¿Qué horario te queda mejor?</label>
+                <label>{t('modal.horario')}</label>
                 <div className="slots slots--3">
                   {SLOTS.map((s) => (
                     <div
-                      key={s}
-                      className={'slot' + (selectedSlot === s ? ' sel' : '')}
-                      onClick={() => setSelectedSlot(s)}
+                      key={s.value}
+                      className={'slot' + (selectedSlot === s.value ? ' sel' : '')}
+                      onClick={() => setSelectedSlot(s.value)}
                     >
-                      {s}
+                      {s.label}
                     </div>
                   ))}
                 </div>
               </div>
               <div className="field">
-                <label>Contanos brevemente tu idea</label>
-                <textarea
-                  name="msg"
-                  rows="3"
-                  placeholder="Ubicación, metros, estilo deseado…"
-                ></textarea>
+                <label>{t('modal.idea')}</label>
+                <textarea name="msg" rows="3" placeholder={t('modal.ideaPh')}></textarea>
               </div>
               <input
                 type="text"
@@ -154,7 +156,7 @@ export default function AgendaModal() {
                 disabled={sending}
                 style={{ width: '100%', justifyContent: 'center' }}
               >
-                {sending ? 'Enviando…' : 'Solicitar reunión'} <span className="arr">→</span>
+                {sending ? t('ct.enviando') : t('cta.solicitar')} <span className="arr">→</span>
               </button>
               <p
                 style={{
@@ -164,7 +166,7 @@ export default function AgendaModal() {
                   margin: '14px 0 0',
                 }}
               >
-                Te confirmaremos por WhatsApp en menos de 24 h.
+                {t('modal.confirm24')}
               </p>
             </form>
           ) : (
@@ -177,11 +179,9 @@ export default function AgendaModal() {
                   marginBottom: 10,
                 }}
               >
-                ¡Gracias!
+                {t('ct.gracias')}
               </div>
-              <p style={{ color: 'var(--ink-soft)' }}>
-                Recibimos tu solicitud. Te escribimos pronto por WhatsApp.
-              </p>
+              <p style={{ color: 'var(--ink-soft)' }}>{t('modal.graciasText')}</p>
             </div>
           )}
         </div>

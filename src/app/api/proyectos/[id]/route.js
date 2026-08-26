@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { getSession } from '@/lib/authServer';
 import { createAdminClient } from '@/lib/supabase';
 import { pickProjectFields } from '@/lib/projectFields';
+import { translateAndStoreProject } from '@/lib/i18n/projectI18n';
 
 function revalidate(slug) {
   revalidatePath('/');
@@ -30,6 +31,9 @@ export async function PUT(req, { params }) {
     const msg = error.code === '23505' ? 'Ya existe un proyecto con ese slug' : error.message;
     return NextResponse.json({ error: msg }, { status: 400 });
   }
+
+  // Re-traduce el proyecto a EN/PT con los cambios recién guardados.
+  await translateAndStoreProject(sb, body);
 
   revalidate(body.slug);
   return NextResponse.json({ ok: true });

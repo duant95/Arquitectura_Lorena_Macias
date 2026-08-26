@@ -4,12 +4,16 @@ import Link from 'next/link';
 import Img from '../components/Img';
 import Trayectoria from '../components/Trayectoria';
 import CarruselLinea from '../components/CarruselLinea';
+import PrensaList from '../components/PrensaList';
 import { useAgenda } from '../context/AgendaContext';
+import { useT, useHref } from '../context/LocaleContext';
 import useReveals from '../hooks/useReveals';
 import { splitParagraphs } from '../lib/projectShape';
 
 export default function Nosotros({ content = {} }) {
   const { open } = useAgenda();
+  const t = useT();
+  const href = useHref();
   useReveals();
 
   const historia = splitParagraphs(content.nosotros_historia);
@@ -23,12 +27,15 @@ export default function Nosotros({ content = {} }) {
       <section className="phero">
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> / Sobre mí
+            <Link href={href('/')}>{t('nav.inicio')}</Link> / {t('nav.sobre')}
           </div>
           <div className={'about-hero' + (content.nosotros_retrato_imagen ? '' : ' about-hero--solo')}>
             <div className="reveal">
               <h1 dangerouslySetInnerHTML={{ __html: content.nosotros_hero_titulo }} />
-              <p className="phero__lead">{content.nosotros_hero_lead}</p>
+              <p
+                className="phero__lead"
+                dangerouslySetInnerHTML={{ __html: content.nosotros_hero_lead }}
+              />
               <div className="about-stats">
                 {(content.stats || []).map((s, i) => (
                   <div className="about-stat" key={i}>
@@ -51,16 +58,19 @@ export default function Nosotros({ content = {} }) {
       <section className="section estudio-band">
         <div className="wrap estudio-grid">
           <div className="estudio reveal">
-            <p className="kicker">El estudio</p>
+            <p className="kicker">{t('sobre.elEstudio')}</p>
             <h2
               className="estudio__title"
               dangerouslySetInnerHTML={{ __html: content.nosotros_estudio_titulo }}
             />
-            <p className="estudio__text">{content.nosotros_estudio_texto}</p>
+            <p
+              className="estudio__text"
+              dangerouslySetInnerHTML={{ __html: content.nosotros_estudio_texto }}
+            />
             <div className="estudio__focos">
-              <span>Residencial</span>
-              <span>Comercial</span>
-              <span>Corporativo</span>
+              <span>{t('sobre.focosResidencial')}</span>
+              <span>{t('sobre.focosComercial')}</span>
+              <span>{t('sobre.focosCorporativo')}</span>
             </div>
           </div>
           {estudioImgs.length > 0 && (
@@ -79,9 +89,11 @@ export default function Nosotros({ content = {} }) {
       <section className="section">
         <div className="wrap">
           <div className="quiensoy reveal">
-            <p className="kicker">Mi recorrido</p>
-            <h2 className="h-xl quiensoy__title">Arquitectura que acompaña</h2>
-            {historia[0] && <p className="quiensoy__p1">{historia[0]}</p>}
+            <p className="kicker">{t('sobre.miRecorrido')}</p>
+            <h2 className="h-xl quiensoy__title">{t('sobre.recorridoTitulo')}</h2>
+            {historia[0] && (
+              <p className="quiensoy__p1" dangerouslySetInnerHTML={{ __html: historia[0] }} />
+            )}
           </div>
         </div>
         {carrusel.length > 0 && (
@@ -91,7 +103,10 @@ export default function Nosotros({ content = {} }) {
         )}
         {historia[1] && (
           <div className="wrap">
-            <p className="quiensoy__remate reveal">{historia[1]}</p>
+            <p
+              className="quiensoy__remate reveal"
+              dangerouslySetInnerHTML={{ __html: historia[1] }}
+            />
           </div>
         )}
       </section>
@@ -100,9 +115,9 @@ export default function Nosotros({ content = {} }) {
       <section className="section" style={{ background: 'var(--paper-2)' }}>
         <div className="wrap">
           <div className="reveal" style={{ marginBottom: 'clamp(24px,3vw,42px)' }}>
-            <p className="kicker">Trayectoria</p>
+            <p className="kicker">{t('sobre.trayectoria')}</p>
             <h2 className="h-xl" style={{ marginTop: 12 }}>
-              Dos etapas, una misma manera de trabajar.
+              {t('sobre.trayectoriaSub')}
             </h2>
           </div>
           <Trayectoria items={content.trayectoria || []} />
@@ -114,31 +129,13 @@ export default function Nosotros({ content = {} }) {
         <section className="section prensa">
           <div className="wrap">
             <div className="reveal" style={{ marginBottom: 'clamp(28px,4vw,52px)' }}>
-              <p className="kicker">Reconocimientos</p>
+              <p className="kicker">{t('sobre.reconocimientos')}</p>
               <h2 className="h-xl" style={{ marginTop: 12 }}>
-                Prensa y notas
+                {t('sobre.prensaTitulo')}
               </h2>
             </div>
-            <div className="prensa__row reveal d1">
-              {prensa.map((p, i) => {
-                const href = p.pdf || p.url;
-                const cls = 'prensa__item' + (href ? ' is-link' : '');
-                const inner = (
-                  <>
-                    <span className="prensa__medio">{p.medio}</span>
-                    {p.fecha && <span className="prensa__det">{p.fecha}</span>}
-                  </>
-                );
-                return href ? (
-                  <a className={cls} key={i} href={href} target="_blank" rel="noopener noreferrer">
-                    {inner}
-                  </a>
-                ) : (
-                  <div className={cls} key={i}>
-                    {inner}
-                  </div>
-                );
-              })}
+            <div className="reveal d1">
+              <PrensaList items={prensa} />
             </div>
           </div>
         </section>
@@ -151,18 +148,17 @@ export default function Nosotros({ content = {} }) {
           <h2
             className="display reveal"
             style={{ color: 'var(--cream)', fontSize: 'clamp(28px,4vw,58px)', marginBottom: 30 }}
-          >
-            ¿Empezamos tu <em>proyecto</em>?
-          </h2>
+            dangerouslySetInnerHTML={{ __html: t('sobre.ctaTitulo') }}
+          />
           <div
             className="reveal d1"
             style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}
           >
             <button className="btn btn--light" onClick={open}>
-              Solicitar reunión <span className="arr">→</span>
+              {t('cta.solicitar')} <span className="arr">→</span>
             </button>
-            <Link className="btn btn--ghost-light" href="/proyectos">
-              Ver proyectos
+            <Link className="btn btn--ghost-light" href={href('/proyectos')}>
+              {t('cta.verProyectos')}
             </Link>
           </div>
         </div>

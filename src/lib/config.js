@@ -1,4 +1,10 @@
 import { supabase, supabaseEnabled } from './supabase';
+import { DEFAULT_LOCALE } from './i18n/config';
+import contentEn from './i18n/content.en';
+import contentPt from './i18n/content.pt';
+
+// Traducciones estáticas del contenido por defecto (scaffolding/fallback).
+const TRANSLATED = { en: contentEn, pt: contentPt };
 
 // Servicios por defecto (se usan si no hay nada cargado en el panel).
 export const SERVICIOS_DEFAULT = [
@@ -65,11 +71,19 @@ export const SERVICIOS_DEFAULT = [
 export const SITE_DEFAULTS = {
   contacto_email: 'arquitectura@lorenamacias.com.py',
   contacto_tel: '+595 981 109 295',
+  contacto_tel2: '',
+  contacto_tel3: '',
   contacto_whatsapp: '595981109295',
   contacto_whatsapp_msg: 'Hola Lorena, me gustaría una consulta sobre un proyecto.',
   contacto_instagram: 'lorenamacias_arq',
+  contacto_linkedin: '',
+  contacto_facebook: '',
   contacto_ciudad: 'Asunción, Paraguay',
   contacto_hero_imagen: '',
+  // Logo (si están vacíos, usa los archivos por defecto de /assets)
+  logo_claro: '',
+  logo_oscuro: '',
+  logo_horizontal: '',
 };
 
 // Lee toda la config de contacto/marca (Supabase sobre los valores por defecto).
@@ -96,6 +110,7 @@ export async function getSiteConfig() {
 export const CONTENT_DEFAULTS = {
   // Inicio
   inicio_hero_imagen: '/assets/img/living.jpg',
+  inicio_hero_video: '',
   inicio_hero_eyebrow: 'Arquitectura · Interiorismo',
   inicio_hero_titulo: 'Arquitectura\nque <em>respira</em>.',
   inicio_hero_descripcion:
@@ -103,6 +118,7 @@ export const CONTENT_DEFAULTS = {
   inicio_manifiesto:
     'Una arquitectura que escucha el lugar, abraza la <em>luz</em> y se construye para vivirse.',
   inicio_divisor_imagen: '',
+  inicio_vertodos_imagen: '',
   inicio_cta_imagen: '/assets/img/terraza.jpg',
   inicio_cta_titulo: 'Demos vida a tu <em>proyecto</em>.',
   inicio_cta_descripcion:
@@ -354,7 +370,11 @@ export const TRAYECTORIA_DEFAULT = [
 ];
 
 // Lee el contenido editable de las páginas (Supabase sobre los valores por defecto).
-export async function getContent() {
+// locale: 'es' devuelve exactamente lo de siempre (el español no se toca).
+// 'en'/'pt': prioriza la traducción guardada (clave__locale), luego el override
+// en español (clave), luego la traducción estática por defecto, luego el español.
+export async function getContent(locale = DEFAULT_LOCALE) {
+  const isEs = locale === DEFAULT_LOCALE;
   const c = {
     ...CONTENT_DEFAULTS,
     trayectoria: TRAYECTORIA_DEFAULT,
@@ -368,6 +388,10 @@ export async function getContent() {
     carrusel: [],
     estudio_imagenes: [],
   };
+  // Traducciones estáticas por defecto (solo para en/pt).
+  if (!isEs && TRANSLATED[locale]) {
+    Object.assign(c, TRANSLATED[locale]);
+  }
   // claves JSON (array) → propiedad del objeto
   const JSON_KEYS = {
     nosotros_trayectoria: ['trayectoria', TRAYECTORIA_DEFAULT],
@@ -381,21 +405,38 @@ export async function getContent() {
     nosotros_carrusel: ['carrusel', []],
     nosotros_estudio_imagenes: ['estudio_imagenes', []],
   };
+  const applyValue = (clave, valor) => {
+    if (JSON_KEYS[clave]) {
+      const [prop, fallback] = JSON_KEYS[clave];
+      c[prop] = parseJSON(valor, c[prop] || fallback);
+    } else if (clave in c) {
+      c[clave] = valor;
+    }
+  };
   if (supabaseEnabled && supabase) {
-    const claves = [...Object.keys(CONTENT_DEFAULTS), ...Object.keys(JSON_KEYS)];
+    const baseClaves = [...Object.keys(CONTENT_DEFAULTS), ...Object.keys(JSON_KEYS)];
+    const claves = isEs
+      ? baseClaves
+      : [...baseClaves, ...baseClaves.map((k) => `${k}__${locale}`)];
     const { data } = await supabase
       .from('configuracion')
       .select('clave, valor')
       .in('clave', claves);
     if (data) {
+      const base = {};
+      const loc = {};
+      const suffix = `__${locale}`;
       for (const row of data) {
         if (row.valor == null || row.valor === '') continue;
-        if (JSON_KEYS[row.clave]) {
-          const [prop, fallback] = JSON_KEYS[row.clave];
-          c[prop] = parseJSON(row.valor, fallback);
-        } else if (row.clave in c) {
-          c[row.clave] = row.valor;
+        if (!isEs && row.clave.endsWith(suffix)) {
+          loc[row.clave.slice(0, -suffix.length)] = row.valor;
+        } else {
+          base[row.clave] = row.valor;
         }
+      }
+      for (const clave of baseClaves) {
+        if (!isEs && loc[clave] != null) applyValue(clave, loc[clave]);
+        else if (base[clave] != null) applyValue(clave, base[clave]);
       }
     }
   }
@@ -425,7 +466,16 @@ export async function getConfigValue(clave) {
 }
 
 // Servicios para mostrar en el sitio (de Supabase o, si no hay, los de ejemplo).
-export async function getServicios() {
-  const valor = await getConfigValue('servicios');
-  return valor ? parseJSON(valor, SERVICIOS_DEFAULT) : SERVICIOS_DEFAULT;
+// Misma precedencia que getContent: traducción DB > override español > default traducido > español.
+export async function getServicios(locale = DEFAULT_LOCALE) {
+  const isEs = locale === DEFAULT_LOCALE;
+  const fallback = !isEs && TRANSLATED[locale]?.servicios ? TRANSLATED[locale].servicios : SERVICIOS_DEFAULT;
+  const base = await getConfigValue('servicios');
+  if (isEs) {
+    return base ? parseJSON(base, SERVICIOS_DEFAULT) : SERVICIOS_DEFAULT;
+  }
+  const loc = await getConfigValue(`servicios__${locale}`);
+  if (loc) return parseJSON(loc, fallback);
+  if (base) return parseJSON(base, fallback);
+  return fallback;
 }

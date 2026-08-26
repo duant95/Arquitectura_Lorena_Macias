@@ -517,7 +517,8 @@
   inset: -10% 0;
   z-index: 0;
 }
-.hm-hero__media img {
+.hm-hero__media img,
+.hm-hero__media--video video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -707,13 +708,58 @@
 .hm-proj__link:hover .arr {
   transform: translateX(6px);
 }
+/* "Ver todos los proyectos" — banda con imagen, misma familia que "Obras destacadas" */
 .hm-allprojects {
-  background: transparent;
-  padding: clamp(24px, 3vw, 40px) 0;
+  position: relative;
+  height: clamp(240px, 40vh, 400px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  background: var(--green);
 }
-.hm-allprojects .link-arrow {
-  color: var(--green-ink);
+.hm-allprojects__media {
+  position: absolute;
+  inset: -8% 0;
+  z-index: 0;
+}
+.hm-allprojects__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hm-allprojects::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(30, 24, 18, 0.5);
+}
+.hm-allprojects__in {
+  position: relative;
+  z-index: 2;
+}
+.hm-allprojects__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--sans);
+  font-size: clamp(14px, 1.55vw, 20px);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--cream);
+  transition: letter-spacing 0.5s var(--ease);
+}
+.hm-allprojects__title .arr {
+  transition: transform 0.4s var(--ease);
+}
+.hm-allprojects__title:hover {
+  letter-spacing: 0.4em;
+}
+.hm-allprojects__title:hover .arr {
+  transform: translateX(8px);
 }
 
 /* ---------- CIFRAS ---------- */
@@ -950,7 +996,7 @@
 /* Divisor: imagen a pantalla, casi sin texto (separa el hero del resto) */
 .hm-divisor {
   position: relative;
-  height: clamp(320px, 52vh, 520px);
+  height: clamp(240px, 40vh, 400px);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -981,9 +1027,115 @@
 .hm-divisor__title {
   font-family: var(--sans);
   font-size: clamp(15px, 1.7vw, 22px);
-  letter-spacing: 0.32em;
+  letter-spacing: 0.34em;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--cream);
   margin: 0;
+}
+
+/* ---------- REEL del hero (tarjeta que gira) ---------- */
+.hero-reel {
+  position: absolute;
+  right: var(--gut);
+  bottom: clamp(48px, 9vh, 116px);
+  z-index: 3;
+  width: clamp(190px, 22vw, 290px);
+  aspect-ratio: 16 / 10;
+  perspective: 1400px;
+}
+.hero-reel__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.9s var(--ease);
+}
+.hero-reel.is-flipped .hero-reel__inner {
+  transform: rotateY(180deg);
+}
+.hero-reel__front,
+.hero-reel__back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.hero-reel__front {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--cream);
+  background: rgba(30, 24, 18, 0.5);
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(246, 242, 233, 0.42);
+  transition: border-color 0.4s var(--ease);
+}
+.hero-reel__front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 24, 18, 0.4);
+}
+.hero-reel__front:hover {
+  border-color: var(--cream);
+}
+.hero-reel__play {
+  position: relative;
+  z-index: 1;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--cream);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  padding-left: 3px;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+}
+.hero-reel__front:hover .hero-reel__play {
+  background: var(--cream);
+  color: var(--ink);
+}
+.hero-reel__label {
+  position: relative;
+  z-index: 1;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+.hero-reel__back {
+  transform: rotateY(180deg);
+  background: #000;
+}
+.hero-reel__back video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-reel__close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+@media (max-width: 760px) {
+  .hero-reel {
+    display: none;
+  }
 }
