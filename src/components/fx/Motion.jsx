@@ -33,18 +33,29 @@ export function Parallax({ src, alt = '', className, strength = 14, priority = f
  * todos los navegadores). Con `inView` usa la entrada al viewport (scroll).
  * El estado animado garantiza que el contenido SIEMPRE termina visible.
  */
-export function Reveal({ children, className, delay = 0, y = 48, as = 'div', inView = false }) {
+export function Reveal({
+  children,
+  className,
+  delay = 0,
+  y = 48,
+  scale,
+  duration = 0.95,
+  as = 'div',
+  inView = false,
+}) {
   const reduce = useReducedMotion();
   const Comp = motion[as] || motion.div;
   if (reduce) return <Comp className={className}>{children}</Comp>;
+  const from = { opacity: 0, y, ...(scale != null ? { scale } : {}) };
+  const to = { opacity: 1, y: 0, ...(scale != null ? { scale: 1 } : {}) };
   const anim = inView
-    ? { whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-10%' } }
-    : { animate: { opacity: 1, y: 0 } };
+    ? { whileInView: to, viewport: { once: true, margin: '-12%' } }
+    : { animate: to };
   return (
     <Comp
       className={className}
-      initial={{ opacity: 0, y }}
-      transition={{ duration: 0.95, ease: EASE, delay }}
+      initial={from}
+      transition={{ duration, ease: EASE, delay }}
       {...anim}
     >
       {children}
