@@ -707,8 +707,9 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
                 <div className="ad-field">
                   <label>Enlaces (nota, Instagram, reel, etc.)</label>
                   <p className="ad-hint" style={{ marginTop: -4, marginBottom: 8 }}>
-                    Poné todos los enlaces de esta misma nota. El nombre es cómo se ve el botón (ej.
-                    "Ver nota", "Instagram", "Reel").
+                    {
+                      'Poné todos los enlaces de esta misma nota. El nombre es cómo se ve el botón (ej. "Ver nota", "Instagram", "Reel").'
+                    }
                   </p>
                   {prLinks(p).map((e, k) => (
                     <div className="ad-row-2" key={k} style={{ alignItems: 'end', marginBottom: 8 }}>
