@@ -193,6 +193,7 @@ function ImageList({
 export default function ProyectoForm({ proyecto, isEditing = false }) {
   const router = useRouter();
   const [slugEdited, setSlugEdited] = useState(isEditing);
+  const [slugAbierto, setSlugAbierto] = useState(false);
   const [saving, setSaving] = useState(false);
 
   const [form, setForm] = useState({
@@ -279,17 +280,41 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
           />
         </div>
         <div className="ad-field">
-          <label>URL (slug)</label>
-          <input
-            className="ad-input"
-            value={form.slug}
-            onChange={(e) => {
-              setSlugEdited(true);
-              set('slug', e.target.value);
-            }}
-            placeholder="casa-del-bosque"
-          />
-          <p className="ad-hint">La obra vivirá en /proyecto/{form.slug || 'slug'}</p>
+          <label>Dirección de la página</label>
+          {!slugAbierto ? (
+            <p className="ad-hint" style={{ margin: 0 }}>
+              Se arma sola del título:{' '}
+              <b>/proyecto/{form.slug || 'titulo-de-la-obra'}</b>{' '}
+              <button
+                type="button"
+                onClick={() => setSlugAbierto(true)}
+                style={{
+                  background: 'none',
+                  border: 0,
+                  color: 'var(--admin-accent, #6f7d5d)',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  padding: 0,
+                  font: 'inherit',
+                }}
+              >
+                editar
+              </button>
+            </p>
+          ) : (
+            <>
+              <input
+                className="ad-input"
+                value={form.slug}
+                onChange={(e) => {
+                  setSlugEdited(true);
+                  set('slug', slugify(e.target.value));
+                }}
+                placeholder="casa-del-bosque"
+              />
+              <p className="ad-hint">La obra vivirá en /proyecto/{form.slug || 'slug'}</p>
+            </>
+          )}
         </div>
         <div className="ad-row-2">
           <div className="ad-field">

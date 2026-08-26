@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import Img from '../components/Img';
 import { useAgenda } from '../context/AgendaContext';
+import { useT, useHref } from '../context/LocaleContext';
 import useReveals from '../hooks/useReveals';
 import { Parallax } from '../components/fx/Motion';
 
 export default function ServiciosView({ servicios = [], content = {} }) {
   const { open } = useAgenda();
+  const t = useT();
+  const href = useHref();
   useReveals();
 
   return (
@@ -18,14 +21,14 @@ export default function ServiciosView({ servicios = [], content = {} }) {
         )}
         <div className="phero__in">
           <div className="crumb">
-            <Link href="/">Inicio</Link> / Servicios
+            <Link href={href('/')}>{t('nav.inicio')}</Link> / {t('nav.servicios')}
           </div>
           <h1
             dangerouslySetInnerHTML={{
               __html: (content.servicios_hero_titulo || 'Servicios').replace(/\n/g, '<br />'),
             }}
           />
-          <p className="phero__lead">{content.servicios_hero_lead}</p>
+          <p className="phero__lead" dangerouslySetInnerHTML={{ __html: content.servicios_hero_lead }} />
         </div>
       </section>
 
@@ -62,13 +65,13 @@ export default function ServiciosView({ servicios = [], content = {} }) {
         <div className="wrap">
           <div className="sec-head reveal">
             <div className="sec-head__l">
-              <span className="eyebrow">Metodología</span>
-              <h2 className="h-xl">Un proceso claro</h2>
+              <span className="eyebrow">{t('serv.metodologia')}</span>
+              <h2 className="h-xl">{t('serv.procesoClaro')}</h2>
             </div>
           </div>
-          <div className="steps reveal d1">
+          <div className="steps">
             {(content.servicios_pasos || []).map((p, i) => (
-              <div className="step" key={i}>
+              <div className={'step reveal ' + ['', 'd1', 'd2', 'd3'][i % 4]} key={i}>
                 <div className="n">{String(i + 1).padStart(2, '0')}</div>
                 <h4>{p.titulo}</h4>
                 <p>{p.descripcion}</p>
@@ -85,14 +88,13 @@ export default function ServiciosView({ servicios = [], content = {} }) {
         )}
         <div className="wrap">
           <p className="kicker reveal" style={{ marginBottom: 20, color: 'var(--sage)' }}>
-            ¿Hablamos?
+            {t('serv.ctaEyebrow')}
           </p>
           <h2
             className="h-xl reveal d1"
             style={{ marginBottom: 18, maxWidth: '18ch', marginInline: 'auto', color: 'var(--cream)' }}
-          >
-            Contanos qué necesitás y diseñamos juntos la mejor <em>solución</em>.
-          </h2>
+            dangerouslySetInnerHTML={{ __html: t('serv.ctaTitulo') }}
+          />
           <div
             className="reveal d2"
             style={{
@@ -104,10 +106,10 @@ export default function ServiciosView({ servicios = [], content = {} }) {
             }}
           >
             <button className="btn btn--light" onClick={open}>
-              Solicitar reunión <span className="arr">→</span>
+              {t('cta.solicitar')} <span className="arr">→</span>
             </button>
-            <Link className="btn btn--ghost-light" href="/contacto">
-              Contacto
+            <Link className="btn btn--ghost-light" href={href('/contacto')}>
+              {t('cta.contacto')}
             </Link>
           </div>
         </div>

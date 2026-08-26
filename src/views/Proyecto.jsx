@@ -6,11 +6,13 @@ import { motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import Img from '../components/Img';
 import useReveals from '../hooks/useReveals';
+import { useT, useHref } from '../context/LocaleContext';
 import { Parallax, EASE } from '../components/fx/Motion';
 import { splitParagraphs, isVideo } from '../lib/projectShape';
 
 // Galería ordenada y uniforme, con visor (lightbox) para ampliar las imágenes.
 function Galeria({ items }) {
+  const t = useT();
   const fotos = items.filter((g) => g.img);
   const [open, setOpen] = useState(null); // índice dentro de `fotos`
 
@@ -75,13 +77,13 @@ function Galeria({ items }) {
 
       {open !== null && fotos[open] && (
         <div className="lightbox" onClick={close}>
-          <button className="lightbox__btn lightbox__close" aria-label="Cerrar" onClick={close}>
+          <button className="lightbox__btn lightbox__close" aria-label={t('pj.ariaCerrar')} onClick={close}>
             <X size={26} />
           </button>
           {fotos.length > 1 && (
             <button
               className="lightbox__btn lightbox__prev"
-              aria-label="Anterior"
+              aria-label={t('pj.ariaAnterior')}
               onClick={(e) => {
                 e.stopPropagation();
                 prev();
@@ -102,7 +104,7 @@ function Galeria({ items }) {
             <img src={fotos[open].img} alt={fotos[open].alt} onClick={(e) => e.stopPropagation()} />
           )}
           {fotos.length > 1 && (
-            <button className="lightbox__btn lightbox__next" aria-label="Siguiente" onClick={next}>
+            <button className="lightbox__btn lightbox__next" aria-label={t('pj.ariaSiguiente')} onClick={next}>
               <ChevronRight size={30} />
             </button>
           )}
@@ -113,6 +115,8 @@ function Galeria({ items }) {
 }
 
 export default function ProyectoView({ project, next }) {
+  const t = useT();
+  const href = useHref();
   useReveals([project.slug]);
 
   const procesoParrafos = splitParagraphs(project.proceso);
@@ -137,8 +141,8 @@ export default function ProyectoView({ project, next }) {
               marginBottom: '20px',
             }}
           >
-            <Link href="/proyectos" style={{ color: 'var(--sage)' }}>
-              Proyectos
+            <Link href={href('/proyectos')} style={{ color: 'var(--sage)' }}>
+              {t('nav.proyectos')}
             </Link>{' '}
             / {project.name}
           </div>
@@ -170,19 +174,19 @@ export default function ProyectoView({ project, next }) {
         <div className="wrap">
           <div className="pj-meta reveal">
             <div>
-              <span className="micro">Año</span>
+              <span className="micro">{t('pj.metaAno')}</span>
               <b>{project.year}</b>
             </div>
             <div>
-              <span className="micro">Superficie</span>
+              <span className="micro">{t('pj.metaSuperficie')}</span>
               <b>{project.area}</b>
             </div>
             <div>
-              <span className="micro">Ubicación</span>
+              <span className="micro">{t('pj.metaUbicacion')}</span>
               <b>{project.location}</b>
             </div>
             <div>
-              <span className="micro">Servicios</span>
+              <span className="micro">{t('pj.metaServicios')}</span>
               <b>{project.services}</b>
             </div>
           </div>
@@ -247,9 +251,9 @@ export default function ProyectoView({ project, next }) {
         }
         const g = project.galleryByFase || { antes: [], durante: [], finalizado: project.gallery };
         const FASES = [
-          ['finalizado', 'Resultado final'],
-          ['durante', 'Proceso de obra'],
-          ['antes', 'Antes de la intervención'],
+          ['finalizado', t('pj.faseFinal')],
+          ['durante', t('pj.faseDurante')],
+          ['antes', t('pj.faseAntes')],
         ];
         const presentes = FASES.filter(([k]) => (g[k] || []).length > 0);
         if (presentes.length === 0) return null;
@@ -294,11 +298,13 @@ export default function ProyectoView({ project, next }) {
             <div className="split split--narrow">
               <div className="reveal">
                 <p className="eyebrow" style={{ marginBottom: '22px' }}>
-                  El proceso
+                  {t('pj.procesoEyebrow')}
                 </p>
-                <h2 className="h-lg" style={{ maxWidth: '14ch' }}>
-                  De la idea a la <em>obra</em>
-                </h2>
+                <h2
+                  className="h-lg"
+                  style={{ maxWidth: '14ch' }}
+                  dangerouslySetInnerHTML={{ __html: t('pj.procesoTitulo') }}
+                />
               </div>
               <div className="reveal d1">
                 {procesoParrafos.map((p, i) => (
@@ -318,8 +324,8 @@ export default function ProyectoView({ project, next }) {
           <div className="wrap">
             <div className="sec-head reveal">
               <div className="sec-head__l">
-                <span className="eyebrow">Documentación</span>
-                <h2 className="h-xl">Planos 2D</h2>
+                <span className="eyebrow">{t('pj.docEyebrow')}</span>
+                <h2 className="h-xl">{t('pj.docTitulo')}</h2>
               </div>
             </div>
             <Galeria items={project.planos} />
@@ -333,8 +339,8 @@ export default function ProyectoView({ project, next }) {
           <div className="wrap">
             <div className="sec-head reveal">
               <div className="sec-head__l">
-                <span className="eyebrow">Anteproyecto</span>
-                <h2 className="h-xl">Renders 3D</h2>
+                <span className="eyebrow">{t('pj.renderEyebrow')}</span>
+                <h2 className="h-xl">{t('pj.renderTitulo')}</h2>
               </div>
             </div>
             <Galeria items={project.renders} />
@@ -349,14 +355,15 @@ export default function ProyectoView({ project, next }) {
             <div className="split">
               <div className="reveal">
                 <p className="eyebrow" style={{ marginBottom: '22px' }}>
-                  Materialidad
+                  {t('pj.materialEyebrow')}
                 </p>
-                <h2 className="h-lg" style={{ marginBottom: '24px' }}>
-                  Una paleta <em>natural</em>
-                </h2>
+                <h2
+                  className="h-lg"
+                  style={{ marginBottom: '24px' }}
+                  dangerouslySetInnerHTML={{ __html: t('pj.materialTitulo') }}
+                />
                 <p style={{ color: 'var(--ink-soft)', maxWidth: '430px' }}>
-                  Materiales nobles y honestos que componen una atmósfera que envejece con belleza y
-                  dialoga con el entorno.
+                  {t('pj.materialTexto')}
                 </p>
               </div>
               <div className="reveal d1">
@@ -375,27 +382,29 @@ export default function ProyectoView({ project, next }) {
 
       {/* PRÓXIMO PROYECTO */}
       {next && (
-        <Link className="nextpj" href={`/proyecto/${next.slug}`}>
-          {next.cover ? (
-            <Parallax className="nextpj__media" src={next.cover} alt="" strength={10} />
-          ) : (
-            <div className="ph" data-ph={next.ph} style={{ position: 'absolute', inset: 0 }}></div>
-          )}
-          <div className="nextpj__c">
-            <p className="eyebrow light" style={{ marginBottom: '18px' }}>
-              Seguí explorando
-            </p>
-            <h2
-              className="display"
-              style={{ color: 'var(--cream)', fontSize: 'clamp(34px,5vw,76px)' }}
-            >
-              {next.name}
-            </h2>
-            <span className="link-arrow" style={{ color: 'var(--sage)', marginTop: '20px' }}>
-              Ver proyecto <span className="arr">→</span>
-            </span>
+        <>
+          <div className="nextpj-lead">
+            <p className="nextpj__kicker">{t('pj.nextEyebrow')}</p>
           </div>
-        </Link>
+          <Link className="nextpj" href={href(`/proyecto/${next.slug}`)}>
+            {next.cover ? (
+              <Parallax className="nextpj__media" src={next.cover} alt="" strength={10} />
+            ) : (
+              <div className="ph" data-ph={next.ph} style={{ position: 'absolute', inset: 0 }}></div>
+            )}
+            <div className="nextpj__c">
+              <h2
+                className="display"
+                style={{ color: 'var(--cream)', fontSize: 'clamp(34px,5vw,76px)' }}
+              >
+                {next.name}
+              </h2>
+              <span className="link-arrow" style={{ color: 'var(--sage)', marginTop: '20px' }}>
+                {t('cta.verProyecto')} <span className="arr">→</span>
+              </span>
+            </div>
+          </Link>
+        </>
       )}
     </>
   );

@@ -172,6 +172,24 @@
   color: var(--cream);
   text-align: center;
 }
+.nextpj__kicker {
+  font-family: var(--sans);
+  font-size: clamp(13px, 1.4vw, 18px);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--sage);
+  margin: 0;
+}
+/* Banda propia del "Seguí explorando", separada de la foto de la obra */
+.nextpj-lead {
+  background: var(--paper-2);
+  text-align: center;
+  padding: clamp(38px, 5vw, 72px) var(--gut);
+}
+.nextpj-lead .nextpj__kicker {
+  color: var(--green-ink);
+}
 @media (max-width: 980px) {
   .pj-meta {
     grid-template-columns: 1fr 1fr;

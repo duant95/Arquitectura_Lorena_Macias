@@ -660,3 +660,70 @@
 .ad-img__fase {
   cursor: pointer;
 }
+
+/* Barrita de formato (Resaltar / Negrita / Tamaño) sobre los campos de texto */
+.ad-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.ad-tool {
+  font-family: inherit;
+  font-size: 12.5px;
+  line-height: 1;
+  padding: 6px 10px;
+  border: 1px solid rgba(76, 67, 58, 0.22);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ad-ink, #2f2a23);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ad-tool:hover {
+  background: #f3efe6;
+  border-color: rgba(76, 67, 58, 0.4);
+}
+.ad-tool__hl {
+  color: #6f7d5d;
+  font-weight: 600;
+}
+.ad-tool__sep {
+  width: 1px;
+  height: 18px;
+  background: rgba(76, 67, 58, 0.2);
+  margin: 0 2px;
+}
+
+/* Editor visual (WYSIWYG) — muestra el formato aplicado, sin código a la vista */
+.rich-editor {
+  width: 100%;
+  border: 1px solid rgba(76, 67, 58, 0.22);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ad-ink, #2f2a23);
+  background: #fff;
+  outline: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.rich-editor:focus {
+  border-color: rgba(76, 67, 58, 0.5);
+}
+.rich-editor em {
+  color: #6f7d5d;
+  font-style: normal;
+}
+.rich-editor strong {
+  font-weight: 700;
+}
+.rich-editor .t-lg {
+  font-size: 1.2em;
+}
+.rich-editor .t-sm {
+  font-size: 0.82em;
+}
