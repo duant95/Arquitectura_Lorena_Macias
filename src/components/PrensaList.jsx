@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useT } from '../context/LocaleContext';
 
@@ -13,6 +13,8 @@ export default function PrensaList({ items = [] }) {
   const t = useT();
   const [open, setOpen] = useState(null);
   const [lb, setLb] = useState(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const linksOf = (p) => {
     const out = [];
@@ -52,7 +54,8 @@ export default function PrensaList({ items = [] }) {
         })}
       </div>
 
-      {note &&
+      {mounted &&
+        note &&
         createPortal(
           <div className="prensa-modal" onClick={() => setOpen(null)}>
           <div className="prensa-modal__card" onClick={(e) => e.stopPropagation()}>
@@ -104,7 +107,8 @@ export default function PrensaList({ items = [] }) {
           document.body
         )}
 
-      {lb &&
+      {mounted &&
+        lb &&
         createPortal(
           <div className="lightbox" onClick={() => setLb(null)}>
             <button

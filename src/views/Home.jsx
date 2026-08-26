@@ -86,9 +86,9 @@ export default function HomeView({ servicios = [], content = {} }) {
       {/* ===================== DIVISOR (imagen + título "Obras destacadas") ===================== */}
       {content.inicio_divisor_imagen && (
         <section className="hm-divisor">
-          <Parallax className="hm-divisor__media" src={content.inicio_divisor_imagen} strength={16} />
+          <Parallax className="hm-divisor__media" src={content.inicio_divisor_imagen} strength={20} />
           <div className="hm-divisor__in wrap">
-            <Reveal inView>
+            <Reveal inView y={30} scale={0.94} duration={1.1}>
               <p className="hm-divisor__title">{t('home.obrasDestacadas')}</p>
             </Reveal>
           </div>
@@ -103,12 +103,18 @@ export default function HomeView({ servicios = [], content = {} }) {
               className="hm-proj__media"
               src={p.imagen || content.inicio_hero_imagen}
               alt={p.titulo}
-              strength={20}
+              strength={24}
             />
             <div className="hm-proj__in wrap">
-              <Reveal y={56} inView>
-                {p.categoria && <p className="hm-proj__cat">{p.categoria}</p>}
+              {p.categoria && (
+                <Reveal inView y={24} delay={0}>
+                  <p className="hm-proj__cat">{p.categoria}</p>
+                </Reveal>
+              )}
+              <Reveal inView y={70} scale={0.97} delay={0.08} duration={1.05}>
                 <h3 className="hm-proj__name">{p.titulo}</h3>
+              </Reveal>
+              <Reveal inView y={24} delay={0.22}>
                 <Link
                   className="hm-proj__link"
                   href={href(p.slug ? `/proyecto/${p.slug}` : '/proyectos')}
@@ -126,10 +132,10 @@ export default function HomeView({ servicios = [], content = {} }) {
         return (
           <section className="hm-allprojects">
             {bandImg && (
-              <Parallax className="hm-allprojects__media" src={bandImg} strength={16} />
+              <Parallax className="hm-allprojects__media" src={bandImg} strength={20} />
             )}
             <div className="hm-allprojects__in">
-              <Reveal inView>
+              <Reveal inView y={30} scale={0.94} duration={1.1}>
                 <Link className="hm-allprojects__title" href={href('/proyectos')}>
                   {t('cta.verTodos')} <span className="arr">→</span>
                 </Link>
@@ -143,7 +149,7 @@ export default function HomeView({ servicios = [], content = {} }) {
       <section className="hm-services" data-screen-label="Servicios">
         <div className="wrap">
           <div className="hm-services__head">
-            <Reveal inView>
+            <Reveal inView y={54} scale={0.97} duration={1.05}>
               <p className="hm-eyebrow hm-eyebrow--dark">{t('home.serviciosEyebrow')}</p>
               <h2
                 className="hm-services__title"
@@ -158,7 +164,7 @@ export default function HomeView({ servicios = [], content = {} }) {
           </div>
           <div className="hm-services__list">
             {servicios.map((s, i) => (
-              <Reveal key={i} inView delay={Math.min(i, 3) * 0.06}>
+              <Reveal key={i} inView y={40} delay={Math.min(i, 5) * 0.1} duration={0.9}>
                 <Link className="hm-srv" href={href('/servicios')}>
                   <span className="hm-srv__n">{String(i + 1).padStart(2, '0')}</span>
                   <h4 className="hm-srv__name">{s.titulo}</h4>
@@ -173,9 +179,9 @@ export default function HomeView({ servicios = [], content = {} }) {
 
       {/* ===================== CTA FINAL ===================== */}
       <section className="hm-cta" data-screen-label="CTA">
-        <Parallax className="hm-cta__media" src={content.inicio_cta_imagen} strength={12} />
+        <Parallax className="hm-cta__media" src={content.inicio_cta_imagen} strength={18} />
         <div className="hm-cta__in">
-          <Reveal inView>
+          <Reveal inView y={54} scale={0.96} duration={1.1}>
             <p className="hm-eyebrow">{t('home.proximoProyecto')}</p>
             <h2
               className="hm-cta__title"
