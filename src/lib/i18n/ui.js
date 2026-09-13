@@ -141,7 +141,6 @@ export const UI = {
       slotIndistinto: 'Indistinto',
       idea: 'Contanos brevemente tu idea',
       ideaPh: 'Ubicación, metros, estilo deseado…',
-      confirm24: 'Te confirmaremos por WhatsApp en menos de 24 h.',
       graciasText: 'Recibimos tu solicitud. Te escribimos pronto por WhatsApp.',
     },
     nf: {
@@ -291,7 +290,6 @@ export const UI = {
       slotIndistinto: 'Either',
       idea: 'Tell us briefly about your idea',
       ideaPh: 'Location, size, desired style…',
-      confirm24: "We'll confirm on WhatsApp within 24 h.",
       graciasText: "We got your request. We'll be in touch soon on WhatsApp.",
     },
     nf: {
@@ -441,7 +439,6 @@ export const UI = {
       slotIndistinto: 'Tanto faz',
       idea: 'Conte brevemente a sua ideia',
       ideaPh: 'Localização, metragem, estilo desejado…',
-      confirm24: 'Confirmamos pelo WhatsApp em menos de 24 h.',
       graciasText: 'Recebemos a sua solicitação. Entraremos em contato em breve pelo WhatsApp.',
     },
     nf: {

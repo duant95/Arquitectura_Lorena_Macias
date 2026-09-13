@@ -58,7 +58,7 @@ export default function ServiciosView({ servicios = [], content = {} }) {
                   <details className="svc-more">
                     <summary className="svc-more__toggle">
                       <span>{t('serv.conocerMas')}</span>
-                      <span className="svc-more__ic" aria-hidden="true">+</span>
+                      <span className="svc-more__ic" aria-hidden="true" />
                     </summary>
                     <div className="svc-more__body">
                       <ul className="svc-more__list">

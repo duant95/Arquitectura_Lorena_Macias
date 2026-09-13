@@ -92,15 +92,31 @@
   display: none;
 }
 .svc-more__ic {
-  display: inline-grid;
-  place-items: center;
+  position: relative;
+  flex: 0 0 auto;
   width: 22px;
   height: 22px;
   border: 1px solid var(--olive);
   border-radius: 50%;
-  font-size: 15px;
-  line-height: 1;
   transition: transform 0.35s var(--ease, ease);
+}
+/* Cruz dibujada con CSS: siempre centrada; rota a "×" al abrir. */
+.svc-more__ic::before,
+.svc-more__ic::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--olive);
+  transform: translate(-50%, -50%);
+}
+.svc-more__ic::before {
+  width: 9px;
+  height: 1.5px;
+}
+.svc-more__ic::after {
+  width: 1.5px;
+  height: 9px;
 }
 .svc-more[open] .svc-more__ic {
   transform: rotate(45deg);
