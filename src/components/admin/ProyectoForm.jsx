@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star, Play } from 'lucide-react';
-import { isVideo, inferEtapa } from '@/lib/projectShape';
+import { isVideo, inferEtapa, normalizeFicha } from '@/lib/projectShape';
 import { optimizeForUpload } from '@/lib/imageResize';
 
 function slugify(s) {
@@ -220,6 +220,33 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
   const [paleta, setPaleta] = useState(
     proyecto?.paleta?.length ? proyecto.paleta : [{ name: '', hex: '#8a5d33' }]
   );
+  const [ficha, setFichaState] = useState(() => {
+    const f = normalizeFicha(proyecto?.ficha);
+    return {
+      tipologia: f.tipologia,
+      superficie_terreno: f.superficie_terreno,
+      superficie_construida: f.superficie_construida,
+      alcance: f.alcance,
+      sistema: f.sistema,
+      claves: f.claves.length ? f.claves : [''],
+      creditos: f.creditos.length ? f.creditos : [{ rol: '', nombre: '' }],
+    };
+  });
+  const setFicha = (field, value) => setFichaState((f) => ({ ...f, [field]: value }));
+  const setClave = (i, val) =>
+    setFichaState((f) => ({ ...f, claves: f.claves.map((c, j) => (j === i ? val : c)) }));
+  const addClave = () => setFichaState((f) => ({ ...f, claves: [...f.claves, ''] }));
+  const delClave = (i) =>
+    setFichaState((f) => ({ ...f, claves: f.claves.filter((_, j) => j !== i) }));
+  const setCredito = (i, field, val) =>
+    setFichaState((f) => ({
+      ...f,
+      creditos: f.creditos.map((c, j) => (j === i ? { ...c, [field]: val } : c)),
+    }));
+  const addCredito = () =>
+    setFichaState((f) => ({ ...f, creditos: [...f.creditos, { rol: '', nombre: '' }] }));
+  const delCredito = (i) =>
+    setFichaState((f) => ({ ...f, creditos: f.creditos.filter((_, j) => j !== i) }));
 
   function set(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -243,6 +270,17 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
       planos,
       renders,
       paleta: paleta.filter((c) => c.name?.trim()),
+      ficha: {
+        tipologia: ficha.tipologia.trim(),
+        superficie_terreno: ficha.superficie_terreno.trim(),
+        superficie_construida: ficha.superficie_construida.trim(),
+        alcance: ficha.alcance.trim(),
+        sistema: ficha.sistema.trim(),
+        claves: ficha.claves.map((c) => c.trim()).filter(Boolean),
+        creditos: ficha.creditos
+          .map((c) => ({ rol: c.rol.trim(), nombre: c.nombre.trim() }))
+          .filter((c) => c.rol || c.nombre),
+      },
     };
     const url = isEditing ? `/api/proyectos/${proyecto.id}` : '/api/proyectos';
     try {
@@ -423,7 +461,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
               onChange={(e) => set('etapa', e.target.value)}
             >
               <option value="propio">Estudio propio (2019 – presente)</option>
-              <option value="gustafson">Colaboración · Gustafson y Asociados (2001 – 2019)</option>
+              <option value="gustafson">Gustafson y Asociados (2001 – 2019)</option>
             </select>
           </div>
           <div className="ad-field">
@@ -439,8 +477,8 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
           </div>
         </div>
         <p className="ad-hint">
-          En la etapa Gustafson la obra figura como colaboración (la propiedad intelectual no es del
-          estudio). El estado se muestra como indicador sutil en la galería.
+          La etapa Gustafson agrupa las obras desarrolladas durante esa trayectoria profesional. El
+          estado se muestra como indicador sutil en la galería.
         </p>
         <div className="ad-row-2">
           <div className="ad-field">
@@ -460,6 +498,129 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
             />
             Mostrar en el inicio (destacado)
           </label>
+        </div>
+      </div>
+
+      {/* Ficha técnica */}
+      <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+        <div className="ad-field">
+          <label>Ficha técnica (datos rápidos)</label>
+          <p className="ad-hint">
+            Todo es opcional: solo se muestra en la obra lo que completes. Ideal para dar escala y
+            demostrar el alcance real del trabajo.
+          </p>
+        </div>
+        <div className="ad-row-2">
+          <div className="ad-field">
+            <label>Tipología</label>
+            <input
+              className="ad-input"
+              value={ficha.tipologia}
+              onChange={(e) => setFicha('tipologia', e.target.value)}
+              placeholder="Vivienda unifamiliar"
+            />
+          </div>
+          <div className="ad-field">
+            <label>Alcance del estudio</label>
+            <input
+              className="ad-input"
+              value={ficha.alcance}
+              onChange={(e) => setFicha('alcance', e.target.value)}
+              placeholder="Arquitectura · Interiorismo · Dirección"
+            />
+          </div>
+        </div>
+        <div className="ad-row-2">
+          <div className="ad-field">
+            <label>Superficie del terreno</label>
+            <input
+              className="ad-input"
+              value={ficha.superficie_terreno}
+              onChange={(e) => setFicha('superficie_terreno', e.target.value)}
+              placeholder="800 m²"
+            />
+          </div>
+          <div className="ad-field">
+            <label>Superficie construida</label>
+            <input
+              className="ad-input"
+              value={ficha.superficie_construida}
+              onChange={(e) => setFicha('superficie_construida', e.target.value)}
+              placeholder="420 m²"
+            />
+          </div>
+        </div>
+        <div className="ad-field">
+          <label>Sistema estructural / constructivo</label>
+          <input
+            className="ad-input"
+            value={ficha.sistema}
+            onChange={(e) => setFicha('sistema', e.target.value)}
+            placeholder="Hormigón armado · pilotes · estructura metálica"
+          />
+        </div>
+
+        <div className="ad-field">
+          <label>Claves del proyecto (3 a 5 detalles a destacar)</label>
+          <p className="ad-hint">
+            Decisiones o desafíos que diferencian la obra (implantación, estructura, materialidad,
+            logística…). Un ítem por línea.
+          </p>
+          {ficha.claves.map((c, i) => (
+            <div className="ad-pal-row" key={i}>
+              <input
+                className="ad-input"
+                value={c}
+                onChange={(e) => setClave(i, e.target.value)}
+                placeholder="Ej. Fundaciones profundas: 32 pilotes anclados al terreno."
+              />
+              <button
+                type="button"
+                className="ad-img__btn"
+                onClick={() => delClave(i)}
+                title="Quitar"
+              >
+                <Trash2 size={13} />
+              </button>
+            </div>
+          ))}
+          <button type="button" className="ad-btn ad-btn--ghost" onClick={addClave}>
+            <Plus size={14} /> Agregar clave
+          </button>
+        </div>
+
+        <div className="ad-field">
+          <label>Créditos y colaboradores</label>
+          <p className="ad-hint">
+            Empresas, especialistas y proveedores relevantes. Rol (ej. Cálculo estructural) + nombre.
+          </p>
+          {ficha.creditos.map((c, i) => (
+            <div className="ad-pal-row" key={i}>
+              <input
+                className="ad-input"
+                value={c.rol}
+                onChange={(e) => setCredito(i, 'rol', e.target.value)}
+                placeholder="Rol (ej. Paisajismo)"
+              />
+              <input
+                className="ad-input"
+                value={c.nombre}
+                onChange={(e) => setCredito(i, 'nombre', e.target.value)}
+                placeholder="Nombre / empresa"
+              />
+              <button
+                type="button"
+                className="ad-img__btn"
+                onClick={() => delCredito(i)}
+                title="Quitar"
+              >
+                <Trash2 size={13} />
+              </button>
+            </div>
+          ))}
+          <button type="button" className="ad-btn ad-btn--ghost" onClick={addCredito}>
+            <Plus size={14} /> Agregar crédito
+          </button>
         </div>
       </div>
 

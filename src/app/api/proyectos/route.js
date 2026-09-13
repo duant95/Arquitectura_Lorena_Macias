@@ -19,11 +19,14 @@ export async function POST(req) {
   }
 
   const sb = createAdminClient();
-  const { data, error } = await sb
-    .from('proyectos')
-    .insert([pickProjectFields(body)])
-    .select('id')
-    .single();
+  const fields = pickProjectFields(body);
+  let { data, error } = await sb.from('proyectos').insert([fields]).select('id').single();
+  // Si la columna `ficha` todavía no fue creada en la DB, creamos igual sin ella.
+  if (error && (error.code === '42703' || /ficha/.test(error.message || ''))) {
+    const { ficha, ...rest } = fields;
+    ({ data, error } = await sb.from('proyectos').insert([rest]).select('id').single());
+    if (!error) console.warn('[api/proyectos POST] columna `ficha` ausente: creado sin ficha.');
+  }
 
   if (error) {
     console.error('[api/proyectos POST] error de base:', error.message);

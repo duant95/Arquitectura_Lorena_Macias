@@ -349,3 +349,61 @@
 .pj-fase .sec-head {
   margin-bottom: clamp(20px, 2.4vw, 32px);
 }
+
+/* --- FICHA: claves del proyecto (detalles a destacar) --- */
+.pj-claves {
+  max-width: 940px;
+}
+.pj-claves__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: clamp(14px, 1.6vw, 22px);
+}
+.pj-claves__item {
+  display: flex;
+  gap: clamp(16px, 2vw, 28px);
+  align-items: baseline;
+  padding-bottom: clamp(14px, 1.6vw, 22px);
+  border-bottom: 1px solid var(--taupe);
+}
+.pj-claves__n {
+  font-family: var(--serif);
+  color: var(--olive);
+  font-size: clamp(15px, 1.3vw, 18px);
+  flex: 0 0 auto;
+  letter-spacing: 0.06em;
+}
+.pj-claves__t {
+  color: var(--ink);
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.6;
+}
+
+/* --- FICHA: créditos / colaboradores --- */
+.pj-creditos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(20px, 2.4vw, 36px);
+  max-width: 1000px;
+}
+.pj-credito {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 18px;
+  border-top: 1px solid var(--taupe);
+}
+.pj-credito__rol {
+  color: var(--ink-soft);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.pj-credito__nombre {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(17px, 1.5vw, 21px);
+  color: var(--ink);
+}

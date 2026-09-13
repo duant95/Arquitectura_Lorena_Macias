@@ -18,6 +18,7 @@ const FIELDS = [
   'planos',
   'renders',
   'paleta',
+  'ficha',
   'destacado',
   'orden',
 ];

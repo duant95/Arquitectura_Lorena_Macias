@@ -80,6 +80,7 @@ export default function Contacto() {
                 <br />
                 Arquitecta
               </h2>
+              <p className="ct-rol">{t('ct.rol')}</p>
               <div className="ct-row">
                 <div className="ic">
                   <svg viewBox="0 0 24 24">
@@ -128,6 +129,7 @@ export default function Contacto() {
                   </div>
                 </div>
               </div>
+              <p className="ct-horario">{t('ct.horarioAtencion')}</p>
               <div className="ct-social">
                 <a href={igUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                   <svg viewBox="0 0 24 24">
@@ -177,9 +179,10 @@ export default function Contacto() {
                     <label>{t('ct.formTipo')}</label>
                     <select name="tipo">
                       <option>{t('ct.tipoArq')}</option>
-                      <option>{t('ct.tipoPm')}</option>
                       <option>{t('ct.tipoInteriores')}</option>
                       <option>{t('ct.tipoNautico')}</option>
+                      <option>{t('ct.tipoDireccion')}</option>
+                      <option>{t('ct.tipoPm')}</option>
                       <option>{t('ct.tipoReformas')}</option>
                       <option>{t('ct.tipoPaisajismo')}</option>
                       <option>{t('ct.tipoOtro')}</option>

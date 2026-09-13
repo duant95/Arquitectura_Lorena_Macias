@@ -4,7 +4,19 @@
   gap: clamp(36px, 5vw, 80px);
 }
 .ct-info h2 {
-  margin-bottom: 30px;
+  margin-bottom: 6px;
+}
+.ct-rol {
+  color: var(--olive);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 28px;
+}
+.ct-horario {
+  color: var(--ink-soft);
+  font-size: 14px;
+  margin: 20px 0 0;
 }
 .ct-row {
   display: flex;

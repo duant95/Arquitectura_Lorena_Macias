@@ -50,12 +50,7 @@ export default function ProyectosView({ projects = [], content = {} }) {
                   <h2 className="pcoll__title">{et.label}</h2>
                   {et.blurb && <p className="pcoll__blurb">{et.blurb}</p>}
                 </div>
-                {et.note && (
-                  <p className="pcoll__note reveal">
-                    <span className="pcoll__badge">{t('proy.colaboracion')}</span>
-                    {et.note}
-                  </p>
-                )}
+                {et.note && <p className="pcoll__note reveal">{et.note}</p>}
 
                 <PMasonry
                   className="reveal"

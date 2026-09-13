@@ -189,6 +189,12 @@ export default function ProyectoView({ project, next }) {
               <span className="micro">{t('pj.metaServicios')}</span>
               <b>{project.services}</b>
             </div>
+            {project.ficha.datos.map(([label, val]) => (
+              <div key={label}>
+                <span className="micro">{label}</span>
+                <b>{val}</b>
+              </div>
+            ))}
           </div>
           {(() => {
             const hasTitle = project.heroTitle && project.heroTitle !== project.name;
@@ -225,6 +231,27 @@ export default function ProyectoView({ project, next }) {
           })()}
         </div>
       </section>
+
+      {/* CLAVES DEL PROYECTO (detalles a destacar) */}
+      {project.ficha.claves.length > 0 && (
+        <section className="section" style={{ paddingTop: 0 }}>
+          <div className="wrap">
+            <div className="pj-claves reveal">
+              <p className="eyebrow" style={{ marginBottom: 'clamp(18px,2vw,28px)' }}>
+                {t('pj.clavesTitulo')}
+              </p>
+              <ul className="pj-claves__list">
+                {project.ficha.claves.map((c, i) => (
+                  <li key={i} className="pj-claves__item">
+                    <span className="pj-claves__n">{String(i + 1).padStart(2, '0')}</span>
+                    <span className="pj-claves__t">{c}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* RECORRIDO POR ETAPA — Resultado final → Proceso de obra → Antes */}
       {(() => {
@@ -375,6 +402,25 @@ export default function ProyectoView({ project, next }) {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CRÉDITOS / EMPRESAS / PROVEEDORES */}
+      {project.ficha.creditos.length > 0 && (
+        <section className="section" style={{ background: 'var(--paper-2)' }}>
+          <div className="wrap">
+            <p className="eyebrow reveal" style={{ marginBottom: 'clamp(20px,2.4vw,32px)' }}>
+              {t('pj.creditosTitulo')}
+            </p>
+            <div className="pj-creditos reveal">
+              {project.ficha.creditos.map((c, i) => (
+                <div className="pj-credito" key={i}>
+                  {c.rol && <span className="pj-credito__rol">{c.rol}</span>}
+                  {c.nombre && <span className="pj-credito__nombre">{c.nombre}</span>}
+                </div>
+              ))}
             </div>
           </div>
         </section>
