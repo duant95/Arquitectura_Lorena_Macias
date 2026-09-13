@@ -54,6 +54,25 @@ export default function ServiciosView({ servicios = [], content = {} }) {
                     ))}
                   </ul>
                 )}
+                {s.detalle?.length > 0 && (
+                  <details className="svc-more">
+                    <summary className="svc-more__toggle">
+                      <span>{t('serv.conocerMas')}</span>
+                      <span className="svc-more__ic" aria-hidden="true">+</span>
+                    </summary>
+                    <div className="svc-more__body">
+                      <ul className="svc-more__list">
+                        {s.detalle.map((d, j) => (
+                          <li key={j} className="svc-more__step">
+                            {d.titulo && <b className="svc-more__t">{d.titulo}</b>}
+                            {d.texto && <span className="svc-more__d">{d.texto}</span>}
+                          </li>
+                        ))}
+                      </ul>
+                      {s.nota && <p className="svc-more__nota">{s.nota}</p>}
+                    </div>
+                  </details>
+                )}
               </div>
             </article>
           ))}

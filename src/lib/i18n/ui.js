@@ -48,6 +48,7 @@ export const UI = {
     },
     serv: {
       metodologia: 'Metodología',
+      conocerMas: 'Conocer más',
       procesoClaro: 'Un proceso claro',
       ctaEyebrow: '¿Hablamos?',
       ctaTitulo: 'Contanos qué necesitás y diseñamos juntos la mejor <em>solución</em>.',
@@ -198,6 +199,7 @@ export const UI = {
     },
     serv: {
       metodologia: 'Methodology',
+      conocerMas: 'Learn more',
       procesoClaro: 'A clear process',
       ctaEyebrow: "Let's talk",
       ctaTitulo: "Tell us what you need and we'll design the best <em>solution</em> together.",
@@ -347,6 +349,7 @@ export const UI = {
     },
     serv: {
       metodologia: 'Metodologia',
+      conocerMas: 'Saiba mais',
       procesoClaro: 'Um processo claro',
       ctaEyebrow: 'Vamos conversar?',
       ctaTitulo: 'Conte o que você precisa e desenhamos juntos a melhor <em>solução</em>.',

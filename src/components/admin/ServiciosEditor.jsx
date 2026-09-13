@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { Upload, X, Plus, ChevronUp, ChevronDown, Trash2 } from 'lucide-react';
 import { uploadFiles } from '@/lib/uploadClient';
 
-const VACIO = { titulo: '', descripcion: '', incluye: [], imagen: '' };
+const VACIO = { titulo: '', descripcion: '', incluye: [], imagen: '', detalle: [], nota: '' };
 
 export default function ServiciosEditor({ inicial = [] }) {
   const router = useRouter();
@@ -27,6 +27,17 @@ export default function ServiciosEditor({ inicial = [] }) {
       return next;
     });
   };
+
+  // "Conocer más": lista de pasos {titulo, texto} por servicio.
+  const detalleOf = (s) => (Array.isArray(s.detalle) ? s.detalle : []);
+  const addDetalle = (i) =>
+    update(i, { detalle: [...detalleOf(items[i]), { titulo: '', texto: '' }] });
+  const setDetalle = (i, j, field, val) =>
+    update(i, {
+      detalle: detalleOf(items[i]).map((d, k) => (k === j ? { ...d, [field]: val } : d)),
+    });
+  const delDetalle = (i, j) =>
+    update(i, { detalle: detalleOf(items[i]).filter((_, k) => k !== j) });
 
   async function onImg(i, e) {
     const files = e.target.files;
@@ -50,6 +61,10 @@ export default function ServiciosEditor({ inicial = [] }) {
             .map((x) => x.trim())
             .filter(Boolean),
           imagen: s.imagen || '',
+          detalle: (Array.isArray(s.detalle) ? s.detalle : [])
+            .map((d) => ({ titulo: (d.titulo || '').trim(), texto: (d.texto || '').trim() }))
+            .filter((d) => d.titulo || d.texto),
+          nota: s.nota?.trim() || '',
         }));
       const res = await fetch('/api/configuracion', {
         method: 'POST',
@@ -127,6 +142,54 @@ export default function ServiciosEditor({ inicial = [] }) {
               value={Array.isArray(s.incluye) ? s.incluye.join('\n') : s.incluye}
               onChange={(e) => update(i, { incluye: e.target.value.split('\n') })}
               placeholder={'Materialidad\nMobiliario a medida\nIluminación'}
+            />
+          </div>
+          <div className="ad-field">
+            <label>Conocer más (proceso / entregables)</label>
+            <p className="ad-hint">
+              {'Se muestra en un desplegable "Conocer más". Cada ítem: un título corto + una explicación breve. Opcional.'}
+            </p>
+            {detalleOf(s).map((d, j) => (
+              <div
+                key={j}
+                style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: 8 }}
+              >
+                <input
+                  className="ad-input"
+                  style={{ flex: '0 0 32%' }}
+                  value={d.titulo || ''}
+                  onChange={(e) => setDetalle(i, j, 'titulo', e.target.value)}
+                  placeholder="Briefing"
+                />
+                <textarea
+                  className="ad-textarea"
+                  style={{ flex: 1, minHeight: 44 }}
+                  rows={2}
+                  value={d.texto || ''}
+                  onChange={(e) => setDetalle(i, j, 'texto', e.target.value)}
+                  placeholder="Interpretación de necesidades, estilo de vida, ubicación…"
+                />
+                <button
+                  className="ad-img__btn"
+                  type="button"
+                  onClick={() => delDetalle(i, j)}
+                  title="Quitar"
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            ))}
+            <button className="ad-btn ad-btn--ghost" type="button" onClick={() => addDetalle(i)}>
+              <Plus size={14} /> Agregar ítem
+            </button>
+          </div>
+          <div className="ad-field">
+            <label>{'Nota (opcional, dentro de "Conocer más")'}</label>
+            <input
+              className="ad-input"
+              value={s.nota || ''}
+              onChange={(e) => update(i, { nota: e.target.value })}
+              placeholder="Ej: Victory Yachts, primer hito de esta especialización."
             />
           </div>
           <div className="ad-field">
