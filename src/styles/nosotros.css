@@ -535,6 +535,34 @@
 .quiensoy__remate em {
   color: var(--green-ink);
 }
+/* párrafos del cuerpo de la bio (mismo tono que el párrafo 1) */
+.quiensoy__body {
+  color: var(--ink-soft);
+  max-width: 1200px;
+  margin: clamp(16px, 1.6vw, 22px) 0 0;
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.75;
+}
+.quiensoy__body em {
+  color: var(--green-ink);
+  font-style: italic;
+}
+/* frase conceptual de cierre: mayor jerarquía y mucho aire */
+.quiensoy__cita {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(21px, 2.3vw, 30px);
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 900px;
+  margin: clamp(44px, 5.5vw, 76px) auto clamp(6px, 1vw, 12px);
+  text-align: center;
+  letter-spacing: 0.004em;
+  text-wrap: balance;
+}
+.quiensoy__cita em {
+  color: var(--green-ink);
+}
 
 /* --- CARRUSEL LÍNEA DE TIEMPO (fotos de obra) --- */
 .carr-wrap {

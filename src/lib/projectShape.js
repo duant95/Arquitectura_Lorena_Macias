@@ -123,6 +123,41 @@ const CARD_LAYOUT = [
 ];
 
 // Fila de Supabase → forma unificada que consumen las vistas.
+// Ficha estructurada del proyecto (datos rápidos + detalles a destacar + créditos).
+// Tolera columna ausente / valor nulo / string JSON → siempre devuelve una forma segura.
+export function normalizeFicha(raw) {
+  let f = raw;
+  if (typeof f === 'string') {
+    try { f = JSON.parse(f); } catch { f = null; }
+  }
+  f = f && typeof f === 'object' ? f : {};
+  const str = (v) => (typeof v === 'string' ? v.trim() : '');
+  const claves = (Array.isArray(f.claves) ? f.claves : [])
+    .map((c) => (typeof c === 'string' ? c.trim() : ''))
+    .filter(Boolean);
+  const creditos = (Array.isArray(f.creditos) ? f.creditos : [])
+    .map((c) => ({ rol: str(c?.rol), nombre: str(c?.nombre) }))
+    .filter((c) => c.rol || c.nombre);
+  const ficha = {
+    tipologia: str(f.tipologia),
+    superficie_terreno: str(f.superficie_terreno),
+    superficie_construida: str(f.superficie_construida),
+    alcance: str(f.alcance),
+    sistema: str(f.sistema),
+    claves,
+    creditos,
+  };
+  // Datos rápidos "extra" ya listos para la grilla meta (label + valor).
+  ficha.datos = [
+    ['Tipología', ficha.tipologia],
+    ['Sup. terreno', ficha.superficie_terreno],
+    ['Sup. construida', ficha.superficie_construida],
+    ['Alcance', ficha.alcance],
+    ['Sistema constructivo', ficha.sistema],
+  ].filter(([, v]) => v);
+  return ficha;
+}
+
 export function normalizeRow(row, index = 0) {
   const layout = CARD_LAYOUT[index % CARD_LAYOUT.length];
   const paragraphs = splitParagraphs(row.descripcion);
@@ -152,6 +187,7 @@ export function normalizeRow(row, index = 0) {
     leadParagraph: paragraphs[0] || '',
     bodyParagraphs: paragraphs.slice(1),
     proceso: row.proceso || '',
+    ficha: normalizeFicha(row.ficha),
     palette: (Array.isArray(row.paleta) ? row.paleta : []).map((p) => ({
       name: p.name,
       bg: p.hex || p.bg,
@@ -190,6 +226,7 @@ export function normalizeLocal(p) {
     leadParagraph: p.intro || '',
     bodyParagraphs: p.body ? [p.body] : [],
     proceso: p.proceso || '',
+    ficha: normalizeFicha(p.ficha),
     palette: p.palette || [],
     gallery: (p.gallery || []).map((g) => ({
       img: g.img || null,

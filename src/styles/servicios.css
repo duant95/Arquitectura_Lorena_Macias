@@ -71,6 +71,96 @@
   border-radius: 30px;
   color: var(--ink-soft);
 }
+/* --- "Conocer más" por servicio (desplegable) --- */
+.svc-more {
+  margin-top: clamp(16px, 2vw, 24px);
+}
+.svc-more__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--olive);
+  user-select: none;
+  padding: 4px 0;
+}
+.svc-more__toggle::-webkit-details-marker {
+  display: none;
+}
+.svc-more__ic {
+  position: relative;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--olive);
+  border-radius: 50%;
+  transition: transform 0.35s var(--ease, ease);
+}
+/* Cruz dibujada con CSS: siempre centrada; rota a "×" al abrir. */
+.svc-more__ic::before,
+.svc-more__ic::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--olive);
+  transform: translate(-50%, -50%);
+}
+.svc-more__ic::before {
+  width: 9px;
+  height: 1.5px;
+}
+.svc-more__ic::after {
+  width: 1.5px;
+  height: 9px;
+}
+.svc-more[open] .svc-more__ic {
+  transform: rotate(45deg);
+}
+.svc-item .svc-more__list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.4vw, 18px);
+  margin: clamp(14px, 1.8vw, 22px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.svc-item .svc-more__step {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 0 clamp(12px, 1.4vw, 18px);
+  border: 0;
+  border-bottom: 1px solid var(--taupe);
+  border-radius: 0;
+}
+.svc-item .svc-more__step:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.svc-more__t {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(15px, 1.25vw, 17px);
+  color: var(--ink);
+}
+.svc-more__d {
+  font-size: clamp(14px, 1.15vw, 15.5px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.svc-more__nota {
+  margin: clamp(14px, 1.6vw, 20px) 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
 .proc {
   background: var(--green-wash);
 }

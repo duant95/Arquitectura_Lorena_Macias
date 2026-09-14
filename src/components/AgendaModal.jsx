@@ -158,16 +158,6 @@ export default function AgendaModal() {
               >
                 {sending ? t('ct.enviando') : t('cta.solicitar')} <span className="arr">→</span>
               </button>
-              <p
-                style={{
-                  fontSize: 12,
-                  color: 'var(--ink-soft)',
-                  textAlign: 'center',
-                  margin: '14px 0 0',
-                }}
-              >
-                {t('modal.confirm24')}
-              </p>
             </form>
           ) : (
             <div style={{ textAlign: 'center', padding: '30px 0' }}>

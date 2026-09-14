@@ -19,6 +19,17 @@ export function extractProjectTranslatable(row) {
   t.planos = arr(row.planos).map((g) => ({ alt: g?.alt || '' }));
   t.renders = arr(row.renders).map((g) => ({ alt: g?.alt || '' }));
   t.paleta = arr(row.paleta).map((p) => ({ name: p?.name || '' }));
+  // Ficha: se traducen los textos descriptivos (no nombres propios de proveedores).
+  let f = row.ficha;
+  if (typeof f === 'string') { try { f = JSON.parse(f); } catch { f = null; } }
+  f = f && typeof f === 'object' ? f : {};
+  t.ficha = {
+    tipologia: f.tipologia || '',
+    alcance: f.alcance || '',
+    sistema: f.sistema || '',
+    claves: arr(f.claves).map((c) => (typeof c === 'string' ? c : '')),
+    creditos: arr(f.creditos).map((c) => ({ rol: c?.rol || '' })),
+  };
   return t;
 }
 
@@ -65,5 +76,23 @@ export function applyProjectTranslation(row, tr) {
   out.planos = mergeArr(row.planos, tr.planos, ['alt']);
   out.renders = mergeArr(row.renders, tr.renders, ['alt']);
   out.paleta = mergeArr(row.paleta, tr.paleta, ['name']);
+  // Ficha
+  if (tr.ficha) {
+    let f = row.ficha;
+    if (typeof f === 'string') { try { f = JSON.parse(f); } catch { f = null; } }
+    if (f && typeof f === 'object') {
+      const mf = { ...f };
+      for (const k of ['tipologia', 'alcance', 'sistema']) if (tr.ficha[k]) mf[k] = tr.ficha[k];
+      if (Array.isArray(f.claves) && Array.isArray(tr.ficha.claves)) {
+        mf.claves = f.claves.map((c, i) => tr.ficha.claves[i] || c);
+      }
+      if (Array.isArray(f.creditos) && Array.isArray(tr.ficha.creditos)) {
+        mf.creditos = f.creditos.map((c, i) =>
+          tr.ficha.creditos[i]?.rol ? { ...c, rol: tr.ficha.creditos[i].rol } : c
+        );
+      }
+      out.ficha = mf;
+    }
+  }
   return out;
 }

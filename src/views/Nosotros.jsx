@@ -101,12 +101,18 @@ export default function Nosotros({ content = {} }) {
             <CarruselLinea imagenes={carrusel} />
           </div>
         )}
-        {historia[1] && (
+        {historia.length > 1 && (
           <div className="wrap">
-            <p
-              className="quiensoy__remate reveal"
-              dangerouslySetInnerHTML={{ __html: historia[1] }}
-            />
+            {historia.slice(1).map((p, i, arr) => {
+              const esCita = i === arr.length - 1 && arr.length > 1;
+              return (
+                <p
+                  key={i}
+                  className={(esCita ? 'quiensoy__cita' : 'quiensoy__body') + ' reveal'}
+                  dangerouslySetInnerHTML={{ __html: p }}
+                />
+              );
+            })}
           </div>
         )}
       </section>

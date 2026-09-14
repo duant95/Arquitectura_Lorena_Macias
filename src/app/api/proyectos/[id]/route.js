@@ -24,7 +24,14 @@ export async function PUT(req, { params }) {
   if (!body) return NextResponse.json({ error: 'Cuerpo inválido' }, { status: 400 });
 
   const sb = createAdminClient();
-  const { error } = await sb.from('proyectos').update(pickProjectFields(body)).eq('id', params.id);
+  const fields = pickProjectFields(body);
+  let { error } = await sb.from('proyectos').update(fields).eq('id', params.id);
+  // Si la columna `ficha` todavía no fue creada en la DB, guardamos igual sin ella.
+  if (error && (error.code === '42703' || /ficha/.test(error.message || ''))) {
+    const { ficha, ...rest } = fields;
+    ({ error } = await sb.from('proyectos').update(rest).eq('id', params.id));
+    if (!error) console.warn('[api/proyectos PUT] columna `ficha` ausente: guardado sin ficha.');
+  }
 
   if (error) {
     console.error('[api/proyectos PUT] error de base:', error.message);
