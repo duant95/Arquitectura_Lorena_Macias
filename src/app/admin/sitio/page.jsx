@@ -1,5 +1,6 @@
 import { getSiteConfig } from '@/lib/config';
 import ConfiguracionEditor from '@/components/admin/ConfiguracionEditor';
+import CambiarPassword from '@/components/admin/CambiarPassword';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Datos del sitio' };
@@ -15,6 +16,9 @@ export default async function AdminSitio() {
         </div>
       </div>
       <ConfiguracionEditor inicial={config} />
+      <div style={{ marginTop: 24 }}>
+        <CambiarPassword />
+      </div>
     </>
   );
 }

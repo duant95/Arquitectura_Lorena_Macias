@@ -564,6 +564,345 @@
   color: var(--green-ink);
 }
 
+/* ================= RECORRIDO (01 collage · 02 transición · 03 grilla) ================= */
+.recorrido__head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: clamp(20px, 3vw, 48px);
+  margin-bottom: clamp(40px, 6vw, 76px);
+}
+.recorrido__title {
+  margin-top: 12px;
+}
+.recorrido__lead {
+  color: var(--ink-soft);
+  max-width: 58ch;
+  margin: clamp(14px, 2vw, 20px) 0 0;
+  font-size: clamp(16px, 1.35vw, 18px);
+  line-height: 1.7;
+}
+.recorrido__rail {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 clamp(18px, 2vw, 26px);
+  border-left: 1px solid var(--taupe);
+  text-align: left;
+  display: grid;
+  gap: 7px;
+}
+.recorrido__rail li {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* --- ETAPA (base) --- */
+.etapa {
+  display: grid;
+  gap: clamp(28px, 4.5vw, 64px);
+  align-items: start;
+  padding-top: clamp(40px, 5.5vw, 72px);
+  margin-top: clamp(40px, 5.5vw, 72px);
+  border-top: 1px solid var(--taupe);
+}
+.recorrido > .wrap > div:first-of-type .etapa,
+.etapa--collage {
+  border-top: 0;
+}
+.etapa--collage {
+  grid-template-columns: 0.9fr 1.1fr;
+  padding-top: 0;
+  margin-top: clamp(8px, 1.5vw, 16px);
+}
+.etapa--grid {
+  grid-template-columns: 0.92fr 1.08fr;
+}
+.etapa__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.etapa__n {
+  font-family: var(--serif);
+  font-size: clamp(15px, 1.3vw, 18px);
+  color: var(--olive);
+  letter-spacing: 0.04em;
+}
+.etapa__yr {
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.etapa__title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 32px);
+  line-height: 1.14;
+  margin: 0 0 clamp(14px, 1.8vw, 22px);
+  color: var(--ink);
+  text-wrap: balance;
+}
+.etapa__p {
+  color: var(--ink-soft);
+  margin: 0 0 14px;
+  line-height: 1.72;
+}
+.etapa__p:last-of-type {
+  margin-bottom: 0;
+}
+.etapa__pilares {
+  list-style: none;
+  margin: clamp(22px, 2.8vw, 32px) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.etapa__pilares li {
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding-left: 18px;
+  position: relative;
+}
+.etapa__pilares li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 7px;
+  height: 1px;
+  background: var(--olive);
+}
+
+/* --- imágenes --- */
+.etapa__imgs {
+  display: grid;
+  gap: clamp(10px, 1.3vw, 16px);
+}
+.etapa__img {
+  margin: 0;
+}
+.etapa__img__frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--paper-2, #efece3);
+}
+.etapa__img img {
+  object-fit: cover;
+}
+.etapa__img figcaption {
+  margin-top: 8px;
+}
+.cap-name {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.cap-sub {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-top: 3px;
+}
+
+/* Collage (01): dos imágenes parejas del edificio, lado a lado */
+.etapa--collage .etapa__imgs {
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
+}
+.etapa--collage .etapa__img .etapa__img__frame {
+  aspect-ratio: 3 / 4;
+}
+
+/* Grilla (03): dos arriba + una banda (menos extrema) */
+.etapa--grid .etapa__imgs {
+  grid-template-columns: repeat(2, 1fr);
+}
+.etapa--grid .etapa__img .etapa__img__frame {
+  aspect-ratio: 4 / 3.4;
+}
+.etapa--grid .etapa__img:nth-child(3) {
+  grid-column: 1 / -1;
+}
+.etapa--grid .etapa__img:nth-child(3) .etapa__img__frame {
+  aspect-ratio: 3 / 2;
+}
+
+/* --- TRANSICIÓN (02) --- */
+.transicion {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr 0.72fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+}
+.transicion__img .etapa__img__frame {
+  aspect-ratio: 4 / 5;
+}
+.transicion__title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(24px, 3vw, 38px);
+  line-height: 1.1;
+  margin: 0 0 clamp(14px, 1.8vw, 20px);
+  color: var(--ink);
+}
+.transicion__hand {
+  font-family: 'Sacramento', var(--serif-accent), cursive;
+  font-size: clamp(30px, 4vw, 50px);
+  line-height: 1.05;
+  color: var(--olive);
+  margin: 0;
+  text-align: center;
+}
+
+/* --- VALORES --- */
+.valores {
+  list-style: none;
+  margin: clamp(44px, 6vw, 78px) 0 0;
+  padding: clamp(34px, 4.5vw, 52px) 0 0;
+  border-top: 1px solid var(--taupe);
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(16px, 2.4vw, 30px);
+}
+.valor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+.valor__ic {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: var(--olive);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.valor__t {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink);
+  max-width: 15ch;
+  line-height: 1.4;
+}
+
+/* --- CIERRE --- */
+.recorrido__cierre {
+  text-align: center;
+  max-width: 900px;
+  margin: clamp(52px, 7vw, 96px) auto 0;
+}
+.recorrido__firma {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: clamp(18px, 2.4vw, 26px) 0 0;
+  font-size: clamp(15px, 1.3vw, 17px);
+}
+.recorrido__firma::before {
+  content: '';
+  display: inline-block;
+  width: 26px;
+  height: 1px;
+  background: var(--olive);
+  vertical-align: middle;
+  margin-right: 12px;
+}
+.recorrido__invit {
+  color: var(--ink-soft);
+  max-width: 58ch;
+  margin: clamp(24px, 3.2vw, 36px) auto clamp(26px, 3.2vw, 36px);
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .recorrido__head {
+    grid-template-columns: 1fr;
+  }
+  .recorrido__rail {
+    display: none;
+  }
+  .etapa,
+  .etapa--collage,
+  .etapa--grid {
+    grid-template-columns: 1fr;
+    gap: clamp(20px, 5vw, 30px);
+  }
+  .transicion {
+    grid-template-columns: 1fr;
+    gap: clamp(18px, 5vw, 28px);
+    text-align: center;
+  }
+  .etapa--collage .etapa__img:nth-child(1) {
+    grid-row: auto;
+  }
+  .valores {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 12px;
+  }
+}
+@media (max-width: 520px) {
+  .valores {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* --- BANDAS con fondos alternos (Sobre mí) --- */
+.band--paper {
+  background: var(--paper);
+}
+.band--paper2 {
+  background: var(--paper-2);
+}
+.band--sand {
+  background: var(--sand);
+}
+.estudio-band {
+  background: var(--paper);
+}
+/* Dentro de una banda, la etapa no lleva divisores/espacios propios (los da la banda) */
+.band .etapa,
+.band .etapa--collage,
+.band .etapa--grid {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+.rec-carrusel {
+  margin-top: clamp(30px, 4vw, 52px);
+}
+/* En su propia banda, valores y cierre no repiten margen/borde superior */
+.rec-valores .valores {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.rec-cierre .recorrido__cierre {
+  margin-top: 0;
+}
+/* Degradados del carrusel según la banda (papel) */
+.rec-carrusel .carr__fade--l {
+  background: linear-gradient(90deg, var(--paper), transparent);
+}
+.rec-carrusel .carr__fade--r {
+  background: linear-gradient(270deg, var(--paper), transparent);
+}
+
 /* --- CARRUSEL LÍNEA DE TIEMPO (fotos de obra) --- */
 .carr-wrap {
   margin-top: clamp(34px, 4.5vw, 64px);

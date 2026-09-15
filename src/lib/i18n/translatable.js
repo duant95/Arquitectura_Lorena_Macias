@@ -22,6 +22,7 @@ export const TEXT_KEYS = [
   'nosotros_hero_lead',
   'nosotros_historia',
   'nosotros_cita',
+  'nosotros_transicion',
 ];
 
 // Claves cuyo valor es un JSON con textos anidados.
