@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Img from '../components/Img';
+import CarruselLinea from '../components/CarruselLinea';
 import PrensaList from '../components/PrensaList';
 import { useAgenda } from '../context/AgendaContext';
 import { useT, useHref } from '../context/LocaleContext';
@@ -33,6 +34,62 @@ export default function Nosotros({ content = {} }) {
   const etapas = content.trayectoria || [];
   const prensa = (content.prensa || []).filter((p) => p && (p.medio || p.titulo));
   const estudioImgs = content.estudio_imagenes || [];
+
+  const imgsDe = (et) =>
+    Array.isArray(et?.imagenes) ? et.imagenes.filter((x) => x && (x.imagen || x.url)) : [];
+
+  // Bloque de una etapa: texto (izq) + imágenes (der). `gridImgs` limita cuántas van en la grilla.
+  const Etapa = (et, num, variant, gridImgs) => {
+    if (!et) return null;
+    const parrafos = splitParagraphs(et.descripcion);
+    const pilares = Array.isArray(et.pilares) ? et.pilares.filter(Boolean) : [];
+    return (
+      <article className={'etapa reveal etapa--' + variant}>
+        <div className="etapa__text">
+          <div className="etapa__meta">
+            <span className="etapa__n">{num}</span>
+            {et.yr && <span className="etapa__yr">{et.yr}</span>}
+          </div>
+          {et.titulo && <h3 className="etapa__title">{et.titulo}</h3>}
+          {parrafos.map((p, j) => (
+            <p key={j} className="etapa__p" dangerouslySetInnerHTML={{ __html: p }} />
+          ))}
+          {pilares.length > 0 && (
+            <ul className="etapa__pilares">
+              {pilares.map((p, k) => (
+                <li key={k}>{p}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+        {gridImgs.length > 0 && (
+          <div className="etapa__imgs">
+            {gridImgs.map((im, k) => (
+              <figure className="etapa__img" key={k}>
+                <div className="etapa__img__frame">
+                  <Img
+                    src={im.imagen || im.url}
+                    alt={im.alt || ''}
+                    sizes="(max-width:900px) 50vw, 30vw"
+                  />
+                </div>
+                {(im.alt || im.sub) && (
+                  <figcaption>
+                    {im.alt && <span className="cap-name">{im.alt}</span>}
+                    {im.sub && <span className="cap-sub">{im.sub}</span>}
+                  </figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
+        )}
+      </article>
+    );
+  };
+
+  const estudioImgsRecorrido = imgsDe(etapas[1]);
+  const grid03 = estudioImgsRecorrido.slice(0, 3);
+  const carrusel03 = estudioImgsRecorrido.slice(3);
 
   return (
     <>
@@ -98,8 +155,8 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* MI RECORRIDO — 01 Gustafson (collage) · 02 transición · 03 Estudio (grilla) */}
-      <section className="section recorrido">
+      {/* RECORRIDO · 01 Gustafson (collage) — banda papel */}
+      <section className="section band band--paper rec-01">
         <div className="wrap">
           <div className="reveal recorrido__head">
             <div>
@@ -115,88 +172,53 @@ export default function Nosotros({ content = {} }) {
                 ))}
             </ul>
           </div>
+          {Etapa(etapas[0], '01', 'collage', imgsDe(etapas[0]).slice(0, 3))}
+        </div>
+      </section>
 
-          {etapas.map((et, i) => {
-            const imgs = Array.isArray(et.imagenes)
-              ? et.imagenes.filter((x) => x && (x.imagen || x.url))
-              : [];
-            const parrafos = splitParagraphs(et.descripcion);
-            const pilares = Array.isArray(et.pilares) ? et.pilares.filter(Boolean) : [];
-            const esUltima = i === etapas.length - 1;
-            const num = i === 0 ? '01' : '03';
-            return (
-              <div key={i}>
-                <article className={'etapa reveal ' + (esUltima ? 'etapa--grid' : 'etapa--collage')}>
-                  <div className="etapa__text">
-                    <div className="etapa__meta">
-                      <span className="etapa__n">{num}</span>
-                      {et.yr && <span className="etapa__yr">{et.yr}</span>}
-                    </div>
-                    {et.titulo && <h3 className="etapa__title">{et.titulo}</h3>}
-                    {parrafos.map((p, j) => (
-                      <p key={j} className="etapa__p" dangerouslySetInnerHTML={{ __html: p }} />
-                    ))}
-                    {pilares.length > 0 && (
-                      <ul className="etapa__pilares">
-                        {pilares.map((p, k) => (
-                          <li key={k}>{p}</li>
-                        ))}
-                      </ul>
-                    )}
+      {/* TRANSICIÓN · 02 — banda arena */}
+      {content.nosotros_transicion && (
+        <section className="section band band--sand rec-transicion">
+          <div className="wrap">
+            <div className="transicion reveal">
+              {content.nosotros_retrato_imagen && (
+                <div className="transicion__img">
+                  <div className="etapa__img__frame">
+                    <Img src={content.nosotros_retrato_imagen} alt="Lorena Macías" sizes="30vw" />
                   </div>
-                  {imgs.length > 0 && (
-                    <div className="etapa__imgs">
-                      {imgs.map((im, k) => (
-                        <figure className="etapa__img" key={k}>
-                          <div className="etapa__img__frame">
-                            <Img
-                              src={im.imagen || im.url}
-                              alt={im.alt || ''}
-                              sizes="(max-width:900px) 50vw, 30vw"
-                            />
-                          </div>
-                          {(im.alt || im.sub) && (
-                            <figcaption>
-                              {im.alt && <span className="cap-name">{im.alt}</span>}
-                              {im.sub && <span className="cap-sub">{im.sub}</span>}
-                            </figcaption>
-                          )}
-                        </figure>
-                      ))}
-                    </div>
-                  )}
-                </article>
-
-                {/* TRANSICIÓN · 02 — entre la primera y la segunda etapa */}
-                {i === 0 && content.nosotros_transicion && (
-                  <div className="transicion reveal">
-                    {content.nosotros_retrato_imagen && (
-                      <div className="transicion__img">
-                        <div className="etapa__img__frame">
-                          <Img src={content.nosotros_retrato_imagen} alt="Lorena Macías" sizes="30vw" />
-                        </div>
-                      </div>
-                    )}
-                    <div className="transicion__body">
-                      <div className="etapa__meta">
-                        <span className="etapa__n">02</span>
-                        <span className="etapa__yr">2019</span>
-                      </div>
-                      <h3 className="transicion__title">{t('sobre.nuevoCapitulo')}</h3>
-                      <p
-                        className="etapa__p"
-                        dangerouslySetInnerHTML={{ __html: content.nosotros_transicion }}
-                      />
-                    </div>
-                    <p className="transicion__hand">{t('sobre.transicionCita')}</p>
-                  </div>
-                )}
+                </div>
+              )}
+              <div className="transicion__body">
+                <div className="etapa__meta">
+                  <span className="etapa__n">02</span>
+                  <span className="etapa__yr">2019</span>
+                </div>
+                <h3 className="transicion__title">{t('sobre.nuevoCapitulo')}</h3>
+                <p
+                  className="etapa__p"
+                  dangerouslySetInnerHTML={{ __html: content.nosotros_transicion }}
+                />
               </div>
-            );
-          })}
+              <p className="transicion__hand">{t('sobre.transicionCita')}</p>
+            </div>
+          </div>
+        </section>
+      )}
 
-          {/* VALORES */}
-          {(content.pilares || []).length > 0 && (
+      {/* RECORRIDO · 03 Estudio (grilla 3 + carrusel horizontal) — banda papel-2 */}
+      <section className="section band band--paper2 rec-03">
+        <div className="wrap">{Etapa(etapas[1], '03', 'grid', grid03)}</div>
+        {carrusel03.length > 0 && (
+          <div className="rec-carrusel reveal">
+            <CarruselLinea imagenes={carrusel03} />
+          </div>
+        )}
+      </section>
+
+      {/* VALORES — banda papel */}
+      {(content.pilares || []).length > 0 && (
+        <section className="section band band--paper rec-valores">
+          <div className="wrap">
             <ul className="valores reveal">
               {content.pilares.map((p, i) => (
                 <li className="valor" key={i}>
@@ -207,10 +229,14 @@ export default function Nosotros({ content = {} }) {
                 </li>
               ))}
             </ul>
-          )}
+          </div>
+        </section>
+      )}
 
-          {/* CIERRE */}
-          {content.nosotros_cita && (
+      {/* CIERRE — banda arena */}
+      {content.nosotros_cita && (
+        <section className="section band band--sand rec-cierre">
+          <div className="wrap">
             <div className="recorrido__cierre reveal">
               <p
                 className="quiensoy__cita"
@@ -222,9 +248,9 @@ export default function Nosotros({ content = {} }) {
                 {t('cta.conocerProyectos')} <span className="arr">→</span>
               </Link>
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       {/* PRENSA / RECONOCIMIENTOS */}
       {prensa.length > 0 && (

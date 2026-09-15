@@ -872,6 +872,47 @@
   }
 }
 
+/* --- BANDAS con fondos alternos (Sobre mí) --- */
+.band--paper {
+  background: var(--paper);
+}
+.band--paper2 {
+  background: var(--paper-2);
+}
+.band--sand {
+  background: var(--sand);
+}
+.estudio-band {
+  background: var(--paper-2);
+}
+/* Dentro de una banda, la etapa no lleva divisores/espacios propios (los da la banda) */
+.band .etapa,
+.band .etapa--collage,
+.band .etapa--grid {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+.rec-carrusel {
+  margin-top: clamp(30px, 4vw, 52px);
+}
+/* En su propia banda, valores y cierre no repiten margen/borde superior */
+.rec-valores .valores {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.rec-cierre .recorrido__cierre {
+  margin-top: 0;
+}
+/* Degradados del carrusel según la banda (papel-2) */
+.rec-carrusel .carr__fade--l {
+  background: linear-gradient(90deg, var(--paper-2), transparent);
+}
+.rec-carrusel .carr__fade--r {
+  background: linear-gradient(270deg, var(--paper-2), transparent);
+}
+
 /* --- CARRUSEL LÍNEA DE TIEMPO (fotos de obra) --- */
 .carr-wrap {
   margin-top: clamp(34px, 4.5vw, 64px);
