@@ -156,6 +156,8 @@ export const CONTENT_DEFAULTS = {
   nosotros_cta_imagen: '/assets/img/living.jpg',
   nosotros_cita:
     'Diseño espacios para ser vividos: cuidados en su materialidad, conectados con la luz y fieles a quienes los habitan.',
+  nosotros_transicion:
+    'En 2019 fundé Estudio Lorena Macías para integrar la experiencia adquirida durante casi dos décadas con una visión propia de la arquitectura, el interiorismo y la manera de llevar cada proyecto a la obra.',
 };
 
 // Cifras del inicio (editables).

@@ -155,6 +155,7 @@ const TEXT_KEYS = [
   'nosotros_intro_texto',
   'nosotros_historia',
   'nosotros_cita',
+  'nosotros_transicion',
   'nosotros_estudio_titulo',
   'nosotros_estudio_texto',
   'nosotros_retrato_imagen',
@@ -567,6 +568,13 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
               />
             </div>
             <hr className="ad-sep" />
+            <RichTextField
+              label="Transición · Un nuevo capítulo"
+              rows={3}
+              value={form.nosotros_transicion}
+              onChange={(v) => set('nosotros_transicion', v)}
+              hint={'El texto breve del bloque de transición entre las dos etapas. ' + EM_HINT}
+            />
             <RichTextField
               label="Frase de cierre (bajo el recorrido)"
               rows={3}

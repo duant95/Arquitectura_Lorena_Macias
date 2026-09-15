@@ -8,6 +8,22 @@ import { useT, useHref } from '../context/LocaleContext';
 import useReveals from '../hooks/useReveals';
 import { splitParagraphs } from '../lib/projectShape';
 
+// Íconos de línea para la fila de "valores" (minimalistas, heredan el color).
+const VAL_ICONS = [
+  // Diseño integral (cubo)
+  <path key="a" d="M12 3l7 4v10l-7 4-7-4V7z M12 3v18 M5 7l7 4 7-4" />,
+  // Soluciones técnicas (capas)
+  <path key="b" d="M12 4l8 4-8 4-8-4z M4 12l8 4 8-4 M4 16l8 4 8-4" />,
+  // Acompañamiento en obra (compás)
+  <path key="c" d="M12 4v5 M10.5 6.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0 M11 8L6 20 M13 8l5 12" />,
+  // Entorno y paisajismo (hoja)
+  <path key="d" d="M6 19c0-7 5-12 12-12 0 7-5 12-12 12z M6 19c3-4 6-6 9-7" />,
+  // Experiencia del usuario (persona)
+  <path key="e" d="M12 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z M5 20c0-4 3.5-6 7-6s7 2 7 6" />,
+  // Valor a largo plazo (crecimiento)
+  <path key="f" d="M4 20h16 M7 20v-6 M12 20V8 M17 20v-9 M5 9l4-4 3 3 5-6" />,
+];
+
 export default function Nosotros({ content = {} }) {
   const { open } = useAgenda();
   const t = useT();
@@ -82,25 +98,38 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* MI RECORRIDO — etapas cronológicas: texto (izq) + imágenes (der) */}
+      {/* MI RECORRIDO — 01 Gustafson (collage) · 02 transición · 03 Estudio (grilla) */}
       <section className="section recorrido">
         <div className="wrap">
           <div className="reveal recorrido__head">
-            <p className="kicker">{t('sobre.miRecorrido')}</p>
-            <h2 className="h-xl recorrido__title">{t('sobre.recorridoTitulo')}</h2>
-            <p className="recorrido__lead">{t('sobre.recorridoLead')}</p>
+            <div>
+              <p className="kicker">{t('sobre.miRecorrido')}</p>
+              <h2 className="h-xl recorrido__title">{t('sobre.recorridoTitulo')}</h2>
+              <p className="recorrido__lead">{t('sobre.recorridoLead')}</p>
+            </div>
+            <ul className="recorrido__rail" aria-hidden="true">
+              {t('sobre.rail')
+                .split('·')
+                .map((w, i) => (
+                  <li key={i}>{w.trim()}</li>
+                ))}
+            </ul>
           </div>
 
-          <div className="etapas">
-            {etapas.map((et, i) => {
-              const imgs = Array.isArray(et.imagenes) ? et.imagenes.filter((x) => x && (x.imagen || x.url)) : [];
-              const parrafos = splitParagraphs(et.descripcion);
-              const pilares = Array.isArray(et.pilares) ? et.pilares.filter(Boolean) : [];
-              return (
-                <article className={'etapa reveal' + (imgs.length > 4 ? ' etapa--amplia' : '')} key={i}>
+          {etapas.map((et, i) => {
+            const imgs = Array.isArray(et.imagenes)
+              ? et.imagenes.filter((x) => x && (x.imagen || x.url))
+              : [];
+            const parrafos = splitParagraphs(et.descripcion);
+            const pilares = Array.isArray(et.pilares) ? et.pilares.filter(Boolean) : [];
+            const esUltima = i === etapas.length - 1;
+            const num = i === 0 ? '01' : '03';
+            return (
+              <div key={i}>
+                <article className={'etapa reveal ' + (esUltima ? 'etapa--grid' : 'etapa--collage')}>
                   <div className="etapa__text">
                     <div className="etapa__meta">
-                      <span className="etapa__n">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="etapa__n">{num}</span>
                       {et.yr && <span className="etapa__yr">{et.yr}</span>}
                     </div>
                     {et.titulo && <h3 className="etapa__title">{et.titulo}</h3>}
@@ -116,7 +145,7 @@ export default function Nosotros({ content = {} }) {
                     )}
                   </div>
                   {imgs.length > 0 && (
-                    <div className="etapa__imgs" data-count={Math.min(imgs.length, 6)}>
+                    <div className="etapa__imgs">
                       {imgs.map((im, k) => (
                         <figure className="etapa__img" key={k}>
                           <div className="etapa__img__frame">
@@ -126,22 +155,68 @@ export default function Nosotros({ content = {} }) {
                               sizes="(max-width:900px) 50vw, 30vw"
                             />
                           </div>
-                          {im.alt && <figcaption>{im.alt}</figcaption>}
+                          {(im.alt || im.sub) && (
+                            <figcaption>
+                              {im.alt && <span className="cap-name">{im.alt}</span>}
+                              {im.sub && <span className="cap-sub">{im.sub}</span>}
+                            </figcaption>
+                          )}
                         </figure>
                       ))}
                     </div>
                   )}
                 </article>
-              );
-            })}
-          </div>
 
+                {/* TRANSICIÓN · 02 — entre la primera y la segunda etapa */}
+                {i === 0 && content.nosotros_transicion && (
+                  <div className="transicion reveal">
+                    {content.nosotros_retrato_imagen && (
+                      <div className="transicion__img">
+                        <div className="etapa__img__frame">
+                          <Img src={content.nosotros_retrato_imagen} alt="Lorena Macías" sizes="30vw" />
+                        </div>
+                      </div>
+                    )}
+                    <div className="transicion__body">
+                      <div className="etapa__meta">
+                        <span className="etapa__n">02</span>
+                        <span className="etapa__yr">2019</span>
+                      </div>
+                      <h3 className="transicion__title">{t('sobre.nuevoCapitulo')}</h3>
+                      <p
+                        className="etapa__p"
+                        dangerouslySetInnerHTML={{ __html: content.nosotros_transicion }}
+                      />
+                    </div>
+                    <p className="transicion__hand">{t('sobre.transicionCita')}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+          {/* VALORES */}
+          {(content.pilares || []).length > 0 && (
+            <ul className="valores reveal">
+              {content.pilares.map((p, i) => (
+                <li className="valor" key={i}>
+                  <svg className="valor__ic" viewBox="0 0 24 24" aria-hidden="true">
+                    {VAL_ICONS[i % VAL_ICONS.length]}
+                  </svg>
+                  <span className="valor__t">{p.titulo}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* CIERRE */}
           {content.nosotros_cita && (
             <div className="recorrido__cierre reveal">
               <p
                 className="quiensoy__cita"
                 dangerouslySetInnerHTML={{ __html: content.nosotros_cita }}
               />
+              <p className="recorrido__firma">Lorena Macías</p>
               <p className="recorrido__invit">{t('sobre.recorridoInvitacion')}</p>
               <Link className="btn" href={href('/proyectos')}>
                 {t('cta.conocerProyectos')} <span className="arr">→</span>

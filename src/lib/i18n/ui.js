@@ -43,6 +43,9 @@ export const UI = {
         'Más de 25 años que explican de dónde viene mi manera de trabajar: de la experiencia en grandes obras a la práctica actual del estudio, donde diseño, técnica y ejecución forman parte de un mismo proceso.',
       recorridoInvitacion:
         'Te invito a conocer una selección de mis obras y proyectos, donde esta visión se materializa en diferentes escalas, contextos y formas de habitar.',
+      rail: 'Espacios · Personas · Entorno · Vida real',
+      nuevoCapitulo: 'Un nuevo capítulo.',
+      transicionCita: 'La misma pasión, una nueva mirada.',
       trayectoria: 'Trayectoria',
       trayectoriaSub: 'Dos etapas, una misma manera de trabajar.',
       reconocimientos: 'Reconocimientos',
@@ -198,6 +201,9 @@ export const UI = {
         'More than 25 years that explain where my way of working comes from: from experience on large-scale projects to the studio’s practice today, where design, technique and execution are part of a single process.',
       recorridoInvitacion:
         'I invite you to explore a selection of my works and projects, where this vision takes shape across different scales, contexts and ways of living.',
+      rail: 'Spaces · People · Context · Real life',
+      nuevoCapitulo: 'A new chapter.',
+      transicionCita: 'The same passion, a new perspective.',
       trayectoria: 'Career',
       trayectoriaSub: 'Two stages, one way of working.',
       reconocimientos: 'Recognition',
@@ -352,6 +358,9 @@ export const UI = {
         'Mais de 25 anos que explicam de onde vem a minha forma de trabalhar: da experiência em grandes obras à prática atual do estúdio, onde projeto, técnica e execução fazem parte de um mesmo processo.',
       recorridoInvitacion:
         'Convido você a conhecer uma seleção das minhas obras e projetos, onde essa visão se materializa em diferentes escalas, contextos e formas de habitar.',
+      rail: 'Espaços · Pessoas · Entorno · Vida real',
+      nuevoCapitulo: 'Um novo capítulo.',
+      transicionCita: 'A mesma paixão, um novo olhar.',
       trayectoria: 'Trajetória',
       trayectoriaSub: 'Duas etapas, uma mesma forma de trabalhar.',
       reconocimientos: 'Reconhecimentos',
