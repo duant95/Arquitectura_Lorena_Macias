@@ -95,7 +95,7 @@ export default function Nosotros({ content = {}, obras = [] }) {
   return (
     <>
       {/* HERO */}
-      <section className="phero">
+      <section className="phero phero--about">
         <div className="phero__in">
           <div className="crumb">
             <Link href={href('/')}>{t('nav.inicio')}</Link> / {t('nav.sobre')}
@@ -199,8 +199,8 @@ export default function Nosotros({ content = {}, obras = [] }) {
                   className="etapa__p"
                   dangerouslySetInnerHTML={{ __html: content.nosotros_transicion }}
                 />
+                <p className="transicion__hand">{t('sobre.transicionCita')}</p>
               </div>
-              <p className="transicion__hand">{t('sobre.transicionCita')}</p>
             </div>
           </div>
         </section>

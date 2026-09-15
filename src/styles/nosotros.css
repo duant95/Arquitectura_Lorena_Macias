@@ -2,7 +2,17 @@
   display: grid;
   grid-template-columns: 1.25fr 0.75fr;
   gap: clamp(30px, 4.4vw, 64px);
-  align-items: stretch;
+  align-items: center;
+}
+/* Hero de Sobre mí: más compacto (menos aire arriba/abajo) */
+.phero--about {
+  padding-top: calc(var(--nav-h) + clamp(18px, 2.6vw, 36px));
+  padding-bottom: clamp(22px, 3vw, 40px);
+}
+.phero--about .about-portrait {
+  min-height: 0;
+  aspect-ratio: 4 / 5;
+  max-height: clamp(380px, 52vh, 520px);
 }
 .about-hero--solo {
   grid-template-columns: 1fr;
@@ -627,15 +637,17 @@
 }
 .etapa__n {
   font-family: var(--serif);
-  font-size: clamp(15px, 1.3vw, 18px);
+  font-size: clamp(22px, 2.2vw, 30px);
   color: var(--olive);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+  line-height: 1;
 }
 .etapa__yr {
-  font-size: 12px;
-  letter-spacing: 0.22em;
+  font-size: clamp(13px, 1.1vw, 15px);
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-soft);
+  color: var(--ink);
 }
 .etapa__title {
   font-family: var(--serif);
@@ -742,12 +754,17 @@
 /* --- TRANSICIÓN (02) --- */
 .transicion {
   display: grid;
-  grid-template-columns: 0.92fr 1.08fr 0.72fr;
-  gap: clamp(24px, 4vw, 56px);
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: clamp(30px, 4.5vw, 64px);
   align-items: center;
 }
 .transicion__img .etapa__img__frame {
   aspect-ratio: 4 / 5;
+}
+/* Franja divisoria entre la foto y el texto */
+.transicion__body {
+  border-left: 1px solid var(--taupe);
+  padding-left: clamp(28px, 4vw, 60px);
 }
 .transicion__title {
   font-family: var(--serif);
@@ -758,12 +775,16 @@
   color: var(--ink);
 }
 .transicion__hand {
-  font-family: 'Sacramento', var(--serif-accent), cursive;
-  font-size: clamp(30px, 4vw, 50px);
-  line-height: 1.05;
-  color: var(--olive);
-  margin: 0;
-  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(19px, 2.1vw, 27px);
+  line-height: 1.35;
+  color: var(--olive-deep);
+  margin: clamp(20px, 2.6vw, 30px) 0 0;
+  padding-top: clamp(18px, 2.2vw, 26px);
+  border-top: 1px solid var(--taupe);
+  max-width: 26ch;
+  text-align: left;
 }
 
 /* --- VALORES --- */
@@ -846,6 +867,14 @@
   .transicion {
     grid-template-columns: 1fr;
     gap: clamp(18px, 5vw, 28px);
+    text-align: center;
+  }
+  .transicion__body {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .transicion__hand {
+    max-width: none;
     text-align: center;
   }
   .etapa--collage .etapa__img:nth-child(1) {
