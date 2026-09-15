@@ -289,7 +289,7 @@ export const PROYECTOS_ETAPAS_DEFAULT = [
     label: 'Gerente de Proyectos',
     period: '2001 — 2019',
     blurb:
-      'Durante casi dos décadas lideré el diseño y la dirección de grandes proyectos residenciales de altura, ayudando a definir el estándar premium de Asunción. Una etapa desarrollada en colaboración con el estudio Gustafson y Asociados.',
+      'Durante casi dos décadas lideré el diseño y la dirección de grandes proyectos residenciales de altura, dentro de Gustafson y Asociados y como parte de un equipo integral.',
     note: 'Obras de esta etapa, desarrolladas en colaboración. La propiedad intelectual corresponde al estudio.',
   },
 ];
@@ -300,7 +300,7 @@ export const TRAYECTORIA_DEFAULT = [
     yr: '2001–2019',
     titulo: 'Gerente de Proyectos',
     descripcion:
-      'Etapa en la que fui responsable del área de diseño y proyecto ejecutivo (Gerente de Proyectos desde 2007), en colaboración con el estudio Gustafson y Asociados. Dirigí equipos de arquitectos, calculistas y especialistas, y ayudé a definir el estándar del mercado residencial premium de altura de Asunción, en edificios de hasta 30 niveles con unidades de 350 a 550 m².',
+      'Etapa en la que fui responsable del área de diseño y proyecto ejecutivo (Gerente de Proyectos desde 2007), dentro de Gustafson y Asociados. Dirigí equipos de arquitectos, calculistas y especialistas en edificios de hasta 30 niveles con unidades de 350 a 550 m².',
     proyectos: [
       {
         titulo: 'Edificio Altagracia · 30 niveles',

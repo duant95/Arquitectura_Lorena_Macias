@@ -154,6 +154,7 @@ const TEXT_KEYS = [
   'nosotros_intro_lead',
   'nosotros_intro_texto',
   'nosotros_historia',
+  'nosotros_cita',
   'nosotros_estudio_titulo',
   'nosotros_estudio_texto',
   'nosotros_retrato_imagen',
@@ -251,18 +252,18 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
   const setEtapa = (i, patch) =>
     setTrayectoria((t) => t.map((e, idx) => (idx === i ? { ...e, ...patch } : e)));
   const addEtapa = () =>
-    setTrayectoria((t) => [...t, { yr: '', titulo: '', descripcion: '', proyectos: [] }]);
+    setTrayectoria((t) => [...t, { yr: '', titulo: '', descripcion: '', imagenes: [], pilares: [] }]);
   const delEtapa = (i) => setTrayectoria((t) => t.filter((_, idx) => idx !== i));
-  const setProy = (ei, pi, patch) =>
+  // imágenes por etapa
+  const etImgs = (et) => (Array.isArray(et.imagenes) ? et.imagenes : []);
+  const addEtImg = (ei) =>
+    setEtapa(ei, { imagenes: [...etImgs(trayectoria[ei]), { imagen: '', alt: '' }] });
+  const setEtImg = (ei, k, patch) =>
     setEtapa(ei, {
-      proyectos: trayectoria[ei].proyectos.map((p, idx) => (idx === pi ? { ...p, ...patch } : p)),
+      imagenes: etImgs(trayectoria[ei]).map((im, kk) => (kk === k ? { ...im, ...patch } : im)),
     });
-  const addProy = (ei) =>
-    setEtapa(ei, {
-      proyectos: [...(trayectoria[ei].proyectos || []), { titulo: '', descripcion: '' }],
-    });
-  const delProy = (ei, pi) =>
-    setEtapa(ei, { proyectos: trayectoria[ei].proyectos.filter((_, idx) => idx !== pi) });
+  const delEtImg = (ei, k) =>
+    setEtapa(ei, { imagenes: etImgs(trayectoria[ei]).filter((_, kk) => kk !== k) });
 
   // --- helpers cifras (stats) ---
   const setStat = (i, patch) => setStats((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
@@ -567,11 +568,14 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
             </div>
             <hr className="ad-sep" />
             <RichTextField
-              label="Mi historia"
-              rows={8}
-              value={form.nosotros_historia}
-              onChange={(v) => set('nosotros_historia', v)}
-              hint={'Cada línea en blanco separa un párrafo. El primero se resalta. ' + EM_HINT}
+              label="Frase de cierre (bajo el recorrido)"
+              rows={3}
+              value={form.nosotros_cita}
+              onChange={(v) => set('nosotros_cita', v)}
+              hint={
+                'La frase destacada que cierra “Sobre mí”, antes del botón Conocer proyectos. ' +
+                EM_HINT
+              }
             />
             <ImageField
               label="Retrato de Lorena"
@@ -828,40 +832,60 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
                   />
                 </div>
 
+                <div className="ad-field">
+                  <label>Pilares (opcional, uno por línea)</label>
+                  <p className="ad-hint">
+                    Se muestran como lista al lado del texto (ej. los servicios de la etapa actual).
+                  </p>
+                  <textarea
+                    className="ad-textarea"
+                    rows={3}
+                    value={Array.isArray(et.pilares) ? et.pilares.join('\n') : ''}
+                    onChange={(e) =>
+                      setEtapa(ei, {
+                        pilares: e.target.value.split('\n').map((x) => x.trim()).filter(Boolean),
+                      })
+                    }
+                    placeholder={'Arquitectura\nInteriorismo\nDiseño Náutico'}
+                  />
+                </div>
+
                 <p className="ad-hint" style={{ margin: '4px 0 8px' }}>
-                  Proyectos de esta etapa
+                  Imágenes de esta etapa (la primera se muestra más grande). Poné debajo un texto
+                  corto para el epígrafe.
                 </p>
-                {(et.proyectos || []).map((p, pi) => (
-                  <div className="ad-proy" key={pi}>
-                    <input
-                      className="ad-input"
-                      value={p.titulo}
-                      placeholder="Título del proyecto"
-                      onChange={(e) => setProy(ei, pi, { titulo: e.target.value })}
+                {etImgs(et).map((im, k) => (
+                  <div className="ad-etapa-img" key={k} style={{ marginBottom: 10 }}>
+                    <ImageField
+                      label={`Imagen ${k + 1}`}
+                      value={im.imagen || im.url || ''}
+                      onChange={(url) => setEtImg(ei, k, { imagen: url })}
                     />
-                    <input
-                      className="ad-input"
-                      value={p.descripcion}
-                      placeholder="Descripción breve"
-                      onChange={(e) => setProy(ei, pi, { descripcion: e.target.value })}
-                    />
-                    <button
-                      type="button"
-                      className="ad-btn ad-btn--danger"
-                      onClick={() => delProy(ei, pi)}
-                      title="Quitar proyecto"
-                    >
-                      <Trash2 size={14} />
-                    </button>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                      <input
+                        className="ad-input"
+                        value={im.alt || ''}
+                        placeholder="Epígrafe (ej. Edificio Carmen Dora · Asunción)"
+                        onChange={(e) => setEtImg(ei, k, { alt: e.target.value })}
+                      />
+                      <button
+                        type="button"
+                        className="ad-btn ad-btn--danger"
+                        onClick={() => delEtImg(ei, k)}
+                        title="Quitar imagen"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
                   </div>
                 ))}
                 <div className="ad-etapa__actions">
                   <button
                     type="button"
                     className="ad-btn ad-btn--ghost"
-                    onClick={() => addProy(ei)}
+                    onClick={() => addEtImg(ei)}
                   >
-                    <Plus size={14} /> Proyecto
+                    <Plus size={14} /> Imagen
                   </button>
                   <button
                     type="button"

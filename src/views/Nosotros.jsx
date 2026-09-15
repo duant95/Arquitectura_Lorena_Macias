@@ -2,8 +2,6 @@
 
 import Link from 'next/link';
 import Img from '../components/Img';
-import Trayectoria from '../components/Trayectoria';
-import CarruselLinea from '../components/CarruselLinea';
 import PrensaList from '../components/PrensaList';
 import { useAgenda } from '../context/AgendaContext';
 import { useT, useHref } from '../context/LocaleContext';
@@ -16,8 +14,7 @@ export default function Nosotros({ content = {} }) {
   const href = useHref();
   useReveals();
 
-  const historia = splitParagraphs(content.nosotros_historia);
-  const carrusel = content.carrusel || [];
+  const etapas = content.trayectoria || [];
   const prensa = (content.prensa || []).filter((p) => p && (p.medio || p.titulo));
   const estudioImgs = content.estudio_imagenes || [];
 
@@ -85,48 +82,72 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* MI RECORRIDO — párrafo 1 → línea de tiempo → párrafo 2 (remate) */}
-      <section className="section">
+      {/* MI RECORRIDO — etapas cronológicas: texto (izq) + imágenes (der) */}
+      <section className="section recorrido">
         <div className="wrap">
-          <div className="quiensoy reveal">
+          <div className="reveal recorrido__head">
             <p className="kicker">{t('sobre.miRecorrido')}</p>
-            <h2 className="h-xl quiensoy__title">{t('sobre.recorridoTitulo')}</h2>
-            {historia[0] && (
-              <p className="quiensoy__p1" dangerouslySetInnerHTML={{ __html: historia[0] }} />
-            )}
+            <h2 className="h-xl recorrido__title">{t('sobre.recorridoTitulo')}</h2>
+            <p className="recorrido__lead">{t('sobre.recorridoLead')}</p>
           </div>
-        </div>
-        {carrusel.length > 0 && (
-          <div className="carr-wrap reveal d1">
-            <CarruselLinea imagenes={carrusel} />
-          </div>
-        )}
-        {historia.length > 1 && (
-          <div className="wrap">
-            {historia.slice(1).map((p, i, arr) => {
-              const esCita = i === arr.length - 1 && arr.length > 1;
+
+          <div className="etapas">
+            {etapas.map((et, i) => {
+              const imgs = Array.isArray(et.imagenes) ? et.imagenes.filter((x) => x && (x.imagen || x.url)) : [];
+              const parrafos = splitParagraphs(et.descripcion);
+              const pilares = Array.isArray(et.pilares) ? et.pilares.filter(Boolean) : [];
               return (
-                <p
-                  key={i}
-                  className={(esCita ? 'quiensoy__cita' : 'quiensoy__body') + ' reveal'}
-                  dangerouslySetInnerHTML={{ __html: p }}
-                />
+                <article className={'etapa reveal' + (imgs.length > 4 ? ' etapa--amplia' : '')} key={i}>
+                  <div className="etapa__text">
+                    <div className="etapa__meta">
+                      <span className="etapa__n">{String(i + 1).padStart(2, '0')}</span>
+                      {et.yr && <span className="etapa__yr">{et.yr}</span>}
+                    </div>
+                    {et.titulo && <h3 className="etapa__title">{et.titulo}</h3>}
+                    {parrafos.map((p, j) => (
+                      <p key={j} className="etapa__p" dangerouslySetInnerHTML={{ __html: p }} />
+                    ))}
+                    {pilares.length > 0 && (
+                      <ul className="etapa__pilares">
+                        {pilares.map((p, k) => (
+                          <li key={k}>{p}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                  {imgs.length > 0 && (
+                    <div className="etapa__imgs" data-count={Math.min(imgs.length, 6)}>
+                      {imgs.map((im, k) => (
+                        <figure className="etapa__img" key={k}>
+                          <div className="etapa__img__frame">
+                            <Img
+                              src={im.imagen || im.url}
+                              alt={im.alt || ''}
+                              sizes="(max-width:900px) 50vw, 30vw"
+                            />
+                          </div>
+                          {im.alt && <figcaption>{im.alt}</figcaption>}
+                        </figure>
+                      ))}
+                    </div>
+                  )}
+                </article>
               );
             })}
           </div>
-        )}
-      </section>
 
-      {/* TRAYECTORIA — con subtítulo */}
-      <section className="section" style={{ background: 'var(--paper-2)' }}>
-        <div className="wrap">
-          <div className="reveal" style={{ marginBottom: 'clamp(24px,3vw,42px)' }}>
-            <p className="kicker">{t('sobre.trayectoria')}</p>
-            <h2 className="h-xl" style={{ marginTop: 12 }}>
-              {t('sobre.trayectoriaSub')}
-            </h2>
-          </div>
-          <Trayectoria items={content.trayectoria || []} />
+          {content.nosotros_cita && (
+            <div className="recorrido__cierre reveal">
+              <p
+                className="quiensoy__cita"
+                dangerouslySetInnerHTML={{ __html: content.nosotros_cita }}
+              />
+              <p className="recorrido__invit">{t('sobre.recorridoInvitacion')}</p>
+              <Link className="btn" href={href('/proyectos')}>
+                {t('cta.conocerProyectos')} <span className="arr">→</span>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
