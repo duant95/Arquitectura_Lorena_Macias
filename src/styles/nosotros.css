@@ -612,12 +612,12 @@
   border-top: 0;
 }
 .etapa--collage {
-  grid-template-columns: 0.86fr 1.14fr;
+  grid-template-columns: 0.9fr 1.1fr;
   padding-top: 0;
   margin-top: clamp(8px, 1.5vw, 16px);
 }
 .etapa--grid {
-  grid-template-columns: 0.78fr 1.22fr;
+  grid-template-columns: 0.92fr 1.08fr;
 }
 .etapa__meta {
   display: flex;
@@ -716,34 +716,27 @@
   margin-top: 3px;
 }
 
-/* Collage (01): imagen alta a la izquierda + 2 apiladas a la derecha */
+/* Collage (01): dos imágenes parejas del edificio, lado a lado */
 .etapa--collage .etapa__imgs {
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: start;
 }
-.etapa--collage .etapa__img:nth-child(1) {
-  grid-column: 1;
-  grid-row: 1 / span 2;
-}
-.etapa--collage .etapa__img:nth-child(1) .etapa__img__frame {
-  aspect-ratio: 3 / 4.3;
-}
-.etapa--collage .etapa__img:nth-child(2) .etapa__img__frame,
-.etapa--collage .etapa__img:nth-child(3) .etapa__img__frame {
-  aspect-ratio: 4 / 3.1;
+.etapa--collage .etapa__img .etapa__img__frame {
+  aspect-ratio: 3 / 4;
 }
 
-/* Grilla (03): pares + una banda ancha en el tercer lugar */
+/* Grilla (03): dos arriba + una banda (menos extrema) */
 .etapa--grid .etapa__imgs {
   grid-template-columns: repeat(2, 1fr);
 }
 .etapa--grid .etapa__img .etapa__img__frame {
-  aspect-ratio: 4 / 3.2;
+  aspect-ratio: 4 / 3.4;
 }
 .etapa--grid .etapa__img:nth-child(3) {
   grid-column: 1 / -1;
 }
 .etapa--grid .etapa__img:nth-child(3) .etapa__img__frame {
-  aspect-ratio: 16 / 8.5;
+  aspect-ratio: 3 / 2;
 }
 
 /* --- TRANSICIÓN (02) --- */
@@ -757,7 +750,7 @@
   border-top: 1px solid var(--taupe);
 }
 .transicion__img .etapa__img__frame {
-  aspect-ratio: 5 / 4;
+  aspect-ratio: 4 / 5;
 }
 .transicion__title {
   font-family: var(--serif);
@@ -883,7 +876,7 @@
   background: var(--sand);
 }
 .estudio-band {
-  background: var(--paper-2);
+  background: var(--paper);
 }
 /* Dentro de una banda, la etapa no lleva divisores/espacios propios (los da la banda) */
 .band .etapa,
@@ -905,12 +898,12 @@
 .rec-cierre .recorrido__cierre {
   margin-top: 0;
 }
-/* Degradados del carrusel según la banda (papel-2) */
+/* Degradados del carrusel según la banda (papel) */
 .rec-carrusel .carr__fade--l {
-  background: linear-gradient(90deg, var(--paper-2), transparent);
+  background: linear-gradient(90deg, var(--paper), transparent);
 }
 .rec-carrusel .carr__fade--r {
-  background: linear-gradient(270deg, var(--paper-2), transparent);
+  background: linear-gradient(270deg, var(--paper), transparent);
 }
 
 /* --- CARRUSEL LÍNEA DE TIEMPO (fotos de obra) --- */

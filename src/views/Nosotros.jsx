@@ -25,7 +25,7 @@ const VAL_ICONS = [
   <path key="f" d="M4 20h16 M7 20v-6 M12 20V8 M17 20v-9 M5 9l4-4 3 3 5-6" />,
 ];
 
-export default function Nosotros({ content = {} }) {
+export default function Nosotros({ content = {}, obras = [] }) {
   const { open } = useAgenda();
   const t = useT();
   const href = useHref();
@@ -89,7 +89,8 @@ export default function Nosotros({ content = {} }) {
 
   const estudioImgsRecorrido = imgsDe(etapas[1]);
   const grid03 = estudioImgsRecorrido.slice(0, 3);
-  const carrusel03 = estudioImgsRecorrido.slice(3);
+  // Carrusel: portadas reales de las obras (fallback a las imágenes sobrantes de la etapa).
+  const carruselObras = obras.length ? obras : estudioImgsRecorrido.slice(3);
 
   return (
     <>
@@ -155,8 +156,8 @@ export default function Nosotros({ content = {} }) {
         </div>
       </section>
 
-      {/* RECORRIDO · 01 Gustafson (collage) — banda papel */}
-      <section className="section band band--paper rec-01">
+      {/* RECORRIDO · 01 Gustafson (collage) */}
+      <section className="section band band--paper2 rec-01">
         <div className="wrap">
           <div className="reveal recorrido__head">
             <div>
@@ -205,19 +206,19 @@ export default function Nosotros({ content = {} }) {
         </section>
       )}
 
-      {/* RECORRIDO · 03 Estudio (grilla 3 + carrusel horizontal) — banda papel-2 */}
-      <section className="section band band--paper2 rec-03">
+      {/* RECORRIDO · 03 Estudio (grilla 3 + carrusel de portadas) */}
+      <section className="section band band--paper rec-03">
         <div className="wrap">{Etapa(etapas[1], '03', 'grid', grid03)}</div>
-        {carrusel03.length > 0 && (
+        {carruselObras.length > 0 && (
           <div className="rec-carrusel reveal">
-            <CarruselLinea imagenes={carrusel03} />
+            <CarruselLinea imagenes={carruselObras} />
           </div>
         )}
       </section>
 
-      {/* VALORES — banda papel */}
+      {/* VALORES */}
       {(content.pilares || []).length > 0 && (
-        <section className="section band band--paper rec-valores">
+        <section className="section band band--paper2 rec-valores">
           <div className="wrap">
             <ul className="valores reveal">
               {content.pilares.map((p, i) => (
