@@ -745,9 +745,6 @@
   grid-template-columns: 0.92fr 1.08fr 0.72fr;
   gap: clamp(24px, 4vw, 56px);
   align-items: center;
-  margin-top: clamp(40px, 5.5vw, 72px);
-  padding-top: clamp(40px, 5.5vw, 72px);
-  border-top: 1px solid var(--taupe);
 }
 .transicion__img .etapa__img__frame {
   aspect-ratio: 4 / 5;
