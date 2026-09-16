@@ -1,6 +1,6 @@
 .about-hero {
   display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
+  grid-template-columns: 1.05fr 0.95fr;
   gap: clamp(30px, 4.4vw, 64px);
   align-items: center;
 }
@@ -12,7 +12,7 @@
 .phero--about .about-portrait {
   min-height: 0;
   aspect-ratio: 4 / 5;
-  max-height: clamp(380px, 52vh, 520px);
+  max-height: clamp(460px, 64vh, 640px);
 }
 .about-hero--solo {
   grid-template-columns: 1fr;
