@@ -754,8 +754,8 @@
 /* --- TRANSICIÓN (02) --- */
 .transicion {
   display: grid;
-  grid-template-columns: minmax(230px, 258px) 1fr;
-  gap: clamp(28px, 4vw, 56px);
+  grid-template-columns: minmax(285px, 305px) 1fr;
+  gap: clamp(30px, 4.5vw, 60px);
   align-items: center;
 }
 .transicion__img .etapa__img__frame {
@@ -764,26 +764,31 @@
 /* Franja divisoria entre la foto y el texto */
 .transicion__body {
   border-left: 1px solid var(--taupe);
-  padding-left: clamp(28px, 4vw, 60px);
+  padding-left: clamp(30px, 4vw, 60px);
 }
 .transicion__title {
   font-family: var(--serif);
   font-weight: 400;
-  font-size: clamp(24px, 3vw, 38px);
-  line-height: 1.1;
-  margin: 0 0 clamp(14px, 1.8vw, 20px);
+  font-size: clamp(26px, 3.4vw, 42px);
+  line-height: 1.12;
+  margin: 0 0 clamp(16px, 2vw, 24px);
   color: var(--ink);
+}
+.transicion .etapa__p {
+  max-width: 48ch;
+  font-size: clamp(16px, 1.25vw, 18px);
+  line-height: 1.85;
 }
 .transicion__hand {
   font-family: var(--serif);
   font-style: italic;
-  font-size: clamp(19px, 2.1vw, 27px);
-  line-height: 1.35;
+  font-size: clamp(21px, 2.3vw, 30px);
+  line-height: 1.4;
   color: var(--olive-deep);
-  margin: clamp(20px, 2.6vw, 30px) 0 0;
-  padding-top: clamp(18px, 2.2vw, 26px);
+  margin: clamp(24px, 3.2vw, 38px) 0 0;
+  padding-top: clamp(22px, 2.8vw, 32px);
   border-top: 1px solid var(--taupe);
-  max-width: 26ch;
+  max-width: 24ch;
   text-align: left;
 }
 
