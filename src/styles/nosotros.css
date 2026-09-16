@@ -754,8 +754,8 @@
 /* --- TRANSICIÓN (02) --- */
 .transicion {
   display: grid;
-  grid-template-columns: 0.82fr 1.18fr;
-  gap: clamp(30px, 4.5vw, 64px);
+  grid-template-columns: minmax(230px, 258px) 1fr;
+  gap: clamp(28px, 4vw, 56px);
   align-items: center;
 }
 .transicion__img .etapa__img__frame {
