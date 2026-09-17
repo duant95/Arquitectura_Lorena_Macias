@@ -87,10 +87,10 @@ export default function Nosotros({ content = {}, obras = [] }) {
     );
   };
 
-  const estudioImgsRecorrido = imgsDe(etapas[1]);
-  const grid03 = estudioImgsRecorrido.slice(0, 3);
-  // Carrusel: portadas reales de las obras (fallback a las imágenes sobrantes de la etapa).
-  const carruselObras = obras.length ? obras : estudioImgsRecorrido.slice(3);
+  // Grilla del 03: todas las imágenes que la arqui cargue en esa etapa (la grilla se
+  // adapta a cualquier cantidad). Carrusel: portadas reales de las obras.
+  const grid03 = imgsDe(etapas[1]);
+  const carruselObras = obras.length ? obras : imgsDe(etapas[1]).slice(3);
 
   return (
     <>
@@ -178,7 +178,7 @@ export default function Nosotros({ content = {}, obras = [] }) {
 
       {/* RECORRIDO · 01 Gustafson (collage) — tarjeta aparte */}
       <section className="section band band--paper rec-01">
-        <div className="wrap">{Etapa(etapas[0], '01', 'collage', imgsDe(etapas[0]).slice(0, 3))}</div>
+        <div className="wrap">{Etapa(etapas[0], '01', 'collage', imgsDe(etapas[0]))}</div>
       </section>
 
       {/* TRANSICIÓN · 02 — banda arena */}
