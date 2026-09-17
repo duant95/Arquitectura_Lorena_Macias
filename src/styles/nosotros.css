@@ -728,27 +728,31 @@
   margin-top: 3px;
 }
 
-/* Collage (01): dos imágenes parejas del edificio, lado a lado */
-.etapa--collage .etapa__imgs {
+/* Grillas robustas para cualquier cantidad de fotos: 2 columnas, sin deformar
+   (object-fit: cover) y sin hueco (si queda una sola en la última fila, se
+   estira a lo ancho como banda). */
+.etapa--collage .etapa__imgs,
+.etapa--grid .etapa__imgs {
   grid-template-columns: repeat(2, 1fr);
   align-items: start;
 }
 .etapa--collage .etapa__img .etapa__img__frame {
   aspect-ratio: 3 / 4;
 }
-
-/* Grilla (03): dos arriba + una banda (menos extrema) */
-.etapa--grid .etapa__imgs {
-  grid-template-columns: repeat(2, 1fr);
-}
 .etapa--grid .etapa__img .etapa__img__frame {
   aspect-ratio: 4 / 3.4;
 }
-.etapa--grid .etapa__img:nth-child(3) {
+/* Última imagen sola en su fila (cantidad impar) → ocupa el ancho completo */
+.etapa__imgs .etapa__img:last-child:nth-child(odd) {
   grid-column: 1 / -1;
 }
-.etapa--grid .etapa__img:nth-child(3) .etapa__img__frame {
-  aspect-ratio: 3 / 2;
+.etapa--collage .etapa__imgs .etapa__img:last-child:nth-child(odd) .etapa__img__frame,
+.etapa--grid .etapa__imgs .etapa__img:last-child:nth-child(odd) .etapa__img__frame {
+  aspect-ratio: 16 / 9;
+}
+/* Con una sola imagen en la etapa, no la estiramos a banda gigante */
+.etapa__imgs .etapa__img:only-child .etapa__img__frame {
+  aspect-ratio: 4 / 3.4;
 }
 
 /* --- TRANSICIÓN (02) --- */
@@ -836,9 +840,9 @@
 .recorrido__firma {
   font-family: var(--serif);
   font-style: italic;
-  color: var(--ink-soft);
+  color: var(--ink);
   margin: clamp(18px, 2.4vw, 26px) 0 0;
-  font-size: clamp(15px, 1.3vw, 17px);
+  font-size: clamp(17px, 1.5vw, 20px);
 }
 .recorrido__firma::before {
   content: '';
@@ -851,9 +855,14 @@
 }
 .recorrido__invit {
   color: var(--ink-soft);
-  max-width: 58ch;
+  max-width: 56ch;
   margin: clamp(24px, 3.2vw, 36px) auto clamp(26px, 3.2vw, 36px);
-  line-height: 1.7;
+  line-height: 1.75;
+  font-size: clamp(16.5px, 1.4vw, 19px);
+}
+.recorrido__cierre .btn {
+  font-size: clamp(13px, 1.15vw, 15px);
+  padding: clamp(15px, 1.5vw, 19px) clamp(28px, 2.6vw, 40px);
 }
 
 @media (max-width: 900px) {
