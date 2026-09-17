@@ -920,6 +920,16 @@
 .rec-carrusel {
   margin-top: clamp(30px, 4vw, 52px);
 }
+/* Encabezado del recorrido como tarjeta propia, separada de la etapa 01 */
+.rec-head {
+  padding-bottom: clamp(24px, 3vw, 40px);
+}
+.rec-head .recorrido__head {
+  margin-bottom: 0;
+}
+.rec-01 {
+  padding-top: clamp(28px, 3.4vw, 48px);
+}
 /* En su propia banda, valores y cierre no repiten margen/borde superior */
 .rec-valores .valores {
   margin-top: 0;
