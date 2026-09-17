@@ -156,8 +156,8 @@ export default function Nosotros({ content = {}, obras = [] }) {
         </div>
       </section>
 
-      {/* RECORRIDO · 01 Gustafson (collage) */}
-      <section className="section band band--paper2 rec-01">
+      {/* RECORRIDO · encabezado (tarjeta) */}
+      <section className="section band band--paper2 rec-head">
         <div className="wrap">
           <div className="reveal recorrido__head">
             <div>
@@ -173,8 +173,12 @@ export default function Nosotros({ content = {}, obras = [] }) {
                 ))}
             </ul>
           </div>
-          {Etapa(etapas[0], '01', 'collage', imgsDe(etapas[0]).slice(0, 3))}
         </div>
+      </section>
+
+      {/* RECORRIDO · 01 Gustafson (collage) — tarjeta aparte */}
+      <section className="section band band--paper rec-01">
+        <div className="wrap">{Etapa(etapas[0], '01', 'collage', imgsDe(etapas[0]).slice(0, 3))}</div>
       </section>
 
       {/* TRANSICIÓN · 02 — banda arena */}
