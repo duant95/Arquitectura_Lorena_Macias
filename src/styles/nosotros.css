@@ -842,7 +842,7 @@
   font-style: italic;
   color: var(--ink);
   margin: clamp(18px, 2.4vw, 26px) 0 0;
-  font-size: clamp(17px, 1.5vw, 20px);
+  font-size: clamp(20px, 1.9vw, 25px);
 }
 .recorrido__firma::before {
   content: '';
@@ -855,14 +855,14 @@
 }
 .recorrido__invit {
   color: var(--ink-soft);
-  max-width: 56ch;
+  max-width: 54ch;
   margin: clamp(24px, 3.2vw, 36px) auto clamp(26px, 3.2vw, 36px);
   line-height: 1.75;
-  font-size: clamp(16.5px, 1.4vw, 19px);
+  font-size: clamp(18px, 1.7vw, 22px);
 }
 .recorrido__cierre .btn {
-  font-size: clamp(13px, 1.15vw, 15px);
-  padding: clamp(15px, 1.5vw, 19px) clamp(28px, 2.6vw, 40px);
+  font-size: clamp(14px, 1.3vw, 16.5px);
+  padding: clamp(16px, 1.6vw, 21px) clamp(30px, 2.8vw, 44px);
 }
 
 @media (max-width: 900px) {
