@@ -23,6 +23,17 @@ export const TEXT_KEYS = [
   'nosotros_historia',
   'nosotros_cita',
   'nosotros_transicion',
+  // Sobre mí (rediseño 2026)
+  'nosotros_hero_subtitulo',
+  'nosotros_hero_bajada',
+  'nosotros_hero_stat_l',
+  'nosotros_cita_apertura',
+  'nosotros_exp_periodo',
+  'nosotros_exp_titulo',
+  'nosotros_exp_texto',
+  'nosotros_exp_nota',
+  'nosotros_cierre_frase',
+  'nosotros_cierre_invit',
 ];
 
 // Claves cuyo valor es un JSON con textos anidados.
@@ -38,6 +49,10 @@ export const JSON_KEYS = [
   'nosotros_historia_imagenes',
   'nosotros_carrusel',
   'nosotros_estudio_imagenes',
+  'nosotros_timeline',
+  'nosotros_relatos',
+  'nosotros_servicios',
+  'nosotros_exp_imagenes',
 ];
 
 const TEXT = new Set(TEXT_KEYS);

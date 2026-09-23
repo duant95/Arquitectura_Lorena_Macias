@@ -158,7 +158,75 @@ export const CONTENT_DEFAULTS = {
     'Diseño espacios para ser vividos: cuidados en su materialidad, conectados con la luz y fieles a quienes los habitan.',
   nosotros_transicion:
     'En 2019 fundé Estudio Lorena Macías para integrar la experiencia adquirida durante casi dos décadas con una visión propia de la arquitectura, el interiorismo y la manera de llevar cada proyecto a la obra.',
+  // ---- Sobre mí (rediseño 2026) ----
+  nosotros_hero_nombre: 'Lorena Macías',
+  nosotros_hero_subtitulo: 'Arquitectura y Diseño Interior',
+  nosotros_hero_bajada:
+    'Con más de 25 años de trayectoria, desarrollo proyectos desde una mirada integral, combinando diseño, técnica y gestión para acompañarlos desde su concepción hasta su materialización.',
+  nosotros_hero_stat_n: '+25',
+  nosotros_hero_stat_l: 'Años de trayectoria',
+  nosotros_cita_apertura:
+    'Cada etapa me ha dado herramientas y una mirada más completa para crear, proyectar y construir con sentido.',
+  nosotros_exp_periodo: '2001 — 2019',
+  nosotros_exp_titulo: 'Experiencia profesional',
+  nosotros_exp_texto:
+    'Inicié mi carrera profesional en 2001 como arquitecta, diseñando y dirigiendo proyectos residenciales de alto estándar.\nDesde 2006 me desempeñé como Gerente de Proyectos, liderando el diseño, desarrollo y dirección arquitectónica de edificios de gran escala.\nParalelamente, trabajé en el área inmobiliaria, participando en la comercialización, venta y alquiler de las propiedades que proyectábamos y construíamos. Esta experiencia amplió mi comprensión de las necesidades del cliente y de la relación entre diseño, funcionalidad, calidad y valor inmobiliario.',
+  nosotros_exp_nota: 'Etapa desarrollada junto a Gustafson y Asociados S.A.',
+  nosotros_cierre_frase:
+    'Cada proyecto debe encontrar su propia identidad, responder a su entorno y a quienes lo habitan, y estar respaldado por decisiones técnicamente sólidas que permitan llevarlo con coherencia del diseño a la obra.',
+  nosotros_cierre_invit:
+    'Te invito a conocer una selección de mis obras y proyectos, donde esta visión se materializa en diferentes escalas, contextos y formas de habitar.',
 };
+
+const IMG = 'https://ydmbkaeovbogevzgdlui.supabase.co/storage/v1/object/public/proyectos/';
+const CD_IMG = IMG + 'curado2/edificio-carmen-dora/';
+
+export const NOSOTROS_TIMELINE_DEFAULT = [
+  { yr: '2001', label: 'Inicio de mi trayectoria profesional' },
+  { yr: '2019', label: 'Inicio de mi estudio de arquitectura' },
+  { yr: 'Hoy', label: 'Nuevos proyectos, más experiencias y el mismo compromiso.' },
+];
+export const NOSOTROS_EXP_IMAGENES_DEFAULT = [
+  { imagen: CD_IMG + 'f0.jpg', alt: 'Torres residenciales', sub: '12 a 30 niveles' },
+  { imagen: CD_IMG + 'f1.jpg', alt: 'Amenities', sub: 'Terraza social' },
+  { imagen: CD_IMG + 'f4.jpg', alt: 'Viviendas', sub: 'Alto estándar' },
+  { imagen: IMG + 'sitio/collage-2.jpg', alt: 'Amenities', sub: 'Piscina en altura' },
+];
+export const NOSOTROS_SERVICIOS_DEFAULT = [
+  'Arquitectura',
+  'Interiorismo',
+  'Dirección de Obras',
+  'Obras y Reformas',
+  'Paisajismo',
+  'Diseño Náutico',
+  'Project Management',
+];
+export const NOSOTROS_RELATOS_DEFAULT = [
+  {
+    n: '01',
+    titulo: 'El comienzo',
+    imagen: IMG + '1784236058334-vcf8prfmn58.jpg',
+    slug: 'barrio-pirarenda-amenities',
+    texto:
+      'En 2019 inicié mi estudio de arquitectura, dando comienzo a una nueva etapa profesional y consolidando una mirada propia sobre el diseño y la manera de llevar cada proyecto a la obra.\nUno de los primeros grandes desafíos fue el diseño y desarrollo de un barrio cerrado en Itacora, Ñeembucú, concebido para quienes buscan una relación cercana con la naturaleza, el río y la pesca.\nFui convocada como arquitecta independiente y Project Manager para su desarrollo y coordinación, proyectando sus principales amenities y viviendas de campo. Desde entonces continúo desarrollando proyectos y dirigiendo obras dentro del mismo emprendimiento.',
+  },
+  {
+    n: '02',
+    titulo: 'Una práctica que se amplía',
+    imagen: IMG + 'curado2/casa-gv/cover.jpg',
+    slug: 'casa-gv',
+    texto:
+      'A partir de allí, el estudio fue ampliando su campo de trabajo y su alcance, con proyectos en Asunción, San Bernardino y distintos puntos del interior del país, como Itacora y Filadelfia.\nHe desarrollado proyectos de arquitectura e interiorismo, dirigido obras de viviendas y edificios de gran envergadura y alto estándar, y llevado adelante reformas integrales, asumiendo también el rol de Project Manager cuando la escala y la complejidad lo requerían.\nLa búsqueda de nuevos desafíos abrió también nuevas oportunidades, como el diseño náutico, a partir de la convocatoria de un astillero brasileño para desarrollar el interior de una de sus embarcaciones.',
+  },
+  {
+    n: '03',
+    titulo: 'Del diseño a la obra, una misma mirada',
+    imagen: CD_IMG + 'f4.jpg',
+    slug: 'diseno-interior-edifico-altagracia',
+    texto:
+      'Diseño y desarrollo cada proyecto acompañándolo desde las primeras ideas hasta su materialización. Arquitectura e interiorismo forman parte de un mismo proceso, donde la distribución, la materialidad, la iluminación y los detalles constructivos se piensan en relación con las personas que los van a habitar.\nMi trabajo continúa durante la ejecución a través de la dirección de obra, la coordinación de profesionales, contratistas y proveedores, y el seguimiento de cada etapa: calidad, costos y avances, con una comunicación cercana, clara y transparente.\nLa confianza de mis clientes, que vuelven a elegirme y me recomiendan, ha sido clave en el crecimiento del estudio y es una de las mayores valoraciones de mi trabajo.',
+  },
+];
 
 // Cifras del inicio (editables).
 export const INICIO_STATS_DEFAULT = [
@@ -389,6 +457,10 @@ export async function getContent(locale = DEFAULT_LOCALE) {
     prensa: NOSOTROS_PRENSA_DEFAULT,
     carrusel: [],
     estudio_imagenes: [],
+    timeline: NOSOTROS_TIMELINE_DEFAULT,
+    relatos: NOSOTROS_RELATOS_DEFAULT,
+    sm_servicios: NOSOTROS_SERVICIOS_DEFAULT,
+    exp_imagenes: NOSOTROS_EXP_IMAGENES_DEFAULT,
   };
   // Traducciones estáticas por defecto (solo para en/pt).
   if (!isEs && TRANSLATED[locale]) {
@@ -406,6 +478,10 @@ export async function getContent(locale = DEFAULT_LOCALE) {
     nosotros_prensa: ['prensa', NOSOTROS_PRENSA_DEFAULT],
     nosotros_carrusel: ['carrusel', []],
     nosotros_estudio_imagenes: ['estudio_imagenes', []],
+    nosotros_timeline: ['timeline', NOSOTROS_TIMELINE_DEFAULT],
+    nosotros_relatos: ['relatos', NOSOTROS_RELATOS_DEFAULT],
+    nosotros_servicios: ['sm_servicios', NOSOTROS_SERVICIOS_DEFAULT],
+    nosotros_exp_imagenes: ['exp_imagenes', NOSOTROS_EXP_IMAGENES_DEFAULT],
   };
   const applyValue = (clave, valor) => {
     if (JSON_KEYS[clave]) {

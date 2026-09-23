@@ -160,6 +160,19 @@ const TEXT_KEYS = [
   'nosotros_estudio_texto',
   'nosotros_retrato_imagen',
   'nosotros_cta_imagen',
+  // Sobre mí — rediseño 2026
+  'nosotros_hero_nombre',
+  'nosotros_hero_subtitulo',
+  'nosotros_hero_bajada',
+  'nosotros_hero_stat_n',
+  'nosotros_hero_stat_l',
+  'nosotros_cita_apertura',
+  'nosotros_exp_periodo',
+  'nosotros_exp_titulo',
+  'nosotros_exp_texto',
+  'nosotros_exp_nota',
+  'nosotros_cierre_frase',
+  'nosotros_cierre_invit',
   // Proyectos
   'proyectos_hero_imagen',
   'proyectos_hero_titulo',
@@ -204,8 +217,38 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
   const [serviciosPasos, setServiciosPasos] = useState(() =>
     Array.isArray(inicial.servicios_pasos) ? inicial.servicios_pasos : []
   );
+  // Sobre mí — rediseño 2026
+  const [timeline, setTimeline] = useState(() =>
+    Array.isArray(inicial.timeline) ? inicial.timeline : []
+  );
+  const [expImgs, setExpImgs] = useState(() =>
+    Array.isArray(inicial.exp_imagenes) ? inicial.exp_imagenes : []
+  );
+  const [relatos, setRelatos] = useState(() =>
+    Array.isArray(inicial.relatos) ? inicial.relatos : []
+  );
+  const [smServ, setSmServ] = useState(() =>
+    Array.isArray(inicial.sm_servicios) ? inicial.sm_servicios : []
+  );
 
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
+  // helpers línea de tiempo
+  const setTl = (i, patch) => setTimeline((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  const addTl = () => setTimeline((s) => [...s, { yr: '', label: '' }]);
+  const delTl = (i) => setTimeline((s) => s.filter((_, idx) => idx !== i));
+  // helpers imágenes de experiencia
+  const setExpImg = (i, patch) => setExpImgs((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  const addExpImg = () => setExpImgs((s) => [...s, { imagen: '', alt: '', sub: '' }]);
+  const delExpImg = (i) => setExpImgs((s) => s.filter((_, idx) => idx !== i));
+  // helpers relatos
+  const setRel = (i, patch) => setRelatos((s) => s.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  const addRel = () =>
+    setRelatos((s) => [...s, { n: String(s.length + 1).padStart(2, '0'), titulo: '', texto: '', imagen: '', slug: '' }]);
+  const delRel = (i) => setRelatos((s) => s.filter((_, idx) => idx !== i));
+  // helpers servicios (íconos)
+  const setSv = (i, val) => setSmServ((s) => s.map((x, idx) => (idx === i ? val : x)));
+  const addSv = () => setSmServ((s) => [...s, '']);
+  const delSv = (i) => setSmServ((s) => s.filter((_, idx) => idx !== i));
 
   // helpers collage / prensa / etapas
   const setColl = (i, patch) =>
@@ -291,6 +334,10 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
         nosotros_prensa: JSON.stringify(prensa),
         proyectos_etapas: JSON.stringify(etapas),
         servicios_pasos: JSON.stringify(serviciosPasos),
+        nosotros_timeline: JSON.stringify(timeline),
+        nosotros_relatos: JSON.stringify(relatos),
+        nosotros_servicios: JSON.stringify(smServ.map((x) => x.trim()).filter(Boolean)),
+        nosotros_exp_imagenes: JSON.stringify(expImgs.filter((x) => x.imagen)),
       };
       const res = await fetch('/api/configuracion', {
         method: 'POST',
@@ -487,188 +534,289 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
       {/* ===================== SOBRE MÍ ===================== */}
       {tab === 'nosotros' && (
         <>
-          {/* Cifras (se muestran en el hero de Sobre mí) */}
-          <div className="ad-card">
-            <h2 className="ad-card__title">Cifras</h2>
-            <p className="ad-hint" style={{ marginBottom: 14 }}>
-              Los números destacados que se ven en Sobre mí (ej. 25+ · años de trayectoria).
+          {/* Hero de Sobre mí */}
+          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <h2 className="ad-card__title">Encabezado (hero)</h2>
+            <ImageField
+              label="Foto de Lorena"
+              value={form.nosotros_retrato_imagen}
+              onChange={(v) => set('nosotros_retrato_imagen', v)}
+            />
+            <div className="ad-row-2">
+              <div className="ad-field">
+                <label>Nombre</label>
+                <input
+                  className="ad-input"
+                  value={form.nosotros_hero_nombre}
+                  onChange={(e) => set('nosotros_hero_nombre', e.target.value)}
+                />
+              </div>
+              <div className="ad-field">
+                <label>Subtítulo</label>
+                <input
+                  className="ad-input"
+                  value={form.nosotros_hero_subtitulo}
+                  onChange={(e) => set('nosotros_hero_subtitulo', e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="ad-field">
+              <label>Bajada (párrafo de presentación)</label>
+              <textarea
+                className="ad-textarea"
+                rows={3}
+                value={form.nosotros_hero_bajada}
+                onChange={(e) => set('nosotros_hero_bajada', e.target.value)}
+              />
+            </div>
+            <div className="ad-row-2">
+              <div className="ad-field">
+                <label>Dato · número</label>
+                <input
+                  className="ad-input"
+                  value={form.nosotros_hero_stat_n}
+                  placeholder="+25"
+                  onChange={(e) => set('nosotros_hero_stat_n', e.target.value)}
+                />
+              </div>
+              <div className="ad-field">
+                <label>Dato · etiqueta</label>
+                <input
+                  className="ad-input"
+                  value={form.nosotros_hero_stat_l}
+                  placeholder="Años de trayectoria"
+                  onChange={(e) => set('nosotros_hero_stat_l', e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Cita + línea de tiempo */}
+          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <h2 className="ad-card__title">Cita + línea de tiempo</h2>
+            <div className="ad-field">
+              <label>Cita de apertura</label>
+              <textarea
+                className="ad-textarea"
+                rows={2}
+                value={form.nosotros_cita_apertura}
+                onChange={(e) => set('nosotros_cita_apertura', e.target.value)}
+              />
+            </div>
+            <p className="ad-hint" style={{ margin: 0 }}>
+              Línea de tiempo (año + descripción corta):
             </p>
-            {stats.map((s, i) => (
+            {timeline.map((h, i) => (
               <div className="ad-proy" key={i}>
                 <input
                   className="ad-input"
-                  value={s.n}
-                  placeholder="25+"
-                  onChange={(e) => setStat(i, { n: e.target.value })}
+                  style={{ flex: '0 0 22%' }}
+                  value={h.yr}
+                  placeholder="2001"
+                  onChange={(e) => setTl(i, { yr: e.target.value })}
                 />
                 <input
                   className="ad-input"
-                  value={s.l}
-                  placeholder="años de trayectoria"
-                  onChange={(e) => setStat(i, { l: e.target.value })}
+                  value={h.label}
+                  placeholder="Inicio de mi trayectoria profesional"
+                  onChange={(e) => setTl(i, { label: e.target.value })}
                 />
-                <button
-                  type="button"
-                  className="ad-btn ad-btn--danger"
-                  onClick={() => delStat(i)}
-                  title="Quitar"
-                >
+                <button type="button" className="ad-btn ad-btn--danger" onClick={() => delTl(i)} title="Quitar">
                   <Trash2 size={14} />
                 </button>
               </div>
             ))}
-            <button type="button" className="ad-btn ad-btn--ghost" onClick={addStat}>
-              <Plus size={14} /> Agregar cifra
+            <button type="button" className="ad-btn ad-btn--ghost" onClick={addTl}>
+              <Plus size={14} /> Agregar hito
             </button>
           </div>
 
+          {/* Experiencia 2001–2019 */}
           <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <RichTextField
-              label="Título del hero"
-              value={form.nosotros_hero_titulo}
-              onChange={(v) => set('nosotros_hero_titulo', v)}
-              hint={'Usá <br /> para cortar la línea. ' + EM_HINT.toLowerCase()}
-            />
-            <RichTextField
-              label="Texto del hero"
-              rows={3}
-              value={form.nosotros_hero_lead}
-              onChange={(v) => set('nosotros_hero_lead', v)}
-              hint={EM_HINT}
-            />
-            <hr className="ad-sep" />
-            <ImageField
-              label="Intro · imagen de fondo (banda editorial)"
-              value={form.nosotros_intro_imagen}
-              onChange={(v) => set('nosotros_intro_imagen', v)}
-            />
+            <h2 className="ad-card__title">Experiencia profesional (2001–2019)</h2>
+            <div className="ad-row-2">
+              <div className="ad-field">
+                <label>Período</label>
+                <input
+                  className="ad-input"
+                  value={form.nosotros_exp_periodo}
+                  placeholder="2001 — 2019"
+                  onChange={(e) => set('nosotros_exp_periodo', e.target.value)}
+                />
+              </div>
+              <div className="ad-field">
+                <label>Título</label>
+                <input
+                  className="ad-input"
+                  value={form.nosotros_exp_titulo}
+                  onChange={(e) => set('nosotros_exp_titulo', e.target.value)}
+                />
+              </div>
+            </div>
             <div className="ad-field">
-              <label>Intro · título</label>
+              <label>Texto (cada línea en blanco = un párrafo)</label>
+              <textarea
+                className="ad-textarea"
+                rows={6}
+                value={form.nosotros_exp_texto}
+                onChange={(e) => set('nosotros_exp_texto', e.target.value)}
+              />
+            </div>
+            <div className="ad-field">
+              <label>Nota al pie (opcional)</label>
               <input
                 className="ad-input"
-                value={form.nosotros_intro_titulo}
-                onChange={(e) => set('nosotros_intro_titulo', e.target.value)}
+                value={form.nosotros_exp_nota}
+                onChange={(e) => set('nosotros_exp_nota', e.target.value)}
               />
             </div>
-            <div className="ad-field">
-              <label>Intro · frase principal</label>
-              <textarea
-                className="ad-textarea"
-                value={form.nosotros_intro_lead}
-                onChange={(e) => set('nosotros_intro_lead', e.target.value)}
-              />
-              <p className="ad-hint">{EM_HINT}</p>
-            </div>
-            <div className="ad-field">
-              <label>Intro · texto</label>
-              <textarea
-                className="ad-textarea"
-                value={form.nosotros_intro_texto}
-                onChange={(e) => set('nosotros_intro_texto', e.target.value)}
-              />
-            </div>
-            <hr className="ad-sep" />
-            <RichTextField
-              label="Transición · Un nuevo capítulo"
-              rows={3}
-              value={form.nosotros_transicion}
-              onChange={(v) => set('nosotros_transicion', v)}
-              hint={'El texto breve del bloque de transición entre las dos etapas. ' + EM_HINT}
-            />
-            <RichTextField
-              label="Frase de cierre (bajo el recorrido)"
-              rows={3}
-              value={form.nosotros_cita}
-              onChange={(v) => set('nosotros_cita', v)}
-              hint={
-                'La frase destacada que cierra “Sobre mí”, antes del botón Conocer proyectos. ' +
-                EM_HINT
-              }
-            />
-            <ImageField
-              label="Retrato de Lorena"
-              value={form.nosotros_retrato_imagen}
-              onChange={(v) => set('nosotros_retrato_imagen', v)}
-            />
-            <ImageField
-              label="Foto del cierre (CTA)"
-              value={form.nosotros_cta_imagen}
-              onChange={(v) => set('nosotros_cta_imagen', v)}
-            />
-            <hr className="ad-sep" />
-            <RichTextField
-              label="El estudio · título"
-              value={form.nosotros_estudio_titulo}
-              onChange={(v) => set('nosotros_estudio_titulo', v)}
-              hint={EM_HINT}
-            />
-            <RichTextField
-              label="El estudio · texto (institucional)"
-              rows={5}
-              value={form.nosotros_estudio_texto}
-              onChange={(v) => set('nosotros_estudio_texto', v)}
-              hint={EM_HINT}
-            />
-          </div>
-
-          {/* Carrusel línea de tiempo (Sobre mí) */}
-          <div className="ad-card">
-            <h2 className="ad-card__title">Carrusel · línea de tiempo (Sobre mí)</h2>
-            <p className="ad-hint" style={{ marginBottom: 12 }}>
-              Fotos de obra que se muestran en fila en la sección “Mi recorrido”. Se ven en el orden
-              de esta lista; usá las flechas para ordenarlas.
+            <p className="ad-hint" style={{ margin: 0 }}>
+              Fotos de esta etapa (con nombre y detalle):
             </p>
-            {collage.map((im, i) => (
-              <div className="ad-etapa" key={i}>
+            {expImgs.map((im, i) => (
+              <div className="ad-etapa-img" key={i} style={{ marginBottom: 10 }}>
                 <ImageField
                   label={`Foto ${i + 1}`}
-                  value={im.imagen}
-                  onChange={(v) => setColl(i, { imagen: v })}
+                  value={im.imagen || ''}
+                  onChange={(v) => setExpImg(i, { imagen: v })}
                 />
-                <div className="ad-field">
-                  <label>Texto alternativo (opcional)</label>
+                <div style={{ display: 'flex', gap: 8 }}>
                   <input
                     className="ad-input"
                     value={im.alt || ''}
-                    onChange={(e) => setColl(i, { alt: e.target.value })}
+                    placeholder="Nombre (ej. Torres residenciales)"
+                    onChange={(e) => setExpImg(i, { alt: e.target.value })}
                   />
-                </div>
-                <div className="ad-etapa__actions">
-                  <button
-                    type="button"
-                    className="ad-btn ad-btn--ghost"
-                    onClick={() => moveColl(i, 'up')}
-                    disabled={i === 0}
-                    title="Subir"
-                  >
-                    <ChevronUp size={14} />
-                  </button>
-                  <button
-                    type="button"
-                    className="ad-btn ad-btn--ghost"
-                    onClick={() => moveColl(i, 'down')}
-                    disabled={i === collage.length - 1}
-                    title="Bajar"
-                  >
-                    <ChevronDown size={14} />
-                  </button>
-                  <button
-                    type="button"
-                    className="ad-btn ad-btn--danger"
-                    onClick={() => setCollage(collage.filter((_, idx) => idx !== i))}
-                  >
-                    <Trash2 size={14} /> Quitar foto
+                  <input
+                    className="ad-input"
+                    value={im.sub || ''}
+                    placeholder="Detalle (ej. 12 a 30 niveles)"
+                    onChange={(e) => setExpImg(i, { sub: e.target.value })}
+                  />
+                  <button type="button" className="ad-btn ad-btn--danger" onClick={() => delExpImg(i)} title="Quitar">
+                    <Trash2 size={14} />
                   </button>
                 </div>
               </div>
             ))}
-            <button
-              type="button"
-              className="ad-btn ad-btn--ghost"
-              onClick={() => setCollage([...collage, { imagen: '', alt: '' }])}
-            >
-              <Plus size={15} /> Agregar foto
+            <button type="button" className="ad-btn ad-btn--ghost" onClick={addExpImg}>
+              <Plus size={14} /> Agregar foto
             </button>
+          </div>
+
+          {/* Estudio 2019–Hoy · relatos */}
+          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <h2 className="ad-card__title">Estudio Lorena Macías (2019–Hoy) · relatos</h2>
+            <p className="ad-hint" style={{ margin: 0 }}>
+              Cada relato: número, título, texto, una foto y (opcional) el slug de la obra para el
+              botón “Ver proyecto”.
+            </p>
+            {relatos.map((r, i) => (
+              <div className="ad-etapa" key={i}>
+                <div className="ad-row-2">
+                  <div className="ad-field">
+                    <label>Número</label>
+                    <input
+                      className="ad-input"
+                      value={r.n || ''}
+                      placeholder="01"
+                      onChange={(e) => setRel(i, { n: e.target.value })}
+                    />
+                  </div>
+                  <div className="ad-field">
+                    <label>Título</label>
+                    <input
+                      className="ad-input"
+                      value={r.titulo || ''}
+                      onChange={(e) => setRel(i, { titulo: e.target.value })}
+                    />
+                  </div>
+                </div>
+                <div className="ad-field">
+                  <label>Texto</label>
+                  <textarea
+                    className="ad-textarea"
+                    rows={5}
+                    value={r.texto || ''}
+                    onChange={(e) => setRel(i, { texto: e.target.value })}
+                  />
+                </div>
+                <ImageField
+                  label="Foto del relato"
+                  value={r.imagen || ''}
+                  onChange={(v) => setRel(i, { imagen: v })}
+                />
+                <div className="ad-field">
+                  <label>Slug de la obra (para “Ver proyecto”)</label>
+                  <input
+                    className="ad-input"
+                    value={r.slug || ''}
+                    placeholder="barrio-pirarenda-amenities"
+                    onChange={(e) => setRel(i, { slug: e.target.value })}
+                  />
+                </div>
+                <div className="ad-etapa__actions">
+                  <button type="button" className="ad-btn ad-btn--danger" onClick={() => delRel(i)}>
+                    <Trash2 size={14} /> Eliminar relato
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button type="button" className="ad-btn ad-btn--ghost" onClick={addRel}>
+              <Plus size={15} /> Agregar relato
+            </button>
+          </div>
+
+          {/* Servicios (fila de íconos) */}
+          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <h2 className="ad-card__title">Servicios (fila de íconos)</h2>
+            <p className="ad-hint" style={{ margin: 0 }}>
+              Nombres exactos: Arquitectura, Interiorismo, Dirección de Obras, Obras y Reformas,
+              Paisajismo, Diseño Náutico, Project Management (así toman su ícono).
+            </p>
+            {smServ.map((s, i) => (
+              <div className="ad-proy" key={i}>
+                <input
+                  className="ad-input"
+                  value={s}
+                  onChange={(e) => setSv(i, e.target.value)}
+                />
+                <button type="button" className="ad-btn ad-btn--danger" onClick={() => delSv(i)} title="Quitar">
+                  <Trash2 size={14} />
+                </button>
+              </div>
+            ))}
+            <button type="button" className="ad-btn ad-btn--ghost" onClick={addSv}>
+              <Plus size={14} /> Agregar servicio
+            </button>
+          </div>
+
+          {/* Cierre + CTA */}
+          <div className="ad-card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <h2 className="ad-card__title">Cierre</h2>
+            <div className="ad-field">
+              <label>Frase de cierre</label>
+              <textarea
+                className="ad-textarea"
+                rows={3}
+                value={form.nosotros_cierre_frase}
+                onChange={(e) => set('nosotros_cierre_frase', e.target.value)}
+              />
+            </div>
+            <div className="ad-field">
+              <label>Invitación (antes del botón)</label>
+              <textarea
+                className="ad-textarea"
+                rows={2}
+                value={form.nosotros_cierre_invit}
+                onChange={(e) => set('nosotros_cierre_invit', e.target.value)}
+              />
+            </div>
+            <ImageField
+              label="Foto del cierre (CTA “¿Empezamos tu proyecto?”)"
+              value={form.nosotros_cta_imagen}
+              onChange={(v) => set('nosotros_cta_imagen', v)}
+            />
           </div>
 
           {/* Prensa */}
@@ -803,119 +951,6 @@ export default function ContenidoEditor({ inicial = {}, proyectos = [] }) {
               <Plus size={15} /> Agregar publicación
             </button>
           </div>
-
-          {/* Línea de tiempo */}
-          <div className="ad-card">
-            <h2 className="ad-card__title">Línea de tiempo (Trayectoria)</h2>
-            <p className="ad-hint" style={{ marginBottom: 14 }}>
-              Cada etapa se despliega en el sitio mostrando sus proyectos.
-            </p>
-            {trayectoria.map((et, ei) => (
-              <div className="ad-etapa" key={ei}>
-                <div className="ad-row-2">
-                  <div className="ad-field">
-                    <label>Período</label>
-                    <input
-                      className="ad-input"
-                      value={et.yr}
-                      placeholder="2001–2019"
-                      onChange={(e) => setEtapa(ei, { yr: e.target.value })}
-                    />
-                  </div>
-                  <div className="ad-field">
-                    <label>Título</label>
-                    <input
-                      className="ad-input"
-                      value={et.titulo}
-                      onChange={(e) => setEtapa(ei, { titulo: e.target.value })}
-                    />
-                  </div>
-                </div>
-                <div className="ad-field">
-                  <label>Descripción</label>
-                  <textarea
-                    className="ad-textarea"
-                    value={et.descripcion}
-                    onChange={(e) => setEtapa(ei, { descripcion: e.target.value })}
-                  />
-                </div>
-
-                <div className="ad-field">
-                  <label>Pilares (opcional, uno por línea)</label>
-                  <p className="ad-hint">
-                    Se muestran como lista al lado del texto (ej. los servicios de la etapa actual).
-                  </p>
-                  <textarea
-                    className="ad-textarea"
-                    rows={3}
-                    value={Array.isArray(et.pilares) ? et.pilares.join('\n') : ''}
-                    onChange={(e) =>
-                      setEtapa(ei, {
-                        pilares: e.target.value.split('\n').map((x) => x.trim()).filter(Boolean),
-                      })
-                    }
-                    placeholder={'Arquitectura\nInteriorismo\nDiseño Náutico'}
-                  />
-                </div>
-
-                <p className="ad-hint" style={{ margin: '4px 0 8px' }}>
-                  Imágenes de esta etapa (la primera se muestra más grande). Poné debajo un texto
-                  corto para el epígrafe.
-                </p>
-                {etImgs(et).map((im, k) => (
-                  <div className="ad-etapa-img" key={k} style={{ marginBottom: 10 }}>
-                    <ImageField
-                      label={`Imagen ${k + 1}`}
-                      value={im.imagen || im.url || ''}
-                      onChange={(url) => setEtImg(ei, k, { imagen: url })}
-                    />
-                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                      <input
-                        className="ad-input"
-                        value={im.alt || ''}
-                        placeholder="Epígrafe (ej. Edificio Carmen Dora · Asunción)"
-                        onChange={(e) => setEtImg(ei, k, { alt: e.target.value })}
-                      />
-                      <button
-                        type="button"
-                        className="ad-btn ad-btn--danger"
-                        onClick={() => delEtImg(ei, k)}
-                        title="Quitar imagen"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                <div className="ad-etapa__actions">
-                  <button
-                    type="button"
-                    className="ad-btn ad-btn--ghost"
-                    onClick={() => addEtImg(ei)}
-                  >
-                    <Plus size={14} /> Imagen
-                  </button>
-                  <button
-                    type="button"
-                    className="ad-btn ad-btn--danger"
-                    onClick={() => delEtapa(ei)}
-                  >
-                    <Trash2 size={14} /> Eliminar etapa
-                  </button>
-                </div>
-              </div>
-            ))}
-            <button type="button" className="ad-btn ad-btn--ghost" onClick={addEtapa}>
-              <Plus size={15} /> Agregar etapa
-            </button>
-          </div>
-
-          <TituloDescList
-            titulo="Lo que me distingue (pilares)"
-            items={pilares}
-            setItems={setPilares}
-            addLabel="Agregar pilar"
-          />
 
         </>
       )}
