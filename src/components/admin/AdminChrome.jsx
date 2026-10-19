@@ -6,7 +6,7 @@ import AdminSidebar from './AdminSidebar';
 
 // Chrome del panel: header con hamburguesa (móvil) + sidebar como drawer.
 // En desktop el sidebar es fijo; en móvil se abre sobre un fondo oscuro.
-export default function AdminChrome({ email }) {
+export default function AdminChrome({ email, rol }) {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -24,7 +24,7 @@ export default function AdminChrome({ email }) {
         onClick={() => setOpen(false)}
         aria-hidden="true"
       />
-      <AdminSidebar email={email} open={open} onClose={() => setOpen(false)} />
+      <AdminSidebar email={email} rol={rol} open={open} onClose={() => setOpen(false)} />
     </>
   );
 }

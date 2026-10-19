@@ -1,10 +1,12 @@
 import { createAdminClient } from '@/lib/supabase';
 import MensajeRow from '@/components/admin/MensajeRow';
+import { getAdmin, esDuena } from '@/lib/authServer';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Mensajes' };
 
 export default async function AdminMensajes() {
+  const puedeBorrar = esDuena(await getAdmin());
   const sb = createAdminClient();
   const { data: mensajes } = await sb
     .from('mensajes')
@@ -30,7 +32,7 @@ export default async function AdminMensajes() {
       ) : (
         <div className="ad-list">
           {mensajes.map((m) => (
-            <MensajeRow key={m.id} m={m} />
+            <MensajeRow key={m.id} m={m} puedeBorrar={puedeBorrar} />
           ))}
         </div>
       )}

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { getVerifiedUser } from '@/lib/authServer';
+import { getAdmin, esDuena } from '@/lib/authServer';
 import { createAdminClient } from '@/lib/supabase';
 import { pickProjectFields } from '@/lib/projectFields';
 import { translateAndStoreProject } from '@/lib/i18n/projectI18n';
@@ -14,8 +14,8 @@ function revalidate(slug) {
 
 // Editar un proyecto
 export async function PUT(req, { params }) {
-  const user = await getVerifiedUser();
-  if (!user) {
+  const admin = await getAdmin();
+  if (!admin) {
     console.warn('[api/proyectos PUT] sin sesión → 401');
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
   }
@@ -48,8 +48,11 @@ export async function PUT(req, { params }) {
 
 // Eliminar un proyecto
 export async function DELETE(_req, { params }) {
-  const user = await getVerifiedUser();
-  if (!user) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  const admin = await getAdmin();
+  if (!admin) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  if (!esDuena(admin)) {
+    return NextResponse.json({ error: 'Sólo la dueña puede eliminar proyectos' }, { status: 403 });
+  }
 
   const sb = createAdminClient();
   const { error } = await sb.from('proyectos').delete().eq('id', params.id);

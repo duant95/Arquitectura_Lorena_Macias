@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
+import { getRolForEmail, ROL_DUENA } from './adminRoles';
 
 // Cliente Supabase del lado del servidor que lee la sesión desde las cookies.
 // Usa la API moderna getAll/setAll de @supabase/ssr (robusta con cookies "chunked").
@@ -52,4 +53,18 @@ export async function getVerifiedUser() {
 export async function getSessionUser() {
   // Usa la verificación fuerte también acá (defensa en profundidad).
   return getVerifiedUser();
+}
+
+// Usuaria del panel: sesión verificada + estar en la lista de administradoras.
+// Devuelve { user, rol } o null si no tiene acceso. Es el chequeo de las rutas
+// de API y páginas del panel.
+export async function getAdmin() {
+  const user = await getVerifiedUser();
+  if (!user) return null;
+  const rol = await getRolForEmail(user.email);
+  return rol ? { user, rol } : null;
+}
+
+export function esDuena(admin) {
+  return admin?.rol === ROL_DUENA;
 }

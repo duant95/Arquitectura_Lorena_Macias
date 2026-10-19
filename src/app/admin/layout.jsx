@@ -1,6 +1,6 @@
 import '../../styles/admin.css';
 import { Toaster } from 'react-hot-toast';
-import { getSessionUser } from '@/lib/authServer';
+import { getAdmin } from '@/lib/authServer';
 import AdminChrome from '@/components/admin/AdminChrome';
 
 export const dynamic = 'force-dynamic';
@@ -11,10 +11,10 @@ export const metadata = {
 };
 
 export default async function AdminLayout({ children }) {
-  const user = await getSessionUser();
+  const admin = await getAdmin();
 
-  // Sin sesión: solo el contenido (la página de login). El middleware bloquea el resto.
-  if (!user) {
+  // Sin acceso: solo el contenido (la página de login). El middleware bloquea el resto.
+  if (!admin) {
     return (
       <div className="admin">
         {children}
@@ -26,7 +26,7 @@ export default async function AdminLayout({ children }) {
   return (
     <div className="admin">
       <div className="admin-shell">
-        <AdminChrome email={user.email} />
+        <AdminChrome email={admin.user.email} rol={admin.rol} />
         <main className="admin-main">{children}</main>
       </div>
       <Toaster
