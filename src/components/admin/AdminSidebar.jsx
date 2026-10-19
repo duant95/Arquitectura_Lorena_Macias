@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { createSupabaseBrowser } from '@/lib/supabase';
+import { ROL_DUENA, ROL_LABEL } from '@/lib/roles';
 import {
   LayoutDashboard,
   FolderOpen,
@@ -10,6 +11,7 @@ import {
   FileText,
   MessageSquare,
   Settings,
+  Users,
   LogOut,
   X,
 } from 'lucide-react';
@@ -23,10 +25,14 @@ const LINKS = [
   { href: '/admin/sitio', label: 'Datos del sitio', icon: Settings },
 ];
 
-export default function AdminSidebar({ email, open = false, onClose = () => {} }) {
+// Sólo la dueña ve la gestión de usuarios.
+const LINKS_DUENA = [{ href: '/admin/usuarios', label: 'Usuarios', icon: Users }];
+
+export default function AdminSidebar({ email, rol, open = false, onClose = () => {} }) {
   const pathname = usePathname();
   const router = useRouter();
 
+  const links = rol === ROL_DUENA ? [...LINKS, ...LINKS_DUENA] : LINKS;
   const isActive = (l) => (l.exact ? pathname === l.href : pathname.startsWith(l.href));
 
   async function logout() {
@@ -46,7 +52,7 @@ export default function AdminSidebar({ email, open = false, onClose = () => {} }
         <span>Lorena Macías</span>
       </div>
       <nav>
-        {LINKS.map((l) => {
+        {links.map((l) => {
           const Icon = l.icon;
           return (
             <Link
@@ -65,6 +71,7 @@ export default function AdminSidebar({ email, open = false, onClose = () => {} }
         {email && (
           <p className="ad-hint" style={{ margin: '0 0 10px', padding: '0 12px' }}>
             {email}
+            {ROL_LABEL[rol] && <> · {ROL_LABEL[rol]}</>}
           </p>
         )}
         <button className="ad-btn ad-btn--ghost" style={{ width: '100%' }} onClick={logout}>

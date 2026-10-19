@@ -2,10 +2,12 @@ import Link from 'next/link';
 import { createAdminClient } from '@/lib/supabase';
 import { Plus, Pencil } from 'lucide-react';
 import DeleteProyectoButton from '@/components/admin/DeleteProyectoButton';
+import { getAdmin, esDuena } from '@/lib/authServer';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminProyectos() {
+  const puedeBorrar = esDuena(await getAdmin());
   const sb = createAdminClient();
   const { data: proyectos } = await sb
     .from('proyectos')
@@ -46,7 +48,7 @@ export default async function AdminProyectos() {
                 <Link className="ad-btn ad-btn--ghost" href={`/admin/proyectos/${p.id}`}>
                   <Pencil size={14} /> Editar
                 </Link>
-                <DeleteProyectoButton id={p.id} titulo={p.titulo} />
+                {puedeBorrar && <DeleteProyectoButton id={p.id} titulo={p.titulo} />}
               </div>
             </div>
           ))}

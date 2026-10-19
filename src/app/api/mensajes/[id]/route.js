@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { getSession } from '@/lib/authServer';
+import { getAdmin, esDuena } from '@/lib/authServer';
 import { createAdminClient } from '@/lib/supabase';
 
 // Marcar leído / no leído
 export async function PATCH(req, { params }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  const admin = await getAdmin();
+  if (!admin) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
   const sb = createAdminClient();
@@ -20,8 +20,11 @@ export async function PATCH(req, { params }) {
 
 // Eliminar mensaje
 export async function DELETE(_req, { params }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  const admin = await getAdmin();
+  if (!admin) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  if (!esDuena(admin)) {
+    return NextResponse.json({ error: 'Sólo la dueña puede eliminar mensajes' }, { status: 403 });
+  }
 
   const sb = createAdminClient();
   const { error } = await sb.from('mensajes').delete().eq('id', params.id);

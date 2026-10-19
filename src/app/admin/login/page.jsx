@@ -1,17 +1,33 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { Eye, EyeOff } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const router = useRouter();
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
+  const sinAcceso = useSearchParams().get('e') === 'sin-acceso';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Cuenta válida pero fuera de la lista de administradoras: se avisa y se
+  // cierra la sesión para que pueda ingresar con otra cuenta.
+  useEffect(() => {
+    if (!sinAcceso) return;
+    setError('Esta cuenta no tiene acceso al panel. Pedile acceso a Lorena.');
+    createSupabaseBrowser().auth.signOut();
+  }, [sinAcceso]);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -30,8 +46,8 @@ export default function AdminLoginPage() {
         }
         return;
       }
-      router.push('/admin');
-      router.refresh();
+      // Navegación completa: el middleware decide (panel o "sin acceso").
+      window.location.assign('/admin');
     } catch {
       setError('Error de conexión. Revisá tu internet e intentá de nuevo.');
     } finally {

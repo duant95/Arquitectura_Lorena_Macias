@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
+import { getRolForEmail, ROL_DUENA } from './adminRoles';
 
 // Cliente Supabase del lado del servidor que lee la sesión desde las cookies.
 // Usa la API moderna getAll/setAll de @supabase/ssr (robusta con cookies "chunked").
@@ -28,7 +29,8 @@ export function createServerSupabase() {
   );
 }
 
-// Devuelve la sesión leyendo el token de la cookie.
+// Devuelve la sesión leyendo el token de la cookie (SIN revalidarlo contra el
+// servidor de auth). No usar para proteger datos: solo para contexto no sensible.
 export async function getSession() {
   const supabase = createServerSupabase();
   const {
@@ -37,7 +39,32 @@ export async function getSession() {
   return session;
 }
 
+// Devuelve el usuario revalidando el token contra Supabase (getUser hace la
+// verificación en el servidor de auth). Es el chequeo seguro para las rutas de
+// API y cualquier acción que modifique datos. Null si no hay sesión válida.
+export async function getVerifiedUser() {
+  const supabase = createServerSupabase();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user ?? null;
+}
+
 export async function getSessionUser() {
-  const session = await getSession();
-  return session?.user ?? null;
+  // Usa la verificación fuerte también acá (defensa en profundidad).
+  return getVerifiedUser();
+}
+
+// Usuaria del panel: sesión verificada + estar en la lista de administradoras.
+// Devuelve { user, rol } o null si no tiene acceso. Es el chequeo de las rutas
+// de API y páginas del panel.
+export async function getAdmin() {
+  const user = await getVerifiedUser();
+  if (!user) return null;
+  const rol = await getRolForEmail(user.email);
+  return rol ? { user, rol } : null;
+}
+
+export function esDuena(admin) {
+  return admin?.rol === ROL_DUENA;
 }

@@ -12,7 +12,7 @@ function fecha(s) {
   }
 }
 
-export default function MensajeRow({ m }) {
+export default function MensajeRow({ m, puedeBorrar = false }) {
   const router = useRouter();
   const [leido, setLeido] = useState(m.leido);
   const [busy, setBusy] = useState(false);
@@ -62,9 +62,11 @@ export default function MensajeRow({ m }) {
           {leido ? <Mail size={14} /> : <Check size={14} />}
           {leido ? 'Marcar no leído' : 'Marcar leído'}
         </button>
-        <button className="ad-btn ad-btn--danger" onClick={borrar} disabled={busy}>
-          <Trash2 size={14} /> Eliminar
-        </button>
+        {puedeBorrar && (
+          <button className="ad-btn ad-btn--danger" onClick={borrar} disabled={busy}>
+            <Trash2 size={14} /> Eliminar
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { PREFIXED_LOCALES } from './lib/i18n/config';
+import { getRolForEmail, ROL_DUENA } from './lib/adminRoles';
 
 /**
  * i18n para el sitio público (sin tocar el español, que vive en la raíz):
@@ -26,7 +27,7 @@ function handleLocale(request) {
   return res;
 }
 
-// Protección del panel /admin (comportamiento original, sin cambios).
+// Protección del panel /admin: sesión válida + estar en admin_usuarios.
 async function handleAdmin(request) {
   let response = NextResponse.next({ request: { headers: request.headers } });
 
@@ -56,12 +57,20 @@ async function handleAdmin(request) {
 
   const { pathname } = request.nextUrl;
 
+  // Además de la sesión, la cuenta tiene que estar en la lista de administradoras.
+  const rol = user ? await getRolForEmail(user.email) : null;
+
   // Proteger /admin excepto el login
-  if (pathname.startsWith('/admin') && pathname !== '/admin/login' && !user) {
-    return NextResponse.redirect(new URL('/admin/login', request.url));
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+    if (!user) return NextResponse.redirect(new URL('/admin/login', request.url));
+    if (!rol) return NextResponse.redirect(new URL('/admin/login?e=sin-acceso', request.url));
+    // Gestión de usuarios: sólo la dueña.
+    if (pathname.startsWith('/admin/usuarios') && rol !== ROL_DUENA) {
+      return NextResponse.redirect(new URL('/admin', request.url));
+    }
   }
-  // Si ya hay sesión y va al login, mandarlo al panel
-  if (pathname === '/admin/login' && user) {
+  // Si ya tiene acceso y va al login, mandarla al panel
+  if (pathname === '/admin/login' && rol) {
     return NextResponse.redirect(new URL('/admin', request.url));
   }
 
