@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { getSession } from '@/lib/authServer';
+import { getVerifiedUser } from '@/lib/authServer';
 import { createAdminClient } from '@/lib/supabase';
 import { pickProjectFields } from '@/lib/projectFields';
 import { translateAndStoreProject } from '@/lib/i18n/projectI18n';
@@ -14,8 +14,8 @@ function revalidate(slug) {
 
 // Editar un proyecto
 export async function PUT(req, { params }) {
-  const session = await getSession();
-  if (!session) {
+  const user = await getVerifiedUser();
+  if (!user) {
     console.warn('[api/proyectos PUT] sin sesión → 401');
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
   }
@@ -48,8 +48,8 @@ export async function PUT(req, { params }) {
 
 // Eliminar un proyecto
 export async function DELETE(_req, { params }) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  const user = await getVerifiedUser();
+  if (!user) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
 
   const sb = createAdminClient();
   const { error } = await sb.from('proyectos').delete().eq('id', params.id);

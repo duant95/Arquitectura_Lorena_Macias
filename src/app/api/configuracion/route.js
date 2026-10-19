@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { getSession } from '@/lib/authServer';
+import { getVerifiedUser } from '@/lib/authServer';
 import { createAdminClient } from '@/lib/supabase';
 import { deeplEnabled, translateConfigValue, TRANSLATE_LOCALES } from '@/lib/translate';
 import { translatableKind } from '@/lib/i18n/translatable';
@@ -51,8 +51,8 @@ async function translateChanged(sb, rows, prev) {
 
 // Guarda un valor de configuración (clave/valor). Requiere sesión.
 export async function POST(req) {
-  const session = await getSession();
-  if (!session) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+  const user = await getVerifiedUser();
+  if (!user) return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
 
   const body = await req.json().catch(() => null);
   if (!body) return NextResponse.json({ error: 'Cuerpo inválido' }, { status: 400 });

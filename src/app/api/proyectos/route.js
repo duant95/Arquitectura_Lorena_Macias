@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { getSession } from '@/lib/authServer';
+import { getVerifiedUser } from '@/lib/authServer';
 import { createAdminClient } from '@/lib/supabase';
 import { pickProjectFields } from '@/lib/projectFields';
 import { translateAndStoreProject } from '@/lib/i18n/projectI18n';
 
 // Crear un proyecto
 export async function POST(req) {
-  const session = await getSession();
-  if (!session) {
+  const user = await getVerifiedUser();
+  if (!user) {
     console.warn('[api/proyectos POST] sin sesión → 401');
     return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
   }

@@ -28,7 +28,8 @@ export function createServerSupabase() {
   );
 }
 
-// Devuelve la sesión leyendo el token de la cookie.
+// Devuelve la sesión leyendo el token de la cookie (SIN revalidarlo contra el
+// servidor de auth). No usar para proteger datos: solo para contexto no sensible.
 export async function getSession() {
   const supabase = createServerSupabase();
   const {
@@ -37,7 +38,18 @@ export async function getSession() {
   return session;
 }
 
+// Devuelve el usuario revalidando el token contra Supabase (getUser hace la
+// verificación en el servidor de auth). Es el chequeo seguro para las rutas de
+// API y cualquier acción que modifique datos. Null si no hay sesión válida.
+export async function getVerifiedUser() {
+  const supabase = createServerSupabase();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user ?? null;
+}
+
 export async function getSessionUser() {
-  const session = await getSession();
-  return session?.user ?? null;
+  // Usa la verificación fuerte también acá (defensa en profundidad).
+  return getVerifiedUser();
 }
