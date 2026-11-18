@@ -1,6 +1,19 @@
 // Helpers para normalizar proyectos a la forma que esperan las vistas,
 // vengan de Supabase o de los datos de ejemplo locales.
 
+// Estado de la obra, en el orden en que se muestran los grupos en la página.
+export const ESTADOS = ['finalizado', 'proceso', 'anteproyecto'];
+export const ESTADO_LABEL = {
+  finalizado: 'Finalizado',
+  proceso: 'En proceso',
+  anteproyecto: 'Anteproyecto',
+};
+
+// Valor desconocido o vacío = finalizado (comportamiento histórico).
+export function normalizeEstado(v) {
+  return ESTADOS.includes(v) ? v : 'finalizado';
+}
+
 // ¿La URL es un video? (para galerías con foto + video)
 export function isVideo(url) {
   return /\.(mp4|webm|mov|ogg|ogv|m4v)(\?|$)/i.test(url || '');
@@ -182,7 +195,7 @@ export function normalizeRow(row, index = 0) {
     location: row.ubicacion || '—',
     services: row.servicios || '—',
     etapa: inferEtapa(row.anio, row.etapa),
-    estado: row.estado === 'proceso' ? 'proceso' : 'finalizado',
+    estado: normalizeEstado(row.estado),
     heroTitle: row.resumen || row.titulo,
     leadParagraph: paragraphs[0] || '',
     bodyParagraphs: paragraphs.slice(1),
@@ -221,7 +234,7 @@ export function normalizeLocal(p) {
     location: p.location,
     services: p.services,
     etapa: inferEtapa(p.year, p.etapa),
-    estado: p.estado === 'proceso' ? 'proceso' : 'finalizado',
+    estado: normalizeEstado(p.estado),
     heroTitle: p.heroTitle,
     leadParagraph: p.intro || '',
     bodyParagraphs: p.body ? [p.body] : [],

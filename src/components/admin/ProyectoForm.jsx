@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { createSupabaseBrowser } from '@/lib/supabase';
 import { Upload, X, ChevronUp, ChevronDown, Plus, Trash2, Star, Play } from 'lucide-react';
 import { isVideo, inferEtapa, normalizeFicha } from '@/lib/projectShape';
+import { ESTADOS, ESTADO_LABEL, normalizeEstado, ordenNum } from '@/lib/projectOrder';
 import { optimizeForUpload } from '@/lib/imageResize';
 
 function slugify(s) {
@@ -209,8 +210,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
     ubicacion: proyecto?.ubicacion ?? '',
     servicios: proyecto?.servicios ?? '',
     etapa: proyecto?.etapa ?? (proyecto?.anio ? inferEtapa(proyecto.anio) : 'propio'),
-    estado: proyecto?.estado === 'proceso' ? 'proceso' : 'finalizado',
-    destacado: proyecto?.destacado ?? false,
+    estado: normalizeEstado(proyecto?.estado),
     orden: proyecto?.orden ?? 99,
   });
   const [portada, setPortada] = useState(proyecto?.imagen_portada ?? '');
@@ -264,7 +264,7 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
     const body = {
       ...form,
       slug: slugify(form.slug),
-      orden: Number(form.orden) || 99,
+      orden: ordenNum(form.orden),
       imagen_portada: portada || galeria[0]?.url || null,
       galeria,
       planos,
@@ -471,18 +471,23 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
               value={form.estado}
               onChange={(e) => set('estado', e.target.value)}
             >
-              <option value="finalizado">Finalizado</option>
-              <option value="proceso">En proceso</option>
+              {ESTADOS.map((e) => (
+                <option key={e} value={e}>
+                  {ESTADO_LABEL[e]}
+                </option>
+              ))}
             </select>
           </div>
         </div>
         <p className="ad-hint">
-          La etapa Gustafson agrupa las obras desarrolladas durante esa trayectoria profesional. El
-          estado se muestra como indicador sutil en la galería.
+          La etapa Gustafson agrupa las obras desarrolladas durante esa trayectoria profesional. En la
+          página de Proyectos salen primero los <strong>Finalizados</strong>, después los{' '}
+          <strong>En proceso</strong> y al final los <strong>Anteproyectos</strong>; el estado también se
+          muestra como indicador sutil en la galería.
         </p>
         <div className="ad-row-2">
           <div className="ad-field">
-            <label>Orden (menor = primero)</label>
+            <label>Orden dentro de su estado (menor = primero)</label>
             <input
               className="ad-input"
               type="number"
@@ -490,15 +495,11 @@ export default function ProyectoForm({ proyecto, isEditing = false }) {
               onChange={(e) => set('orden', e.target.value)}
             />
           </div>
-          <label className="ad-check" style={{ alignSelf: 'end', paddingBottom: 10 }}>
-            <input
-              type="checkbox"
-              checked={form.destacado}
-              onChange={(e) => set('destacado', e.target.checked)}
-            />
-            Mostrar en el inicio (destacado)
-          </label>
         </div>
+        <p className="ad-hint">
+          Ej.: 1, 2, 3… Conviene dejar saltos (10, 20, 30) para poder intercalar un proyecto después
+          sin renumerar. Si dos tienen el mismo número, sale primero el más reciente.
+        </p>
       </div>
 
       {/* Ficha técnica */}

@@ -7,6 +7,13 @@ import useReveals from '../hooks/useReveals';
 import { Parallax } from '../components/fx/Motion';
 import PMasonry from '../components/PMasonry';
 
+// Etiqueta (traducible) del indicador de estado de cada obra.
+const ESTADO_UI = {
+  finalizado: 'proy.estadoFinalizado',
+  proceso: 'proy.estadoProceso',
+  anteproyecto: 'proy.estadoAnteproyecto',
+};
+
 export default function ProyectosView({ projects = [], content = {} }) {
   const { open } = useAgenda();
   const t = useT();
@@ -74,7 +81,7 @@ export default function ProyectosView({ projects = [], content = {} }) {
                         )}
                       </div>
                       <span className={`pm-item__estado is-${p.estado}`}>
-                        {p.estado === 'proceso' ? t('proy.estadoProceso') : t('proy.estadoFinalizado')}
+                        {t(ESTADO_UI[p.estado] || ESTADO_UI.finalizado)}
                       </span>
                     </Link>
                   )}
