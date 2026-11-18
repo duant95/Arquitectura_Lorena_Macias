@@ -57,9 +57,14 @@ export default function PMasonry({ items = [], renderItem, keyOf, className = ''
     if (el) {
       const cells = el.querySelectorAll('[data-pm]');
       if (cells.length === items.length && items.length > 0) {
+        // Cada item ocupa su alto + el espacio entre filas de la columna. Sin sumar
+        // ese espacio, una columna con más items queda más baja de lo calculado y
+        // dos proyectos vecinos pueden verse intercambiados respecto del "orden".
+        const col = el.querySelector('.pm-col');
+        const gap = col ? parseFloat(getComputedStyle(col).rowGap) || 0 : 0;
         const heights = {};
         cells.forEach((c) => {
-          heights[c.dataset.pm] = c.offsetHeight || 0;
+          heights[c.dataset.pm] = (c.offsetHeight || 0) + gap;
         });
         assign = balanced(items.length, columns, heights);
       }

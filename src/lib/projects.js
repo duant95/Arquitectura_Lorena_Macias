@@ -1,6 +1,7 @@
 import { supabase, supabaseEnabled } from './supabase';
 import { PROJECTS as LOCAL } from '../data/projects';
-import { normalizeRow, normalizeLocal, projectYear } from './projectShape';
+import { normalizeRow, normalizeLocal } from './projectShape';
+import { compareProjects } from './projectOrder';
 import { DEFAULT_LOCALE } from './i18n/config';
 import { projKey, applyProjectTranslation } from './i18n/projectI18n';
 
@@ -22,18 +23,15 @@ async function overlayTranslations(rows, locale) {
   return rows.map((r) => applyProjectTranslation(r, trMap.get(projKey(r.slug, locale))));
 }
 
-// Lee todos los proyectos, ordenados cronológicamente (los más recientes primero).
+// Lee todos los proyectos en el orden de la página: primero los finalizados, luego
+// en proceso y al final los anteproyectos; dentro de cada grupo manda "orden".
 // Usa Supabase si está configurado y tiene datos; si no, cae a los datos locales.
 // locale 'es' devuelve exactamente lo de siempre (sin traducción).
 export async function getAllProjects(locale = DEFAULT_LOCALE) {
   if (supabaseEnabled && supabase) {
     const { data, error } = await supabase.from('proyectos').select('*');
     if (!error && data && data.length > 0) {
-      const ordenados = [...data].sort(
-        (a, b) =>
-          projectYear(b.anio) - projectYear(a.anio) ||
-          new Date(b.created_at) - new Date(a.created_at)
-      );
+      const ordenados = [...data].sort(compareProjects);
       const rows = await overlayTranslations(ordenados, locale);
       return rows.map((row, i) => normalizeRow(row, i));
     }

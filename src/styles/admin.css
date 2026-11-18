@@ -271,6 +271,66 @@
   flex: 0 0 auto;
 }
 
+/* Lista de proyectos agrupada (mismo orden que la página pública) */
+.ad-etapa-list + .ad-etapa-list {
+  margin-top: 36px;
+}
+.ad-etapa-list__title {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: inherit;
+}
+.ad-group {
+  margin-top: 18px;
+}
+.ad-group__title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ad-soft);
+}
+.ad-group__title span {
+  font-weight: 400;
+}
+.ad-row__orden {
+  flex: 0 0 auto;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--ad-bg);
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.ad-badge--proceso {
+  background: #f6eedb;
+  color: #8a6a1f;
+}
+.ad-badge--anteproyecto {
+  background: transparent;
+  color: var(--ad-soft);
+  box-shadow: inset 0 0 0 1px var(--ad-line);
+}
+@media (max-width: 640px) {
+  .ad-row {
+    flex-wrap: wrap;
+  }
+  .ad-row__main {
+    flex-basis: calc(100% - 140px);
+  }
+  .ad-row .ad-actions {
+    margin-left: auto;
+  }
+}
+
 /* ---------- Formulario ---------- */
 .ad-form {
   display: flex;
